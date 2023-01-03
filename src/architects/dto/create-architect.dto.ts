@@ -62,7 +62,7 @@ export class CreateArchitectDto {
     district:string;
 
     @IsString()
-    companyname:string;
+    companyName:string;
 
 
     @IsString()
