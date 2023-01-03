@@ -106,7 +106,9 @@ export class QuotationService {
       const user = await this.quotationModel.findByIdAndUpdate(id, {
         $set: updateQuotationDto,
       });
-
+      await this.projectModel.findByIdAndUpdate(user.project_id, {
+        $set: updateQuotationDto,
+      });
       if (!user) {
         throw new NotFoundException();
       }
