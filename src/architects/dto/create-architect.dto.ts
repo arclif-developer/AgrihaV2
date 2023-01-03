@@ -61,6 +61,9 @@ export class CreateArchitectDto {
     @IsString()
     district:string;
 
+    @IsString()
+    companyname:string;
+
 
     @IsString()
     country:string;
