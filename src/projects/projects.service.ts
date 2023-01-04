@@ -71,7 +71,12 @@ export class ProjectsService {
 
       let dataa = await this.projectModel
         .find({ architect_id: id })
-        .populate('creator')
+        .populate({
+          path: 'creator',
+          populate: {
+            path: 'registered_id',
+          },
+        })
         .populate('plan_id')
         .exec()
         .then(async (response) => {
@@ -272,7 +277,12 @@ export class ProjectsService {
       const id = new mongoose.Types.ObjectId(userId);
       const projects = await this.projectModel
         .find({ creator: id })
-        .populate('creator')
+        .populate({
+          path: 'creator',
+          populate: {
+            path: 'registered_id',
+          },
+        })
         .populate('plan_id')
         .populate('architect_id')
         .catch((error) => {
@@ -296,7 +306,12 @@ export class ProjectsService {
     try {
       const projects = await this.projectModel
         .find()
-        .populate('creator')
+        .populate({
+          path: 'creator',
+          populate: {
+            path: 'registered_id',
+          },
+        })
         .populate('plan_id')
         .exec();
       if (!projects) {
@@ -452,7 +467,12 @@ export class ProjectsService {
     try {
       const projects = await this.projectModel
         .find()
-        .populate('creator')
+        .populate({
+          path: 'creator',
+          populate: {
+            path: 'registered_id',
+          },
+        })
         .populate('plan_id')
         .exec();
       const bidprojects = projects.filter((res: any) => {
@@ -494,7 +514,7 @@ export class ProjectsService {
       throw new NotFoundException(error);
     }
   }
-
+  // dele
   //  async updatearchitectprojects(){
   //     let user = await this.arcProjectModel.find().exec()
   //     .then(async (response)=>{
@@ -504,3 +524,4 @@ export class ProjectsService {
 
   //  }
 }
+
