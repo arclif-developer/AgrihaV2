@@ -117,12 +117,15 @@ export class ProjectsService {
   }
 
   //get all arc projects
-  async getallArcProject() {
+  async getallArcProject(req) {
     try {
+      const limit = 16;
+      const page = parseInt(req.query.page) || 1;
       const datasave = await this.arcProjectModel
         .find()
-        .populate('architect_id');
-
+        .populate('architect_id')
+        .skip((page - 1) * limit)
+        .limit(limit);
       return { status: 200, data: datasave };
     } catch (error) {
       throw new NotFoundException(error);

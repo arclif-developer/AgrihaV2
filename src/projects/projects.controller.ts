@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { ProjectsService } from './projects.service';
@@ -21,6 +22,7 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { GetCurrentUserById } from '../utils';
 import { ObjectId } from 'mongoose';
+import { Request } from 'express';
 
 @Controller('projects')
 export class ProjectsController {
@@ -93,8 +95,8 @@ export class ProjectsController {
 
   //get all architects projects
   @Post('getallprojects')
-  getallArcProject() {
-    return this.projectsService.getallArcProject();
+  getallArcProject(@Req() req: Request) {
+    return this.projectsService.getallArcProject(req);
   }
 
   //user projects update - accept project (status update: accepted)

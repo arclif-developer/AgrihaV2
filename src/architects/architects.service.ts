@@ -59,9 +59,9 @@ export class ArchitectsService {
     }
   }
 
-  async findAll(req) {
+  async findAll(req) { 
     try {
-      const limit = 1;
+      const limit = 5;
       const page = parseInt(req.query.page) || 1;
       const data = this.architectsModel
         .find()
