@@ -90,8 +90,9 @@ export class UserService {
 
   async findAllUsers() {
     try {
-      const userlist = await this.registerModel
+      const userlist = await this.userModel
         .find({})
+        .populate('registered_id')
         .sort({ createdAt: -1 })
         .exec()
         .catch((error) => {
