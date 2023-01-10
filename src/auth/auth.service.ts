@@ -84,44 +84,43 @@ export class AuthService {
         throw new NotAcceptableException('Register Data could not be saved');
       });
       const checkMobile = parsePhoneNumberFromString(registerDta.phone);
-      if (checkMobile?.country === 'IN') {
-        const response = await this.otpService.sentOtpMobile(
-          registerDta.phone,
-          OtpReason.REGISTRATION,
+      // if (checkMobile?.country === 'IN') {
+      //   const response = await this.otpService.sentOtpMobile(
+      //     registerDta.phone,
+      //     OtpReason.REGISTRATION,
+      //   );
+      //   if (response.status === true) {
+      //     const token = this.jwtService.sign({
+      //       reg_id: saveDta._id,
+      //       id: response.OtpDta._id,
+      //     });
+      //     return {
+      //       status: 200,
+      //       message: 'OTP send successfully',
+      //       token: token,
+      //     };
+      //   }
+      //   return response;
+      // } else {
+      const response = await this.otpService.TwiliosentOtp(registerDta.phone);
+      if (response.status === 'pending') {
+        const token = this.jwtService.sign(
+          {
+            phone: registerDta.phone,
+          },
+          {
+            expiresIn: '10m',
+          },
         );
-        if (response.status === true) {
-          const token = this.jwtService.sign({
-            reg_id: saveDta._id,
-            id: response.OtpDta._id,
-          });
-          return {
-            status: 200,
-            message: 'OTP send successfully',
-            token: token,
-          };
-        }
-        return response;
+        return {
+          status: 200,
+          message: 'Otp send SuccessFully',
+          otpToken: token,
+        };
       } else {
-        // const response = await this.otpService.TwiliosentOtp(registerDta.phone);
-        // if (response.status === 'pending') {
-        //   const token = this.jwtService.sign(
-        //     {
-        //       internationNumber: true,
-        //       phone: registerDta.phone,
-        //     },
-        //     {
-        //       expiresIn: '10m',
-        //     },
-        //   );
-        //   return {
-        //     status: 200,
-        //     message: 'Otp send SuccessFully',
-        //     otpToken: token,
-        //   };
-        // } else {
-        //   return { status: 401, error: response };
-        // }
+        return { status: 401, error: response };
       }
+      // }
     } catch (error) {
       return error;
     }
@@ -141,20 +140,20 @@ export class AuthService {
         })
         .exec();
       let verifyOtp;
-      if (jwtdata.internationNumber) {
-        // verifyOtp = await this.otpService.twilioVerifyOtp(
-        //   verifyDta,
-        //   jwtdata.phone,
-        // );
-      } else {
-        if (IsregisterDta && IsregisterDta.status === false) {
-          verifyOtp = await this.otpService.verifyOtp(jwtdata.id, verifyDta);
-        } else {
-          throw new NotFoundException(
-            'something went wrong please try resent otp option',
-          );
-        }
-      }
+      // if (jwtdata.internationNumber) {
+      verifyOtp = await this.otpService.twilioVerifyOtp(
+        verifyDta,
+        jwtdata.phone,
+      );
+      // } else {
+      //   if (IsregisterDta && IsregisterDta.status === false) {
+      //     verifyOtp = await this.otpService.verifyOtp(jwtdata.id, verifyDta);
+      //   } else {
+      //     throw new NotFoundException(
+      //       'something went wrong please try resent otp option',
+      //     );
+      //   }
+      // }
       if (verifyOtp.status === 'Otp Matched') {
         IsregisterDta.status = true;
         IsregisterDta.save();
@@ -223,40 +222,40 @@ export class AuthService {
       const checkMobile = parsePhoneNumberFromString(dta.phone);
 
       if (Isphone?.status === true) {
-        if (checkMobile?.country === 'IN') {
-          const response = await this.otpService.sentOtpMobile(
-            dta.phone,
-            OtpReason.LOGIN,
-          );
-          if (response?.status === true) {
-            const token = this.jwtService.sign({
+        // if (checkMobile?.country === 'IN') {
+        //   const response = await this.otpService.sentOtpMobile(
+        //     dta.phone,
+        //     OtpReason.LOGIN,
+        //   );
+        //   if (response?.status === true) {
+        //     const token = this.jwtService.sign({
+        //       reg_id: Isphone._id,
+        //       id: response.OtpDta?._id,
+        //       role: dta.role,
+        //     });
+        //     return { status: 200, token: token };
+        //   }
+        //   return response;
+        // } else {
+        const response = await this.otpService.TwiliosentOtp(dta.phone);
+        if (response.status === 'pending') {
+          const token = this.jwtService.sign(
+            {
+              // internationNumber: true,
               reg_id: Isphone._id,
-              id: response.OtpDta?._id,
+              phone: dta.phone,
               role: dta.role,
-            });
-            return { status: 200, token: token };
-          }
-          return response;
-        } else {
-          // const response = await this.otpService.TwiliosentOtp(dta.phone);
-          // if (response.status === 'pending') {
-          //   const token = this.jwtService.sign(
-          //     {
-          //       internationNumber: true,
-          //       reg_id: Isphone._id,
-          //       phone: dta.phone,
-          //       role: dta.role,
-          //     },
-          //     {
-          //       expiresIn: '10m',
-          //     },
-          //   );
-          //   return {
-          //     status: 200,
-          //     token: token,
-          //   };
-          // }
+            },
+            {
+              expiresIn: '10m',
+            },
+          );
+          return {
+            status: 200,
+            token: token,
+          };
         }
+        // }
       } else if (Isphone?.status === false) {
         throw new UnauthorizedException(
           'Registeration process is not correct.Please register correctly',
@@ -283,14 +282,14 @@ export class AuthService {
     }
     if (Isregister) {
       let verifyOtp;
-      if (Jwtdta.internationNumber) {
-        // verifyOtp = await this.otpService.twilioVerifyOtp(
-        //   verifyDta,
-        //   Jwtdta.phone,
-        // );
-      } else {
-        verifyOtp = await this.otpService.verifyOtp(Jwtdta.id, verifyDta);
-      }
+      // if (Jwtdta.internationNumber) {
+      verifyOtp = await this.otpService.twilioVerifyOtp(
+        verifyDta,
+        Jwtdta.phone,
+      );
+      // } else {
+      //   verifyOtp = await this.otpService.verifyOtp(Jwtdta.id, verifyDta);
+      // }
       if (verifyOtp.status === 'Otp Matched') {
         let session: Partial<LoginSession>;
         let newSession: LoginSessionDocument;
