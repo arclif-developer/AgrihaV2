@@ -15,7 +15,7 @@ import {
 import { User, UserSchema } from '../schemas/userSchema';
 import { MailModule } from '../Mailer/mailer.module';
 import { architects, architectsSchema } from '../schemas/architects.schema';
-import { TwilioModule } from 'nestjs-twilio';
+// import { TwilioModule } from 'nestjs-twilio';
 import { ConfigModule } from '@nestjs/config';
 import {
   testRegister,
@@ -40,10 +40,10 @@ import {
       { name: architects.name, schema: architectsSchema },
       { name: testRegister.name, schema: testRegisterSchema },
     ]),
-    TwilioModule.forRoot({
-      accountSid: process.env.ACCOUNTSID,
-      authToken: process.env.AUTHTOKEN,
-    }),
+    // TwilioModule.forRoot({
+    //   accountSid: process.env.ACCOUNTSID,
+    //   authToken: process.env.AUTHTOKEN,
+    // }),
   ],
   controllers: [AuthController],
   providers: [AuthService, otpService, Jwtstrategy],
