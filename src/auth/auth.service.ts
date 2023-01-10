@@ -102,25 +102,25 @@ export class AuthService {
         }
         return response;
       } else {
-        const response = await this.otpService.TwiliosentOtp(registerDta.phone);
-        if (response.status === 'pending') {
-          const token = this.jwtService.sign(
-            {
-              internationNumber: true,
-              phone: registerDta.phone,
-            },
-            {
-              expiresIn: '10m',
-            },
-          );
-          return {
-            status: 200,
-            message: 'Otp send SuccessFully',
-            otpToken: token,
-          };
-        } else {
-          return { status: 401, error: response };
-        }
+        // const response = await this.otpService.TwiliosentOtp(registerDta.phone);
+        // if (response.status === 'pending') {
+        //   const token = this.jwtService.sign(
+        //     {
+        //       internationNumber: true,
+        //       phone: registerDta.phone,
+        //     },
+        //     {
+        //       expiresIn: '10m',
+        //     },
+        //   );
+        //   return {
+        //     status: 200,
+        //     message: 'Otp send SuccessFully',
+        //     otpToken: token,
+        //   };
+        // } else {
+        //   return { status: 401, error: response };
+        // }
       }
     } catch (error) {
       return error;
@@ -142,10 +142,10 @@ export class AuthService {
         .exec();
       let verifyOtp;
       if (jwtdata.internationNumber) {
-        verifyOtp = await this.otpService.twilioVerifyOtp(
-          verifyDta,
-          jwtdata.phone,
-        );
+        // verifyOtp = await this.otpService.twilioVerifyOtp(
+        //   verifyDta,
+        //   jwtdata.phone,
+        // );
       } else {
         if (IsregisterDta && IsregisterDta.status === false) {
           verifyOtp = await this.otpService.verifyOtp(jwtdata.id, verifyDta);
@@ -238,24 +238,24 @@ export class AuthService {
           }
           return response;
         } else {
-          const response = await this.otpService.TwiliosentOtp(dta.phone);
-          if (response.status === 'pending') {
-            const token = this.jwtService.sign(
-              {
-                internationNumber: true,
-                reg_id: Isphone._id,
-                phone: dta.phone,
-                role: dta.role,
-              },
-              {
-                expiresIn: '10m',
-              },
-            );
-            return {
-              status: 200,
-              token: token,
-            };
-          }
+          // const response = await this.otpService.TwiliosentOtp(dta.phone);
+          // if (response.status === 'pending') {
+          //   const token = this.jwtService.sign(
+          //     {
+          //       internationNumber: true,
+          //       reg_id: Isphone._id,
+          //       phone: dta.phone,
+          //       role: dta.role,
+          //     },
+          //     {
+          //       expiresIn: '10m',
+          //     },
+          //   );
+          //   return {
+          //     status: 200,
+          //     token: token,
+          //   };
+          // }
         }
       } else if (Isphone?.status === false) {
         throw new UnauthorizedException(
@@ -284,10 +284,10 @@ export class AuthService {
     if (Isregister) {
       let verifyOtp;
       if (Jwtdta.internationNumber) {
-        verifyOtp = await this.otpService.twilioVerifyOtp(
-          verifyDta,
-          Jwtdta.phone,
-        );
+        // verifyOtp = await this.otpService.twilioVerifyOtp(
+        //   verifyDta,
+        //   Jwtdta.phone,
+        // );
       } else {
         verifyOtp = await this.otpService.verifyOtp(Jwtdta.id, verifyDta);
       }

@@ -17,15 +17,14 @@ import { Model, ObjectId } from 'mongoose';
 import { OtpReason, Status } from '../models/Enums';
 import { Otp, otpDocument } from '../schemas/otp.schema';
 import { verifyMobileDto } from './dto/auth.dto';
-import { InjectTwilio, TwilioClient } from 'nestjs-twilio';
+// import { InjectTwilio, TwilioClient } from 'nestjs-twilio';
 const SMS_API = `682b19a3-7047-11eb-a9bc-0200cd936042`;
 
 @Injectable()
 export class otpService {
   constructor(
     private http: HttpService,
-    @InjectModel(Otp.name) private otpModel: Model<otpDocument>,
-    @InjectTwilio() private readonly client: TwilioClient,
+    @InjectModel(Otp.name) private otpModel: Model<otpDocument>, // @InjectTwilio() private readonly client: TwilioClient,
   ) {}
 
   async sentOtpMobile(phone: string, reason: OtpReason) {
@@ -107,43 +106,43 @@ export class otpService {
     }
   }
 
-  async TwiliosentOtp(phone: string) {
-    try {
-      const response = await this.client.verify
-        .services(process.env.SERVICEID)
-        .verifications.create({
-          to: phone,
-          channel: 'sms',
-        });
-      if (response.status === 'pending') {
-        return response;
-      }
-    } catch (error) {
-      console.log(error);
-      return error;
-    }
-  }
-  async twilioVerifyOtp(otp, phone) {
-    try {
-      const response = await this.client.verify
-        .services(process.env.SERVICEID)
-        .verificationChecks.create({
-          to: phone,
-          code: otp.otp,
-        })
-        .then((response) => {
-          if (response.valid) {
-            return { status: 'Otp Matched', phone: phone };
-          }
-        })
-        .catch((error) => {
-          if (error.status === 404) {
-            throw new NotAcceptableException('OTP miss match');
-          }
-        });
-      return response;
-    } catch (error) {
-      return error;
-    }
-  }
+  // async TwiliosentOtp(phone: string) {
+  //   try {
+  //     const response = await this.client.verify
+  //       .services(process.env.SERVICEID)
+  //       .verifications.create({
+  //         to: phone,
+  //         channel: 'sms',
+  //       });
+  //     if (response.status === 'pending') {
+  //       return response;
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //     return error;
+  //   }
+  // }
+  // async twilioVerifyOtp(otp, phone) {
+  //   try {
+  //     const response = await this.client.verify
+  //       .services(process.env.SERVICEID)
+  //       .verificationChecks.create({
+  //         to: phone,
+  //         code: otp.otp,
+  //       })
+  //       .then((response) => {
+  //         if (response.valid) {
+  //           return { status: 'Otp Matched', phone: phone };
+  //         }
+  //       })
+  //       .catch((error) => {
+  //         if (error.status === 404) {
+  //           throw new NotAcceptableException('OTP miss match');
+  //         }
+  //       });
+  //     return response;
+  //   } catch (error) {
+  //     return error;
+  //   }
+  // }
 }
