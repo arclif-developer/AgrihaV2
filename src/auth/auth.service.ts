@@ -102,25 +102,25 @@ export class AuthService {
         }
         return response;
       } else {
-        // const response = await this.otpService.TwiliosentOtp(registerDta.phone);
-        // if (response.status === 'pending') {
-        //   const token = this.jwtService.sign(
-        //     {
-        //       internationNumber: true,
-        //       phone: registerDta.phone,
-        //     },
-        //     {
-        //       expiresIn: '10m',
-        //     },
-        //   );
-        //   return {
-        //     status: 200,
-        //     message: 'Otp send SuccessFully',
-        //     otpToken: token,
-        //   };
-        // } else {
-        //   return { status: 401, error: response };
-        // }
+        const response = await this.otpService.TwiliosentOtp(registerDta.phone);
+        if (response.status === 'pending') {
+          const token = this.jwtService.sign(
+            {
+              internationNumber: true,
+              phone: registerDta.phone,
+            },
+            {
+              expiresIn: '10m',
+            },
+          );
+          return {
+            status: 200,
+            message: 'Otp send SuccessFully',
+            otpToken: token,
+          };
+        } else {
+          return { status: 401, error: response };
+        }
       }
     } catch (error) {
       return error;
