@@ -15,7 +15,7 @@ import {
 import { User, UserSchema } from '../schemas/userSchema';
 import { MailModule } from '../Mailer/mailer.module';
 import { architects, architectsSchema } from '../schemas/architects.schema';
-import { TwilioModule } from 'nestjs-twilio';
+import { TwilioModule, TwilioModuleOptions } from 'nestjs-twilio';
 import { ConfigModule } from '@nestjs/config';
 import {
   testRegister,
