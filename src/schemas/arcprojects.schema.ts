@@ -25,6 +25,12 @@ export class arcprojects {
   projectarea: string;
 
   @Prop()
+  project_type: string;
+
+  @Prop()
+  description: string;
+
+  @Prop()
   thumbnail: string;
 }
 export const arcprojectsSchema = SchemaFactory.createForClass(arcprojects);
