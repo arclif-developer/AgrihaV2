@@ -1,4 +1,4 @@
-import { ValidationPipe } from '@nestjs/common';
+// import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import expressip = require('express-ip');
@@ -25,9 +25,9 @@ async function bootstrap() {
     credentials: true,
   });
 
-  app.useGlobalPipes(
-    new ValidationPipe({ whitelist: false, forbidNonWhitelisted: false }),
-  );
+  // app.useGlobalPipes(
+  //   new ValidationPipe({ whitelist: false, forbidNonWhitelisted: false }),
+  // );
   app.use(expressip().getIpInfoMiddleware);
   const port = process.env.PORT || 8081;
   await app.listen(port, () => {
