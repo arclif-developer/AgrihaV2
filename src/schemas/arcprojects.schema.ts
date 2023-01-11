@@ -32,6 +32,9 @@ export class arcprojects {
 
   @Prop()
   thumbnail: string;
+
+  @Prop()
+  hashtag: string;
 }
 export const arcprojectsSchema = SchemaFactory.createForClass(arcprojects);
 

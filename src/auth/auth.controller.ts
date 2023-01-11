@@ -40,19 +40,19 @@ export class AuthController {
     return this.authService.register(registerDta);
   }
 
-  @Post('verify_mobile')
-  @UseGuards(AuthGuard('jwt'))
-  verifyMobile(
-    @Body() verifyMobileDta: verifyMobileDto,
-    @DeviceAndip() DeviceAndip: DeviceIp,
-    @Req() Jwtdata: Request,
-  ) {
-    return this.authService.verifyMobile(
-      verifyMobileDta,
-      DeviceAndip,
-      Jwtdata.user,
-    );
-  }
+  // @Post('verify_mobile')
+  // @UseGuards(AuthGuard('jwt'))
+  // verifyMobile(
+  //   @Body() verifyMobileDta: verifyMobileDto,
+  //   @DeviceAndip() DeviceAndip: DeviceIp,
+  //   @Req() Jwtdata: Request,
+  // ) {
+  //   return this.authService.verifyMobile(
+  //     verifyMobileDta,
+  //     DeviceAndip,
+  //     Jwtdata.user,
+  //   );
+  // }
 
   @Post('mobile_login')
   mobile_login(@Body() dta: mobileLoginDto) {
@@ -77,6 +77,20 @@ export class AuthController {
   @Post('test/login')
   testLogin(@Body() loginDta: mobileLoginDto) {
     return this.authService.testLogin(loginDta);
+  }
+
+  @Post('verify_mobile')
+  @UseGuards(AuthGuard('jwt'))
+  verify_register(
+    @Body() verifyMobileDta: verifyMobileDto,
+    @DeviceAndip() DeviceAndip: DeviceIp,
+    @GetCurrentUserById() Jwtdata: any,
+  ) {
+    return this.authService.verify_register(
+      verifyMobileDta,
+      DeviceAndip,
+      Jwtdata,
+    );
   }
 
   // @Get('update-role')
