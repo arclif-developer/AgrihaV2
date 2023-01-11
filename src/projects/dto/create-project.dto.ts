@@ -23,6 +23,9 @@ export class CreateArcProjectDto {
   projectarea: any;
   thumbnail: any;
   category: any;
+  project_type: string;
+  description: string;
+  hashtag: string;
 }
 
 export class CreateActivitylogDto {

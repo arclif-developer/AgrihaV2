@@ -530,7 +530,6 @@ export class AuthService {
           _id: id,
         })
         .exec();
-      console.log(IsregisterDta);
       let verifyOtp;
       // if (jwtdata.internationNumber) {
       verifyOtp = await this.otpService.twilioVerifyOtp(
@@ -547,7 +546,6 @@ export class AuthService {
       //   }
       // }
       if (verifyOtp.status === 'Otp Matched') {
-        console.log(verifyOtp);
         IsregisterDta.status = true;
         IsregisterDta.save();
         let session: Partial<LoginSession>;
