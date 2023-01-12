@@ -26,7 +26,6 @@ export class CreateArcProjectDto {
   project_type: string;
   description: string;
   hashtag: string;
-  totalArea: string;
 }
 
 export class CreateActivitylogDto {
