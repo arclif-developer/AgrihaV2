@@ -41,8 +41,7 @@ export class ProjectsController {
     @Body() createProjectDto: CreateProjectDto,
     @GetCurrentUserById() Jwtdta: any,
   ) {
-    console.log(createProjectDto);
-    // return this.projectsService.create(createProjectDto, Jwtdta.id);
+    return this.projectsService.create(createProjectDto, Jwtdta.id);
   }
 
   //user choose project

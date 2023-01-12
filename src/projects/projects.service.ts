@@ -386,16 +386,22 @@ export class ProjectsService {
       console.log(updateArcProjectDto.Image);
 
       let user: any;
-      user = await this.arcProjectModel.findByIdAndUpdate(id, {
-        $set: {
-          projectname: updateArcProjectDto.projectname,
-          location: updateArcProjectDto.location,
-          projectarea: updateArcProjectDto.projectarea,
-          Image: updateArcProjectDto.Image,
-          thumbnail: updateArcProjectDto.thumbnail,
-          category: updateArcProjectDto.category,
+      user = await this.arcProjectModel.findByIdAndUpdate(
+        id,
+        {
+          $set: {
+            projectname: updateArcProjectDto.projectname,
+            location: updateArcProjectDto.location,
+            projectarea: updateArcProjectDto.projectarea,
+            thumbnail: updateArcProjectDto.thumbnail,
+            description: updateArcProjectDto.description,
+            project_type: updateArcProjectDto.project_type,
+          },
         },
-      });
+        {
+          $push: { Image: updateArcProjectDto.Image },
+        },
+      );
       if (!user) {
         throw new NotFoundException();
       }
@@ -524,4 +530,3 @@ export class ProjectsService {
 
   //  }
 }
-
