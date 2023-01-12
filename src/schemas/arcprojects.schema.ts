@@ -35,6 +35,9 @@ export class arcprojects {
 
   @Prop()
   hashtag: string;
+
+  @Prop()
+  totalArea: string;
 }
 export const arcprojectsSchema = SchemaFactory.createForClass(arcprojects);
 
