@@ -1,3 +1,5 @@
+import { ObjectId } from 'mongoose';
+
 export class CreateProjectDto {
   creator: any;
   project_type: string;
@@ -38,9 +40,9 @@ export class CreateActivitylogDto {
   architect_id: any;
   schedule: any;
 }
-// export class projectMailDto{
-//   id
-// }
+export class projectMailDto {
+  id: ObjectId;
+}
 
 export class Datalist {
   requirmentlist: any = [

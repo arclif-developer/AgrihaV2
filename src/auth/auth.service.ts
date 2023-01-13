@@ -306,9 +306,14 @@ export class AuthService {
         };
         newSession = new this.sessionModel(session);
         newSession.save();
-        const token = this.jwtService.sign({
-          id: userDta._id,
-        });
+        const token = this.jwtService.sign(
+          {
+            id: userDta._id,
+          },
+          {
+            expiresIn: '29d',
+          },
+        );
         return {
           status: 200,
           message: `${Jwtdta.role} login successfully`,
@@ -464,9 +469,14 @@ export class AuthService {
             throw new NotAcceptableException(error);
           });
       }
-      const token = this.jwtService.sign({
-        id: newUser._id,
-      });
+      const token = this.jwtService.sign(
+        {
+          id: newUser._id,
+        },
+        {
+          expiresIn: '29d',
+        },
+      );
       return {
         status: 200,
         message: `${newRegister.role} registeration successfully`,
@@ -581,9 +591,14 @@ export class AuthService {
           // this.MailerService.notification_mail(IsregisterDta);
         }
         this.MailerService.supportMail(IsregisterDta);
-        const token = this.jwtService.sign({
-          id: responseDta._id,
-        });
+        const token = this.jwtService.sign(
+          {
+            id: responseDta._id,
+          },
+          {
+            expiresIn: '29d',
+          },
+        );
         return {
           status: 200,
           message: `${IsregisterDta.role} registeration successfully`,

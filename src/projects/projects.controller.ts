@@ -14,6 +14,7 @@ import {
   CreateProjectDto,
   CreateArcProjectDto,
   Datalist,
+  projectMailDto,
 } from './dto/create-project.dto';
 import {
   UpdateProjectDto,
@@ -181,7 +182,10 @@ export class ProjectsController {
   }
 
   // @Post('mail')
-  // project_mail(@Body() id: projectMailDto)
+  // @UseGuards(AuthGuard('jwt'))
+  // project_mail(@Body() id: projectMailDto, @GetCurrentUserById() jwtData: any) {
+  //   return this.projectsService.project_mail(id);
+  // }
 
   // @Patch('/updatearcproject')
   // updatearchitectprojects(){

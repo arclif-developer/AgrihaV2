@@ -533,6 +533,9 @@ export class ProjectsService {
       return error;
     }
   }
+
+  //User's Added project Mailing Notification
+
   ///////////// end  ///////////////////
   // dele
   //  async updatearchitectprojects(){
