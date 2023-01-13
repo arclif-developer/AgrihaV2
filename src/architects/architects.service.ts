@@ -59,12 +59,12 @@ export class ArchitectsService {
     }
   }
 
-  async findAll(req) { 
+  async findAll(req) {
     try {
       const limit = 5;
       const page = parseInt(req.query.page) || 1;
       const data = this.architectsModel
-        .find()
+        .find({})
         .populate('registered_id')
         .skip((page - 1) * limit)
         .limit(limit);
@@ -72,6 +72,13 @@ export class ArchitectsService {
       return data;
     } catch (error) {
       console.log(error);
+      return error;
+    }
+  }
+  dashboard_view() {
+    try {
+      return this.architectsModel.find({}).populate('registered_id');
+    } catch (error) {
       return error;
     }
   }

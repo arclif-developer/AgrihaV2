@@ -32,7 +32,7 @@ export class architects {
   @Prop()
   companyName: string;
 
-  @Prop()
+  @Prop({ default: false })
   verified: boolean;
 
   @Prop()

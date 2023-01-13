@@ -31,9 +31,14 @@ export class ArchitectsController {
   }
 
   @Get('/view')
-  @UseGuards(AuthGuard('jwt'))
+  // @UseGuards(AuthGuard('jwt'))
   findAll(@Req() req: Request) {
     return this.architectsService.findAll(req);
+  }
+  @Get('/dashboard/view')
+  // @UseGuards(AuthGuard('jwt'))
+  dashboard_view() {
+    return this.architectsService.dashboard_view();
   }
 
   @Get(':id')

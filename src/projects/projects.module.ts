@@ -9,14 +9,20 @@ import {
   buildingdetails_tbSchema,
 } from '../schemas/buildingdetails.schema';
 import { Activitylog, ActivitylogSchema } from '../schemas/activitylog.schema';
+import { MailModule } from 'src/Mailer/mailer.module';
+import { HttpModule } from '@nestjs/axios';
+import { User, UserSchema } from 'src/schemas/userSchema';
 
 @Module({
   imports: [
+    HttpModule,
+    MailModule,
     MongooseModule.forFeature([
       { name: Project.name, schema: ProjectSchema },
       { name: arcprojects.name, schema: arcprojectsSchema },
       { name: buildingdetails_tb.name, schema: buildingdetails_tbSchema },
       { name: Activitylog.name, schema: ActivitylogSchema },
+      { name: User.name, schema: UserSchema },
     ]),
   ],
   controllers: [ProjectsController],

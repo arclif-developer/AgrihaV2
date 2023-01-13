@@ -14,6 +14,7 @@ import {
   CreateProjectDto,
   CreateArcProjectDto,
   CreateActivitylogDto,
+  projectMailDto,
   Datalist,
 } from './dto/create-project.dto';
 import {
@@ -25,6 +26,9 @@ import {
   ActivitylogDocument,
 } from '../schemas/activitylog.schema';
 import { Requiremntlist } from '../models/Enums/requirementlist';
+import { MailService } from '../Mailer/mailer.service';
+import { projectDto } from 'src/user/dto/create-user.dto';
+import { User, UserDocument } from 'src/schemas/userSchema';
 
 @Injectable()
 export class ProjectsService {
@@ -36,6 +40,8 @@ export class ProjectsService {
     private buildingdetailsModel: Model<buildingdetails_tbDocument>,
     @InjectModel(Activitylog.name)
     private ActivitylogModel: Model<ActivitylogDocument>,
+    private MailerService: MailService,
+    @InjectModel(User.name) private userModel: Model<UserDocument>,
   ) {}
 
   //find single project of user
@@ -535,7 +541,19 @@ export class ProjectsService {
   }
 
   //User's Added project Mailing Notification
-
+  async project_mail(data: projectMailDto, jwtData) {
+    try {
+      const projectData = await this.projectModel.findOne({ _id: data.id });
+      const userdata = await this.userModel.findOne({ _id: jwtData.id });
+      const response = await this.MailerService.projectAdded_mail(
+        projectData,
+        userdata,
+      );
+      return { status: 200 };
+    } catch (error) {
+      return error;
+    }
+  }
   ///////////// end  ///////////////////
   // dele
   //  async updatearchitectprojects(){

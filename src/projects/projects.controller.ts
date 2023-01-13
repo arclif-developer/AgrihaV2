@@ -181,11 +181,14 @@ export class ProjectsController {
     return this.projectsService.findbidtrue_project_user(id);
   }
 
-  // @Post('mail')
-  // @UseGuards(AuthGuard('jwt'))
-  // project_mail(@Body() id: projectMailDto, @GetCurrentUserById() jwtData: any) {
-  //   return this.projectsService.project_mail(id);
-  // }
+  @Post('mail')
+  @UseGuards(AuthGuard('jwt'))
+  project_mail(
+    @Body() data: projectMailDto,
+    @GetCurrentUserById() jwtData: any,
+  ) {
+    return this.projectsService.project_mail(data, jwtData);
+  }
 
   // @Patch('/updatearcproject')
   // updatearchitectprojects(){
