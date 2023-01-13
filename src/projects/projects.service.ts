@@ -520,6 +520,19 @@ export class ProjectsService {
       throw new NotFoundException(error);
     }
   }
+
+  // architect project image remove
+  async arc_image_delete(id, imageUrl) {
+    try {
+      return this.arcProjectModel.updateOne(
+        { _id: id },
+        { $pull: { Image: imageUrl.url } },
+      );
+    } catch (error) {
+      return error;
+    }
+  }
+  ///////////// end  ///////////////////
   // dele
   //  async updatearchitectprojects(){
   //     let user = await this.arcProjectModel.find().exec()

@@ -143,6 +143,12 @@ export class ProjectsController {
     return this.projectsService.arc_remove(id);
   }
 
+  // architect Project image delete
+  @Delete('arc_img/:id')
+  arc_image_delete(@Param('id') id: ObjectId, @Body() img_url: any) {
+    return this.projectsService.arc_image_delete(id, img_url);
+  }
+
   //user projects update
   @Patch('update/:id')
   update(
