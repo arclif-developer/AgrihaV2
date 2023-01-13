@@ -27,8 +27,8 @@ import {
 } from '../schemas/activitylog.schema';
 import { Requiremntlist } from '../models/Enums/requirementlist';
 import { MailService } from '../Mailer/mailer.service';
-import { projectDto } from 'src/user/dto/create-user.dto';
-import { User, UserDocument } from 'src/schemas/userSchema';
+import { projectDto } from '../user/dto/create-user.dto';
+import { User, UserDocument } from '../schemas/userSchema';
 
 @Injectable()
 export class ProjectsService {

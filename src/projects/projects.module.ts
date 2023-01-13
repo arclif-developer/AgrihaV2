@@ -9,9 +9,9 @@ import {
   buildingdetails_tbSchema,
 } from '../schemas/buildingdetails.schema';
 import { Activitylog, ActivitylogSchema } from '../schemas/activitylog.schema';
-import { MailModule } from 'src/Mailer/mailer.module';
+import { MailModule } from '../Mailer/mailer.module';
 import { HttpModule } from '@nestjs/axios';
-import { User, UserSchema } from 'src/schemas/userSchema';
+import { User, UserSchema } from '../schemas/userSchema';
 
 @Module({
   imports: [
