@@ -392,6 +392,7 @@ export class ProjectsService {
           $set: {
             projectname: updateArcProjectDto.projectname,
             location: updateArcProjectDto.location,
+            Image: updateArcProjectDto.Image,
             projectarea: updateArcProjectDto.projectarea,
             thumbnail: updateArcProjectDto.thumbnail,
             description: updateArcProjectDto.description,

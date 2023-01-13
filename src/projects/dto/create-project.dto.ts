@@ -38,6 +38,9 @@ export class CreateActivitylogDto {
   architect_id: any;
   schedule: any;
 }
+// export class projectMailDto{
+//   id
+// }
 
 export class Datalist {
   requirmentlist: any = [

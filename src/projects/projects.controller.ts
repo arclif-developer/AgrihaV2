@@ -180,6 +180,9 @@ export class ProjectsController {
     return this.projectsService.findbidtrue_project_user(id);
   }
 
+  // @Post('mail')
+  // project_mail(@Body() id: projectMailDto)
+
   // @Patch('/updatearcproject')
   // updatearchitectprojects(){
   //   return this.projectsService.updatearchitectprojects();
