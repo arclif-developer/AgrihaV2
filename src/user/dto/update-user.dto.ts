@@ -37,6 +37,9 @@ export class UpdateUserDto {
   city: string;
 
   @IsString()
+  zone: string;
+
+  @IsString()
   location: string;
 
   @IsString()
