@@ -42,6 +42,9 @@ export class User {
   city: string;
 
   @Prop({ default: null })
+  zone: string;
+
+  @Prop({ default: null })
   location: string;
 
   @Prop({ default: null })
