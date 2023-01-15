@@ -27,6 +27,15 @@ export class architects {
   location: string;
 
   @Prop()
+  district: string;
+
+  @Prop()
+  panchayath: string;
+
+  @Prop({ default: null })
+  zone: string;
+
+  @Prop()
   regno: string;
 
   @Prop()
