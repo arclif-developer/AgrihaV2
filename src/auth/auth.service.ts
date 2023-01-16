@@ -33,6 +33,7 @@ import {
   GoogleDto,
   mobileLoginDto,
   registerDto,
+  resentDto,
   verifyMobileDto,
 } from './dto/auth.dto';
 import { otpService } from './otpService';
@@ -57,6 +58,7 @@ export class AuthService {
 
   // User Registeration
   async register(registerDta: registerDto) {
+    console.log(registerDta);
     try {
       const Isregistered = await this.registerModel.findOne({
         $and: [{ role: registerDta.role }, { phone: registerDta.phone }],
@@ -127,88 +129,6 @@ export class AuthService {
       return error;
     }
   }
-
-  // // register phone number verification
-  // async verifyMobile(
-  //   verifyDta: verifyMobileDto,
-  //   deviceDta: DeviceIp,
-  //   jwtdata: any,
-  // ) {
-  //   try {
-  //     const id = new mongoose.Types.ObjectId(jwtdata.reg_id);
-  //     const IsregisterDta = await this.registerModel
-  //       .findOne({
-  //         _id: id,
-  //       })
-  //       .exec();
-  //     let verifyOtp;
-  //     // if (jwtdata.internationNumber) {
-  //     verifyOtp = await this.otpService.twilioVerifyOtp(
-  //       verifyDta,
-  //       jwtdata.phone,
-  //     );
-  //     console.log(verifyOtp);
-  //     return { status: 200 };
-  //     // } else {
-  //     //   if (IsregisterDta && IsregisterDta.status === false) {
-  //     //     verifyOtp = await this.otpService.verifyOtp(jwtdata.id, verifyDta);
-  //     //   } else {
-  //     //     throw new NotFoundException(
-  //     //       'something went wrong please try resent otp option',
-  //     //     );
-  //     //   }
-  //     // }
-  //     // if (verifyOtp.status === 'Otp Matched') {
-  //     //   IsregisterDta.status = true;
-  //     //   IsregisterDta.save();
-  //     //   let session: Partial<LoginSession>;
-  //     //   let newSession: LoginSessionDocument;
-  //     //   // eslint-disable-next-line prefer-const
-  //     //   session = {
-  //     //     device: deviceDta.device,
-  //     //     ip: deviceDta.ip,
-  //     //     status: Status.ACTIVE,
-  //     //     reason: OtpReason.REGISTRATION,
-  //     //     user: IsregisterDta._id,
-  //     //   };
-  //     //   newSession = new this.sessionModel(session);
-  //     //   newSession.save();
-  //     //   let responseDta;
-  //     //   if (IsregisterDta.role == 'user') {
-  //     //     let user: Partial<User>;
-  //     //     let newUser: UserDocument;
-  //     //     user = {
-  //     //       registered_id: IsregisterDta._id,
-  //     //     };
-  //     //     newUser = new this.userModel(user);
-  //     //     responseDta = await newUser.save();
-  //     //     this.MailerService.welcomeMail(IsregisterDta);
-  //     //   } else if (IsregisterDta.role == 'architect') {
-  //     //     let architect: Partial<architects>;
-  //     //     let newArchitect: architectsDocument;
-  //     //     architect = {
-  //     //       registered_id: IsregisterDta._id,
-  //     //     };
-  //     //     newArchitect = new this.architectsModel(architect);
-  //     //     responseDta = await newArchitect.save();
-  //     //     // this.MailerService.notification_mail(IsregisterDta);
-  //     //   }
-  //     //   this.MailerService.supportMail(IsregisterDta);
-  //     //   const token = this.jwtService.sign({
-  //     //     id: responseDta._id,
-  //     //   });
-  //     //   return {
-  //     //     status: 200,
-  //     //     message: `${IsregisterDta.role} registeration successfully`,
-  //     //     role: IsregisterDta.role,
-  //     //     id: responseDta._id,
-  //     //     token: token,
-  //     //   };
-  //     // }
-  //   } catch (error) {
-  //     return error;
-  //   }
-  // }
 
   // User mobile login
   async mobileLogin(dta: mobileLoginDto) {
@@ -613,6 +533,37 @@ export class AuthService {
     }
   }
 
+  async resent_otp(resent_dta: resentDto) {
+    try {
+      const IsTry_registeration = await this.registerModel.findOne({
+        $and: [{ phone: resent_dta.phone, role: resent_dta.role }],
+      });
+      if (IsTry_registeration.status === false) {
+        const checkMobile = parsePhoneNumberFromString(resent_dta.phone);
+        const response = await this.otpService.TwiliosentOtp(resent_dta.phone);
+        if (response.status === 'pending') {
+          const token = this.jwtService.sign(
+            {
+              phone: resent_dta.phone,
+              id: IsTry_registeration._id,
+            },
+            {
+              expiresIn: '10m',
+            },
+          );
+          return {
+            status: 200,
+            message: 'Otp send SuccessFully',
+            otpToken: token,
+          };
+        } else {
+          return { status: 401, error: response };
+        }
+      }
+    } catch (error) {
+      return error;
+    }
+  }
   // async updateType() {
   //   const update_role = await this.registerModel.updateMany(
   //     {},

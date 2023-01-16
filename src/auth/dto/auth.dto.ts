@@ -68,3 +68,13 @@ export class GoogleDto {
   @IsNotEmpty()
   role: string;
 }
+
+export class resentDto {
+  @IsNotEmpty()
+  @IsString()
+  phone: string;
+
+  @IsString()
+  @IsNotEmpty()
+  role: string;
+}
