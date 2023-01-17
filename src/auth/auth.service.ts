@@ -8,11 +8,11 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { InjectModel } from '@nestjs/mongoose';
+import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { log } from 'console';
 import e from 'express';
 import parsePhoneNumberFromString from 'libphonenumber-js';
-import mongoose, { Model, ObjectId } from 'mongoose';
+import mongoose, { Connection, Model, ObjectId } from 'mongoose';
 import {
   testRegister,
   testRegisterDocument,
