@@ -136,7 +136,8 @@ export class ProjectsService {
         .find()
         .populate('architect_id')
         .skip((page - 1) * limit)
-        .limit(limit);
+        .limit(limit)
+        .sort({ createdAt: -1 });
       return { status: 200, data: datasave };
     } catch (error) {
       throw new NotFoundException(error);

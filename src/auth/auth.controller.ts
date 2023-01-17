@@ -28,62 +28,62 @@ import {
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post('google/login')
-  handleLogin(
-    @Body() googleDto: GoogleDto,
-    @DeviceAndip() DeviceAndip: DeviceIp,
-  ) {
-    return this.authService.googleLogin(googleDto, DeviceAndip);
-  }
+  // @Post('google/login')
+  // handleLogin(
+  //   @Body() googleDto: GoogleDto,
+  //   @DeviceAndip() DeviceAndip: DeviceIp,
+  // ) {
+  //   return this.authService.googleLogin(googleDto, DeviceAndip);
+  // }
 
-  @Post('register')
-  register(@Body() registerDta: registerDto) {
-    return this.authService.register(registerDta);
-  }
+  // @Post('register')
+  // register(@Body() registerDta: registerDto) {
+  //   return this.authService.register(registerDta);
+  // }
 
-  @Post('mobile_login')
-  mobile_login(@Body() dta: mobileLoginDto) {
-    return this.authService.mobileLogin(dta);
-  }
+  // @Post('mobile_login')
+  // mobile_login(@Body() dta: mobileLoginDto) {
+  //   return this.authService.mobileLogin(dta);
+  // }
 
-  @Post('verify_login')
-  @UseGuards(AuthGuard('jwt'))
-  verifyLogin(
-    @Body() verifyDta: verifyMobileDto,
-    @Req() Jwtdta: Request,
-    @DeviceAndip() DeviceAndip: DeviceIp,
-  ) {
-    return this.authService.veriyLogin(verifyDta, DeviceAndip, Jwtdta.user);
-  }
+  // @Post('verify_login')
+  // @UseGuards(AuthGuard('jwt'))
+  // verifyLogin(
+  //   @Body() verifyDta: verifyMobileDto,
+  //   @Req() Jwtdta: Request,
+  //   @DeviceAndip() DeviceAndip: DeviceIp,
+  // ) {
+  //   return this.authService.veriyLogin(verifyDta, DeviceAndip, Jwtdta.user);
+  // }
 
-  @Post('test/register')
-  testRegister(@Body() registerDta: registerDto) {
-    return this.authService.testRegister(registerDta);
-  }
+  // @Post('test/register')
+  // testRegister(@Body() registerDta: registerDto) {
+  //   return this.authService.testRegister(registerDta);
+  // }
 
-  @Post('test/login')
-  testLogin(@Body() loginDta: mobileLoginDto) {
-    return this.authService.testLogin(loginDta);
-  }
+  // @Post('test/login')
+  // testLogin(@Body() loginDta: mobileLoginDto) {
+  //   return this.authService.testLogin(loginDta);
+  // }
 
-  @Post('verify_mobile')
-  @UseGuards(AuthGuard('jwt'))
-  verify_register(
-    @Body() verifyMobileDta: verifyMobileDto,
-    @DeviceAndip() DeviceAndip: DeviceIp,
-    @GetCurrentUserById() Jwtdata: any,
-  ) {
-    return this.authService.verify_register(
-      verifyMobileDta,
-      DeviceAndip,
-      Jwtdata,
-    );
-  }
+  // @Post('verify_mobile')
+  // @UseGuards(AuthGuard('jwt'))
+  // verify_register(
+  //   @Body() verifyMobileDta: verifyMobileDto,
+  //   @DeviceAndip() DeviceAndip: DeviceIp,
+  //   @GetCurrentUserById() Jwtdata: any,
+  // ) {
+  //   return this.authService.verify_register(
+  //     verifyMobileDta,
+  //     DeviceAndip,
+  //     Jwtdata,
+  //   );
+  // }
 
-  @Post('resent_otp')
-  resent_otp(@Body() resent_dta: resentDto) {
-    return this.authService.resent_otp(resent_dta);
-  }
+  // @Post('resent_otp')
+  // resent_otp(@Body() resent_dta: resentDto) {
+  //   return this.authService.resent_otp(resent_dta);
+  // }
 
   // @Get('update-role')
   // update_dbrole() {

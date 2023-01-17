@@ -40,6 +40,7 @@ import {
       { name: architects.name, schema: architectsSchema },
       { name: testRegister.name, schema: testRegisterSchema },
     ]),
+
     TwilioModule.forRoot({
       accountSid: process.env.ACCOUNTSID,
       authToken: process.env.AUTHTOKEN,
