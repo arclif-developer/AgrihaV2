@@ -36,6 +36,12 @@ export class User {
   district: string;
 
   @Prop({ default: null })
+  zone: string;
+
+  @Prop({ default: null })
+  panchayath: string;
+
+  @Prop({ default: null })
   Address: string;
 
   @Prop({ default: null })
