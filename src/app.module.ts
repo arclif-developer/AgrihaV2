@@ -29,6 +29,7 @@ import { QuotationModule } from './quotation/quotation.module';
       isGlobal: true,
     }),
     MongooseModule.forRoot(process.env.DATABASE_URL),
+
     AuthModule,
     MailModule,
     ThrottlerModule.forRoot({
