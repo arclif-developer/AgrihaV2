@@ -88,6 +88,12 @@ export class QuotationService {
         .find({ project_id: id })
         .populate('architect_id')
         .populate('user_id')
+        .populate({
+          path: 'architect_id',
+          populate: {
+            path: 'registered_id',
+          },
+        })
         .sort({ quote: 1 })
         .exec();
       const count = await this.quotationModel
