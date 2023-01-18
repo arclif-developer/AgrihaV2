@@ -8,7 +8,10 @@ import { enquiry, enquirySchema } from '../schemas/enquiry.schema';
 @Module({
   imports: [
     MailModule,
-    MongooseModule.forFeature([{ name: enquiry.name, schema: enquirySchema }]),
+    MongooseModule.forFeature(
+      [{ name: enquiry.name, schema: enquirySchema }],
+      'AGRIHA_DB',
+    ),
   ],
 
   controllers: [EnquiryController],

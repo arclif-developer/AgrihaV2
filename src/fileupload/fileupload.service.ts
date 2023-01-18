@@ -23,10 +23,11 @@ import { addfilesDto } from './dto/update-fileupload.dto';
 @Injectable()
 export class FileuploadService {
   constructor(
-    @InjectModel(Project.name) private projectModel: Model<ProjectDocument>,
-    @InjectModel(Fileupload.name)
+    @InjectModel(Project.name, 'AGRIHA_DB')
+    private projectModel: Model<ProjectDocument>,
+    @InjectModel(Fileupload.name, 'AGRIHA_DB')
     private fileuploadModel: Model<FileuploadDocument>,
-    @InjectModel(Userfileupload.name)
+    @InjectModel(Userfileupload.name, 'AGRIHA_DB')
     private useruploadModel: Model<UserfileuploadDocument>,
   ) {}
 

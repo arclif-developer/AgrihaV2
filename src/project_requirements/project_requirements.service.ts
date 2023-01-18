@@ -11,7 +11,7 @@ import { UpdateProjectRequirementDto } from './dto/update-project_requirement.dt
 @Injectable()
 export class ProjectRequirementsService {
   constructor(
-    @InjectModel(buildingdetails_tb.name)
+    @InjectModel(buildingdetails_tb.name, 'AGRIHA_DB')
     private buildingdetailsModel: Model<buildingdetails_tbDocument>,
   ) {}
 

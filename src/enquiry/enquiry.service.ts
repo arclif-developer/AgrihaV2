@@ -13,7 +13,8 @@ import { UpdateEnquiryDto } from './dto/update-enquiry.dto';
 @Injectable()
 export class EnquiryService {
   constructor(
-    @InjectModel(enquiry.name) private enquiryModel: Model<enquiryDocument>,
+    @InjectModel(enquiry.name, 'AGRIHA_DB')
+    private enquiryModel: Model<enquiryDocument>,
     private MailerService: MailService,
   ) {}
   async create(createEnquiryDto: CreateEnquiryDto) {

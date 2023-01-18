@@ -11,7 +11,7 @@ import { UpdateProjectTypeDto } from './dto/update-project_type.dto';
 @Injectable()
 export class ProjectTypesService {
   constructor(
-    @InjectModel(projectType.name)
+    @InjectModel(projectType.name, 'AGRIHA_DB')
     private projectTypeModel: Model<projectTypeDocument>,
   ) {}
 

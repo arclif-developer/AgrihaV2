@@ -6,9 +6,10 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([
-      { name: projectType.name, schema: projectTypeSchema },
-    ]),
+    MongooseModule.forFeature(
+      [{ name: projectType.name, schema: projectTypeSchema }],
+      'AGRIHA_DB',
+    ),
   ],
   controllers: [ProjectTypesController],
   providers: [ProjectTypesService],

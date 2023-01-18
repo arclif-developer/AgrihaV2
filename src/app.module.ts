@@ -30,7 +30,9 @@ import { UserPaymentModule } from './user_payment/user_payment.module';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    MongooseModule.forRoot(process.env.DATABASE_URL),
+    MongooseModule.forRoot(process.env.DATABASE_URL, {
+      connectionName: 'AGRIHA_DB',
+    }),
 
     AuthModule,
     MailModule,
@@ -49,14 +51,14 @@ import { UserPaymentModule } from './user_payment/user_payment.module';
     ProjectRequirementsModule,
     ProjectTypesModule,
     ProjectSubTypesModule,
-    ProjectsModule,
-    SearchModule,
-    UserPlansModule,
-    UsersModule,
-    RequirementlistModule,
-    QuotationModule,
-    ArcPaymentModule,
-    UserPaymentModule,
+    // ProjectsModule,
+    // SearchModule,
+    // UserPlansModule,
+    // UsersModule,
+    // RequirementlistModule,
+    // QuotationModule,
+    // ArcPaymentModule,
+    // UserPaymentModule,
   ],
   controllers: [],
   providers: [

@@ -7,7 +7,9 @@ import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+  constructor(
+    @InjectModel(User.name, 'AGRIHA_DB') private userModel: Model<UserDocument>,
+  ) {}
 
   // async create(createUserDto: CreateUserDto) {
   //   const createdUser = new this.userModel(createUserDto);

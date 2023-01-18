@@ -11,7 +11,7 @@ import { InjectModel } from '@nestjs/mongoose';
 @Injectable()
 export class RequirementlistService {
   constructor(
-    @InjectModel(requirementlist.name)
+    @InjectModel(requirementlist.name, 'AGRIHA_DB')
     private requirementlistModel: Model<requirementlistDocument>,
   ) {}
 

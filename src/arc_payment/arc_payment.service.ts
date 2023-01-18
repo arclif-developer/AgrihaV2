@@ -8,7 +8,8 @@ import { UpdateArcPaymentDto } from './dto/update-arc_payment.dto';
 @Injectable()
 export class ArcPaymentService {
   constructor(
-    @InjectModel(Payment.name) private paymentModel: Model<PaymentDocument>,
+    @InjectModel(Payment.name, 'AGRIHA_DB')
+    private paymentModel: Model<PaymentDocument>,
   ) {}
 
   async create(createArcPaymentDto: CreateArcPaymentDto) {

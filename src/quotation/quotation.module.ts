@@ -9,12 +9,15 @@ import { Activitylog, ActivitylogSchema } from '../schemas/activitylog.schema';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([
-      { name: Project.name, schema: ProjectSchema },
-      { name: architects.name, schema: architectsSchema },
-      { name: quotation.name, schema: quotationSchema },
-      { name: Activitylog.name, schema: ActivitylogSchema },
-    ]),
+    MongooseModule.forFeature(
+      [
+        { name: Project.name, schema: ProjectSchema },
+        { name: architects.name, schema: architectsSchema },
+        { name: quotation.name, schema: quotationSchema },
+        { name: Activitylog.name, schema: ActivitylogSchema },
+      ],
+      'AGRIHA_DB',
+    ),
   ],
   controllers: [QuotationController],
   providers: [QuotationService],

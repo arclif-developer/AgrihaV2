@@ -11,11 +11,14 @@ import {
 
 @Module({
   imports: [
-    MongooseModule.forFeature([
-      { name: Project.name, schema: ProjectSchema },
-      { name: Fileupload.name, schema: FileuploadSchema },
-      { name: Userfileupload.name, schema: UserfileuploadSchema },
-    ]),
+    MongooseModule.forFeature(
+      [
+        { name: Project.name, schema: ProjectSchema },
+        { name: Fileupload.name, schema: FileuploadSchema },
+        { name: Userfileupload.name, schema: UserfileuploadSchema },
+      ],
+      'AGRIHA_DB',
+    ),
   ],
   controllers: [FileuploadController],
   providers: [FileuploadService],

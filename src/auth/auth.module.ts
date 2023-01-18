@@ -32,14 +32,17 @@ import {
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    MongooseModule.forFeature([
-      { name: Otp.name, schema: OtpSchema },
-      { name: register.name, schema: registerSchema },
-      { name: LoginSession.name, schema: LoginSessionSchema },
-      { name: User.name, schema: UserSchema },
-      { name: architects.name, schema: architectsSchema },
-      { name: testRegister.name, schema: testRegisterSchema },
-    ]),
+    MongooseModule.forFeature(
+      [
+        { name: Otp.name, schema: OtpSchema },
+        { name: register.name, schema: registerSchema },
+        { name: LoginSession.name, schema: LoginSessionSchema },
+        { name: User.name, schema: UserSchema },
+        { name: architects.name, schema: architectsSchema },
+        { name: testRegister.name, schema: testRegisterSchema },
+      ],
+      'AGRIHA_DB',
+    ),
 
     TwilioModule.forRoot({
       accountSid: process.env.ACCOUNTSID,

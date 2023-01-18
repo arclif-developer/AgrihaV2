@@ -6,7 +6,10 @@ import { Rating, RatingSchema } from '../schemas/starRating.schema';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: Rating.name, schema: RatingSchema }]),
+    MongooseModule.forFeature(
+      [{ name: Rating.name, schema: RatingSchema }],
+      'AGRIHA_DB',
+    ),
   ],
   controllers: [StarRatingController],
   providers: [StarRatingService],

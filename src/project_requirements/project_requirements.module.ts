@@ -9,12 +9,15 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([
-      {
-        name: buildingdetails_tb.name,
-        schema: buildingdetails_tbSchema,
-      },
-    ]),
+    MongooseModule.forFeature(
+      [
+        {
+          name: buildingdetails_tb.name,
+          schema: buildingdetails_tbSchema,
+        },
+      ],
+      'AGRIHA_DB',
+    ),
   ],
 
   controllers: [ProjectRequirementsController],

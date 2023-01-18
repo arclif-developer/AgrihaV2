@@ -23,7 +23,7 @@ const SMS_API = `682b19a3-7047-11eb-a9bc-0200cd936042`;
 export class otpService {
   constructor(
     private http: HttpService,
-    @InjectModel(Otp.name) private otpModel: Model<otpDocument>,
+    @InjectModel(Otp.name, 'AGRIHA_DB') private otpModel: Model<otpDocument>,
     public twilioService: TwilioService,
   ) {}
 

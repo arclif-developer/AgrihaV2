@@ -33,9 +33,10 @@ import { register, registerSchema } from '../schemas/register.schema';
         },
       },
     }),
-    MongooseModule.forFeature([
-      { name: register.name, schema: registerSchema },
-    ]),
+    MongooseModule.forFeature(
+      [{ name: register.name, schema: registerSchema }],
+      'AGRIHA_DB',
+    ),
   ],
   providers: [MailService],
   exports: [MailService],

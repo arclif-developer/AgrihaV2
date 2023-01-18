@@ -8,12 +8,15 @@ import { register, registerSchema } from '../schemas/register.schema';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([
-      { name: Payment.name, schema: PaymentSchema },
-      // { name: Posts_old.name, schema: Posts_oldSchema },
-      { name: architects.name, schema: architectsSchema },
-      { name: register.name, schema: registerSchema },
-    ]),
+    MongooseModule.forFeature(
+      [
+        { name: Payment.name, schema: PaymentSchema },
+        // { name: Posts_old.name, schema: Posts_oldSchema },
+        { name: architects.name, schema: architectsSchema },
+        { name: register.name, schema: registerSchema },
+      ],
+      'AGRIHA_DB',
+    ),
   ],
 
   controllers: [ArcPaymentController],

@@ -6,7 +6,10 @@ import { User, UserSchema } from '../schemas/userSchema';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    MongooseModule.forFeature(
+      [{ name: User.name, schema: UserSchema }],
+      'AGRIHA_DB',
+    ),
   ],
   controllers: [UsersController],
   providers: [UsersService],

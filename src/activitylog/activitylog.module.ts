@@ -6,9 +6,10 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([
-      { name: Activitylog.name, schema: ActivitylogSchema },
-    ]),
+    MongooseModule.forFeature(
+      [{ name: Activitylog.name, schema: ActivitylogSchema }],
+      'AGRIHA_DB',
+    ),
   ],
   controllers: [ActivitylogController],
   providers: [ActivitylogService],

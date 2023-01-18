@@ -43,15 +43,15 @@ export class AuthService {
   constructor(
     private jwtService: JwtService,
     private otpService: otpService,
-    @InjectModel(Otp.name) private otpModel: Model<otpDocument>,
-    @InjectModel(register.name)
+    @InjectModel(Otp.name, 'AGRIHA_DB') private otpModel: Model<otpDocument>,
+    @InjectModel(register.name, 'AGRIHA_DB')
     private registerModel: Model<registerDocument>,
-    @InjectModel(LoginSession.name)
+    @InjectModel(LoginSession.name, 'AGRIHA_DB')
     private sessionModel: Model<LoginSessionDocument>,
-    @InjectModel(User.name) private userModel: Model<UserDocument>,
-    @InjectModel(architects.name)
+    @InjectModel(User.name, 'AGRIHA_DB') private userModel: Model<UserDocument>,
+    @InjectModel(architects.name, 'AGRIHA_DB')
     private architectsModel: Model<architectsDocument>,
-    @InjectModel(testRegister.name)
+    @InjectModel(testRegister.name, 'AGRIHA_DB')
     private testRegisterModel: Model<testRegisterDocument>,
     private MailerService: MailService,
   ) {}

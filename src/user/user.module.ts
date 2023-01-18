@@ -11,12 +11,15 @@ import { register, registerSchema } from '../schemas/register.schema';
 @Module({
   imports: [
     MailModule,
-    MongooseModule.forFeature([
-      { name: User.name, schema: UserSchema },
-      { name: Project.name, schema: ProjectSchema },
-      { name: Fileupload.name, schema: FileuploadSchema },
-      { name: register.name, schema: registerSchema },
-    ]),
+    MongooseModule.forFeature(
+      [
+        { name: User.name, schema: UserSchema },
+        { name: Project.name, schema: ProjectSchema },
+        { name: Fileupload.name, schema: FileuploadSchema },
+        { name: register.name, schema: registerSchema },
+      ],
+      'AGRIHA_DB',
+    ),
   ],
   controllers: [UserController],
   providers: [UserService],

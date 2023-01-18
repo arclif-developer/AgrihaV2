@@ -9,9 +9,10 @@ import { UpdateArchitectDto } from './dto/update-architect.dto';
 @Injectable()
 export class ArchitectsService {
   constructor(
-    @InjectModel(architects.name)
+    @InjectModel(architects.name, 'AGRIHA_DB')
     private architectsModel: Model<architectsDocument>,
-    @InjectModel(register.name) private registerModel: Model<registerDocument>,
+    @InjectModel(register.name, 'AGRIHA_DB')
+    private registerModel: Model<registerDocument>,
   ) {}
 
   async create(createArchitectDto: CreateArchitectDto, userId: any) {

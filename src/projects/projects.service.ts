@@ -33,15 +33,16 @@ import { User, UserDocument } from '../schemas/userSchema';
 @Injectable()
 export class ProjectsService {
   constructor(
-    @InjectModel(Project.name) private projectModel: Model<ProjectDocument>,
-    @InjectModel(arcprojects.name)
+    @InjectModel(Project.name, 'AGRIHA_DB')
+    private projectModel: Model<ProjectDocument>,
+    @InjectModel(arcprojects.name, 'AGRIHA_DB')
     private arcProjectModel: Model<arcprojectsDocument>,
-    @InjectModel(buildingdetails_tb.name)
+    @InjectModel(buildingdetails_tb.name, 'AGRIHA_DB')
     private buildingdetailsModel: Model<buildingdetails_tbDocument>,
-    @InjectModel(Activitylog.name)
+    @InjectModel(Activitylog.name, 'AGRIHA_DB')
     private ActivitylogModel: Model<ActivitylogDocument>,
     private MailerService: MailService,
-    @InjectModel(User.name) private userModel: Model<UserDocument>,
+    @InjectModel(User.name, 'AGRIHA_DB') private userModel: Model<UserDocument>,
   ) {}
 
   //find single project of user

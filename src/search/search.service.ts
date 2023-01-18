@@ -13,9 +13,9 @@ import {
 @Injectable()
 export class SearchService {
   constructor(
-    @InjectModel(architects.name)
+    @InjectModel(architects.name, 'AGRIHA_DB')
     private architectsModel: Model<architectsDocument>,
-    @InjectModel(arcprojects.name)
+    @InjectModel(arcprojects.name, 'AGRIHA_DB')
     private ProjectsModel: Model<arcprojectsDocument>,
   ) {}
 

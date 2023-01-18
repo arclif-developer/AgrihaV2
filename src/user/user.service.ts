@@ -16,12 +16,14 @@ import { UpdateUserDto } from './dto/update-user.dto';
 @Injectable()
 export class UserService {
   constructor(
-    @InjectModel(User.name) private userModel: Model<UserDocument>,
-    @InjectModel(Project.name) private projectModel: Model<ProjectDocument>,
-    @InjectModel(Fileupload.name)
+    @InjectModel(User.name, 'AGRIHA_DB') private userModel: Model<UserDocument>,
+    @InjectModel(Project.name, 'AGRIHA_DB')
+    private projectModel: Model<ProjectDocument>,
+    @InjectModel(Fileupload.name, 'AGRIHA_DB')
     private projectFileModel: Model<FileuploadDocument>,
     private MailerService: MailService,
-    @InjectModel(register.name) private registerModel: Model<registerDocument>,
+    @InjectModel(register.name, 'AGRIHA_DB')
+    private registerModel: Model<registerDocument>,
   ) {}
 
   async findOne(userId) {

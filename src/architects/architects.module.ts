@@ -11,12 +11,15 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 @Module({
   imports: [
     CacheModule.register(),
-    MongooseModule.forFeature([
-      { name: User_old.name, schema: User_oldSchema },
-      // { name: Posts_old.name, schema: Posts_oldSchema },
-      { name: architects.name, schema: architectsSchema },
-      { name: register.name, schema: registerSchema },
-    ]),
+    MongooseModule.forFeature(
+      [
+        { name: User_old.name, schema: User_oldSchema },
+        // { name: Posts_old.name, schema: Posts_oldSchema },
+        { name: architects.name, schema: architectsSchema },
+        { name: register.name, schema: registerSchema },
+      ],
+      'AGRIHA_DB',
+    ),
   ],
   controllers: [ArchitectsController],
   providers: [

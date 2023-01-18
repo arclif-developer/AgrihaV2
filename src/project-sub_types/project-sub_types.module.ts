@@ -2,14 +2,19 @@ import { Module } from '@nestjs/common';
 import { ProjectSubTypesService } from './project-sub_types.service';
 import { ProjectSubTypesController } from './project-sub_types.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import {projectSubType,projectSubTypeSchema} from '../schemas/projectSub_type.schema'
+import {
+  projectSubType,
+  projectSubTypeSchema,
+} from '../schemas/projectSub_type.schema';
 
 @Module({
-  imports: [MongooseModule.forFeature([
-    { name: projectSubType.name, schema: projectSubTypeSchema },
-
-  ])],
+  imports: [
+    MongooseModule.forFeature(
+      [{ name: projectSubType.name, schema: projectSubTypeSchema }],
+      'AGRIHA_DB',
+    ),
+  ],
   controllers: [ProjectSubTypesController],
-  providers: [ProjectSubTypesService]
+  providers: [ProjectSubTypesService],
 })
 export class ProjectSubTypesModule {}

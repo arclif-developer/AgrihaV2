@@ -18,7 +18,7 @@ export class Payment {
   type_of_transaction: string; //gpay,UPI id,QR,Account details
 
   @Prop()
-  details: string; //description
+  details: []; //description
 
   createdAt?: boolean | string;
   updatedAt?: boolean | string;

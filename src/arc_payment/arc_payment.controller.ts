@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { ObjectId } from 'mongoose';
 import { ArcPaymentService } from './arc_payment.service';
 import { CreateArcPaymentDto } from './dto/create-arc_payment.dto';
@@ -28,10 +36,12 @@ export class ArcPaymentController {
   findByArchitect(@Param('id') id: ObjectId) {
     return this.arcPaymentService.findByArchitect(id);
   }
-  
 
   @Patch(':id')
-  update(@Param('id') id: ObjectId, @Body() updateArcPaymentDto: UpdateArcPaymentDto) {
+  update(
+    @Param('id') id: ObjectId,
+    @Body() updateArcPaymentDto: UpdateArcPaymentDto,
+  ) {
     return this.arcPaymentService.update(id, updateArcPaymentDto);
   }
 

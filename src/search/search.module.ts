@@ -9,10 +9,13 @@ import { arcprojects, arcprojectsSchema } from '../schemas/arcprojects.schema';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([
-      { name: architects.name, schema: architectsSchema },
-      { name: arcprojects.name, schema: arcprojectsSchema },
-    ]),
+    MongooseModule.forFeature(
+      [
+        { name: architects.name, schema: architectsSchema },
+        { name: arcprojects.name, schema: arcprojectsSchema },
+      ],
+      'AGRIHA_DB',
+    ),
   ],
   controllers: [SearchController],
   providers: [SearchService],

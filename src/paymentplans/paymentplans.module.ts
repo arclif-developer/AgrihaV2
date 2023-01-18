@@ -9,9 +9,10 @@ import {
 
 @Module({
   imports: [
-    MongooseModule.forFeature([
-      { name: paymentplan_tb.name, schema: paymentplan_tbSchema },
-    ]),
+    MongooseModule.forFeature(
+      [{ name: paymentplan_tb.name, schema: paymentplan_tbSchema }],
+      'AGRIHA_DB',
+    ),
   ],
   controllers: [PaymentplansController],
   providers: [PaymentplansService],

@@ -8,7 +8,7 @@ import { UpdateStarRatingDto } from './dto/update-star-rating.dto';
 @Injectable()
 export class StarRatingService {
   constructor(
-    @InjectModel(Rating.name)
+    @InjectModel(Rating.name, 'AGRIHA_DB')
     private readonly RatingModel: Model<RatingDocument>,
   ) {}
 

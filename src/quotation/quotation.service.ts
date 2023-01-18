@@ -16,10 +16,11 @@ import { Project, ProjectDocument } from '../schemas/projects.schema';
 @Injectable()
 export class QuotationService {
   constructor(
-    @InjectModel(Project.name) private projectModel: Model<ProjectDocument>,
-    @InjectModel(quotation.name)
+    @InjectModel(Project.name, 'AGRIHA_DB')
+    private projectModel: Model<ProjectDocument>,
+    @InjectModel(quotation.name, 'AGRIHA_DB')
     private quotationModel: Model<quotationDocument>,
-    @InjectModel(Activitylog.name)
+    @InjectModel(Activitylog.name, 'AGRIHA_DB')
     private ActivitylogModel: Model<ActivitylogDocument>,
   ) {}
 

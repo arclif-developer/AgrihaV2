@@ -11,7 +11,8 @@ import { register, registerDocument } from '../schemas/register.schema';
 export class MailService {
   constructor(
     private MailerService: MailerService,
-    @InjectModel(register.name) private registerModel: Model<registerDocument>,
+    @InjectModel(register.name, 'AGRIHA_DB')
+    private registerModel: Model<registerDocument>,
   ) {}
 
   // ============== send receipt and welcome mail helper /

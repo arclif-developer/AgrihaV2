@@ -11,7 +11,7 @@ import { UpdateActivitylogDto } from './dto/update-activitylog.dto';
 @Injectable()
 export class ActivitylogService {
   constructor(
-    @InjectModel(Activitylog.name)
+    @InjectModel(Activitylog.name, 'AGRIHA_DB')
     private ActivitylogModel: Model<ActivitylogDocument>,
   ) {}
 
