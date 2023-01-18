@@ -11,7 +11,7 @@ import { UpdateUserPaymentDto } from './dto/update-user_payment.dto';
 @Injectable()
 export class UserPaymentService {
   constructor(
-    @InjectModel(Payment_user.name)
+    @InjectModel(Payment_user.name, 'AGRIHA_DB')
     private payment_userModel: Model<Payment_userDocument>,
   ) {}
 

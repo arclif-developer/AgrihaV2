@@ -10,10 +10,13 @@ import { architects, architectsSchema } from '../schemas/architects.schema';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([
-      { name: Payment_user.name, schema: Payment_userSchema },
-      { name: architects.name, schema: architectsSchema },
-    ]),
+    MongooseModule.forFeature(
+      [
+        { name: Payment_user.name, schema: Payment_userSchema },
+        { name: architects.name, schema: architectsSchema },
+      ],
+      'AGRIHA_DB',
+    ),
   ],
 
   controllers: [UserPaymentController],

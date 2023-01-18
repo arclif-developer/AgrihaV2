@@ -11,7 +11,7 @@ import {
 @Injectable()
 export class UserPlansService {
   constructor(
-    @InjectModel(Project_requirement.name)
+    @InjectModel(Project_requirement.name, 'AGRIHA_DB')
     private projectrequirementsModel: Model<Project_requirementDocument>,
   ) {}
 

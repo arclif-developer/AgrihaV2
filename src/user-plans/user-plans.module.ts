@@ -9,9 +9,10 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([
-      { name: Project_requirement.name, schema: Project_requirementSchema },
-    ]),
+    MongooseModule.forFeature(
+      [{ name: Project_requirement.name, schema: Project_requirementSchema }],
+      'AGRIHA_DB',
+    ),
   ],
 
   controllers: [UserPlansController],
