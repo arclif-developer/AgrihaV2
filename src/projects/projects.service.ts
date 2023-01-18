@@ -135,7 +135,12 @@ export class ProjectsService {
       const page = parseInt(req.query.page) || 1;
       const datasave = await this.arcProjectModel
         .find()
-        .populate('architect_id')
+        .populate({
+          path: 'architect_id',
+          populate: {
+            path: 'registered_id',
+          },
+        })
         .skip((page - 1) * limit)
         .limit(limit)
         .sort({ createdAt: -1 });
