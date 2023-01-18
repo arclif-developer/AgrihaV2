@@ -86,6 +86,7 @@ export class QuotationService {
     try {
       const biddata = await this.quotationModel
         .find({ project_id: id })
+        .populate('architect_id')
         .sort({ quote: 1 })
         .exec();
       const count = await this.quotationModel
