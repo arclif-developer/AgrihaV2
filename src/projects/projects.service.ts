@@ -144,7 +144,8 @@ export class ProjectsService {
         .skip((page - 1) * limit)
         .limit(limit)
         .sort({ createdAt: -1 });
-      return { status: 200, data: datasave };
+      const count = await this.arcProjectModel.find().countDocuments();
+      return { status: 200, data: datasave, project_count: count };
     } catch (error) {
       throw new NotFoundException(error);
     }
