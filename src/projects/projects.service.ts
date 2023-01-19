@@ -383,6 +383,12 @@ export class ProjectsService {
       return this.arcProjectModel
         .find({ _id: id })
         .populate('architect_id')
+        .populate({
+          path: 'architect_id',
+          populate: {
+            path: 'registered_id',
+          },
+        })
         .exec();
     } catch (error) {
       throw new NotFoundException(error);
