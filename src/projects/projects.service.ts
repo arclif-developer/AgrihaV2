@@ -286,7 +286,6 @@ export class ProjectsService {
   //get all projects of user
   async findAll(userId) {
     try {
-      console.log(userId);
       const id = new mongoose.Types.ObjectId(userId);
       const projects = await this.projectModel
         .find({ creator: id })

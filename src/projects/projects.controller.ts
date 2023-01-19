@@ -59,7 +59,7 @@ export class ProjectsController {
   @Get('view')
   @UseGuards(AuthGuard('jwt'))
   findAll(@GetCurrentUserById() Jwtdta: any) {
-    return this.projectsService.findAll(Jwtdta.id);
+    return this.projectsService.findAll(Jwtdta?.id);
   }
 
   //view projects of user
