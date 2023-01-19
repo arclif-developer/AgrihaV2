@@ -86,8 +86,12 @@ export class QuotationService {
     try {
       const biddata = await this.quotationModel
         .find({ project_id: id })
-        .populate('architect_id')
-        .populate('user_id')
+        .populate({
+          path: 'user_id',
+          populate: {
+            path: 'registered_id',
+          },
+        })
         .populate({
           path: 'architect_id',
           populate: {
