@@ -30,6 +30,12 @@ export class ActivitylogService {
       let activitylogs: any;
       const activities = await this.ActivitylogModel.find({ architect_id: id })
         .populate('user')
+        .populate({
+          path: 'user',
+          populate: {
+            path: 'registered_id',
+          },
+        })
         .populate('ref')
         .exec();
 

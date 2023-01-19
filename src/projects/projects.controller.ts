@@ -35,6 +35,12 @@ export class ProjectsController {
     return this.projectsService.addArcProject(createArcProjectDto);
   }
 
+  // TRUE BID PROJECTS
+  @Get('trueBidProject')
+  findTrueBidsProjects() {
+    return this.projectsService.findTrueBidsProjects();
+  }
+
   //user choose project
   @Post('Choose_project')
   @UseGuards(AuthGuard('jwt'))

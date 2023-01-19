@@ -577,4 +577,17 @@ export class ProjectsService {
   //     })
 
   //  }
+
+  // True all project bid
+
+  async findTrueBidsProjects() {
+    try {
+      const data = await this.projectModel.find({
+        $and: [{ bid: true }, { status: 'started' }],
+      });
+      return { status: 200, data: data };
+    } catch (error) {
+      return Error(error.message);
+    }
+  }
 }
