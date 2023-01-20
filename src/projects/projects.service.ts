@@ -646,6 +646,7 @@ export class ProjectsService {
         project_requirements: 1,
         project_name: 1,
         createdAt: 1,
+        thumbnail: 1,
       });
       return { status: 200, data: responseDta };
     } catch (error) {}
