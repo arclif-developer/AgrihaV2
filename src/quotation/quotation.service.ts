@@ -12,7 +12,7 @@ import {
 } from '../schemas/activitylog.schema';
 import { Model, ObjectId } from 'mongoose';
 import { Project, ProjectDocument } from '../schemas/projects.schema';
-import { SnsService } from 'src/sns/sns.service';
+import { SnsService } from '../sns/sns.service';
 
 @Injectable()
 export class QuotationService {

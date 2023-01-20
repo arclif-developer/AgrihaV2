@@ -6,7 +6,7 @@ import { quotation, quotationSchema } from '../schemas/quotation.schema';
 import { Project, ProjectSchema } from '../schemas/projects.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Activitylog, ActivitylogSchema } from '../schemas/activitylog.schema';
-import { SnsModule } from 'src/sns/sns.module';
+import { SnsModule } from '../sns/sns.module';
 
 @Module({
   imports: [
