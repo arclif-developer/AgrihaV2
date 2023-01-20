@@ -72,3 +72,8 @@ export class Datalist {
     'Porch',
   ];
 }
+
+export class AddSuggestedProductDto {
+  project_id: ObjectId;
+  products_per_facility: Object[];
+}

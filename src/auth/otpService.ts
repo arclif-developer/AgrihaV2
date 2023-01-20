@@ -134,6 +134,8 @@ export class otpService {
         .then((response) => {
           if (response.valid) {
             return { status: 'Otp Matched', phone: phone };
+          } else {
+            return { status: 'Otp miss match', phone: phone };
           }
         })
         .catch((error) => {

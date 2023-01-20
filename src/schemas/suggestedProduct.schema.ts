@@ -15,15 +15,15 @@ export class SuggestedProduct {
   @Prop({
     type: [
       {
-        facitlity_name: String,
-        products: { type: [mongoose.Schema.Types.ObjectId], ref: Product },
+        facility_type: String,
+        products: [{ type: mongoose.Schema.Types.ObjectId, ref: Product.name }],
       },
     ],
   })
   @Type(() => Product)
   products_per_facility: {
-    facitlity_name: string;
-    products: Product[];
+    facility_type: string;
+    products: Product;
   }; // add products for each facilities
 }
 

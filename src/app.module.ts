@@ -34,7 +34,9 @@ import { ProductModule } from './product/product.module';
     MongooseModule.forRoot(process.env.DATABASE_URL, {
       connectionName: 'AGRIHA_DB',
     }),
-
+    MongooseModule.forRoot(process.env.DATABASE_URL2, {
+      connectionName: 'ECOMMERCE_DB',
+    }),
     AuthModule,
     MailModule,
     ThrottlerModule.forRoot({

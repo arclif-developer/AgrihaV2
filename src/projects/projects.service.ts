@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotAcceptableException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model, ObjectId } from 'mongoose';
 import {
@@ -16,6 +20,7 @@ import {
   CreateActivitylogDto,
   projectMailDto,
   Datalist,
+  AddSuggestedProductDto,
 } from './dto/create-project.dto';
 import {
   UpdateProjectDto,
@@ -29,6 +34,10 @@ import { Requiremntlist } from '../models/Enums/requirementlist';
 import { MailService } from '../Mailer/mailer.service';
 import { projectDto } from '../user/dto/create-user.dto';
 import { User, UserDocument } from '../schemas/userSchema';
+import {
+  SuggestedProduct,
+  SuggestedProductDocument,
+} from '../schemas/suggestedProduct.schema';
 
 @Injectable()
 export class ProjectsService {
@@ -43,6 +52,8 @@ export class ProjectsService {
     private ActivitylogModel: Model<ActivitylogDocument>,
     private MailerService: MailService,
     @InjectModel(User.name, 'AGRIHA_DB') private userModel: Model<UserDocument>,
+    @InjectModel(SuggestedProduct.name, 'AGRIHA_DB')
+    private suggestedProductModel: Model<SuggestedProductDocument>,
   ) {}
 
   //find single project of user
@@ -281,6 +292,42 @@ export class ProjectsService {
       return user;
     } catch (error) {
       throw new NotFoundException(error);
+    }
+  }
+
+  // ADD ARCHITECT SUGGESTED PRODUCTS
+  async addsuggestedProducts(addSuggestedProductDto: AddSuggestedProductDto) {
+    try {
+      await this.suggestedProductModel
+        .create({
+          project_id: addSuggestedProductDto.project_id,
+          products_per_facility: addSuggestedProductDto.products_per_facility,
+        })
+        .catch((error) => {
+          throw new NotAcceptableException(error);
+        });
+      return { status: 200, message: 'Suggested product added successfully' };
+    } catch (error) {
+      return { status: 404, message: 'Something went wrong' };
+    }
+  }
+
+  async findSuggestedProducts(id: ObjectId) {
+    try {
+      const products = await this.suggestedProductModel
+        .find({
+          project_id: id,
+        })
+        .populate({
+          path: 'products_per_facility',
+          populate: {
+            path: 'products',
+          },
+        });
+      return { status: 200, data: products };
+    } catch (error) {
+      console.log(error);
+      return { status: 404, message: 'Something went wrong' };
     }
   }
 
@@ -589,5 +636,12 @@ export class ProjectsService {
     } catch (error) {
       return Error(error.message);
     }
+  }
+
+  //
+  async findTrueBids() {
+    try {
+      console.log('working');
+    } catch (error) {}
   }
 }

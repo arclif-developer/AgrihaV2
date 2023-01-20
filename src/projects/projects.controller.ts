@@ -15,6 +15,7 @@ import {
   CreateArcProjectDto,
   Datalist,
   projectMailDto,
+  AddSuggestedProductDto,
 } from './dto/create-project.dto';
 import {
   UpdateProjectDto,
@@ -37,6 +38,7 @@ export class ProjectsController {
 
   // TRUE BID PROJECTS
   @Get('trueBidProject')
+  @UseGuards(AuthGuard('jwt'))
   findTrueBidsProjects() {
     return this.projectsService.findTrueBidsProjects();
   }
@@ -185,6 +187,24 @@ export class ProjectsController {
   @Get('getbid/:id')
   findbidtrue_project_user(@Param('id') id: ObjectId) {
     return this.projectsService.findbidtrue_project_user(id);
+  }
+
+  // Add architect suggested products
+  @Post('add_products')
+  addSuggestedProducts(@Body() addSuggestedProductDto: AddSuggestedProductDto) {
+    return this.projectsService.addsuggestedProducts(addSuggestedProductDto);
+  }
+
+  // Add suggested products view / params was projectId
+  @Get('suggestedProducts/:id')
+  findSuggestedProducts(@Param('id') id: ObjectId) {
+    return this.projectsService.findSuggestedProducts(id);
+  }
+
+  // TRUE BID PROJECTS FOR UNAUTHENTICATED USERS
+  @Get('trueBids')
+  findTrueBids() {
+    return this.projectsService.findTrueBids();
   }
 
   @Post('mail')
