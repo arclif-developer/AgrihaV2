@@ -147,7 +147,7 @@ export class QuotationService {
   }
 
   testsms() {
-    this.SNSSERVICE.SmsNotification('TEST');
+    this.SNSSERVICE.SmsNotification('Quotation received from architects');
   }
 
   remove(id: ObjectId) {

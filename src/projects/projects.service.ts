@@ -67,7 +67,12 @@ export class ProjectsService {
             path: 'registered_id',
           },
         })
-        .populate('creator')
+        .populate({
+          path: 'creator',
+          populate: {
+            path: 'registered_id',
+          },
+        })
         .populate('plan_id')
         .exec();
 

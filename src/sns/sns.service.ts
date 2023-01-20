@@ -9,7 +9,7 @@ export class SnsService {
       const numbers = ['+919747045972'];
       const response = await this.twilioService.client.messages.create({
         body: msg,
-        from: '+19016602602',
+        from: process.env.TWILIO_NUMBER,
         to: '+919747045972',
       });
       console.log(response);
