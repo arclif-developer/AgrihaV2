@@ -639,9 +639,15 @@ export class ProjectsService {
   }
 
   //
-  async findTrueBids() {
+  async unauth_bids() {
     try {
-      console.log('working');
+      const responseDta = await this.projectModel.find({ bid: true }).select({
+        project_type: 1,
+        project_requirements: 1,
+        project_name: 1,
+        starting_date: 1,
+      });
+      return { status: 200, data: responseDta };
     } catch (error) {}
   }
 }

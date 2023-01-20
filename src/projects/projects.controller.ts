@@ -43,6 +43,12 @@ export class ProjectsController {
     return this.projectsService.findTrueBidsProjects();
   }
 
+  // TRUE BID PROJECTS FOR UNAUTHENTICATED USERS
+  @Get('unauth_bids')
+  unauth_bids() {
+    return this.projectsService.unauth_bids();
+  }
+
   //user choose project
   @Post('Choose_project')
   @UseGuards(AuthGuard('jwt'))
@@ -201,12 +207,6 @@ export class ProjectsController {
     return this.projectsService.findSuggestedProducts(id);
   }
 
-  // TRUE BID PROJECTS FOR UNAUTHENTICATED USERS
-  @Get('trueBids')
-  findTrueBids() {
-    return this.projectsService.findTrueBids();
-  }
-
   @Post('mail')
   @UseGuards(AuthGuard('jwt'))
   project_mail(
@@ -215,9 +215,4 @@ export class ProjectsController {
   ) {
     return this.projectsService.project_mail(data, jwtData);
   }
-
-  // @Patch('/updatearcproject')
-  // updatearchitectprojects(){
-  //   return this.projectsService.updatearchitectprojects();
-  // }
 }
