@@ -12,6 +12,7 @@ import {
 } from '../schemas/activitylog.schema';
 import { Model, ObjectId } from 'mongoose';
 import { Project, ProjectDocument } from '../schemas/projects.schema';
+import { SnsService } from 'src/sns/sns.service';
 
 @Injectable()
 export class QuotationService {
@@ -22,6 +23,7 @@ export class QuotationService {
     private quotationModel: Model<quotationDocument>,
     @InjectModel(Activitylog.name, 'AGRIHA_DB')
     private ActivitylogModel: Model<ActivitylogDocument>,
+    private SNSSERVICE: SnsService,
   ) {}
 
   async create(createQuotationDto: CreateQuotationDto) {
@@ -52,7 +54,7 @@ export class QuotationService {
       const activity = await new this.ActivitylogModel(
         createActivitylog,
       ).save();
-      console.log('project quote:', datasave);
+      // console.log('project quote:', datasave);
       const IsArchitectId = await this.projectModel
         .findOne({
           $and: [
@@ -61,6 +63,12 @@ export class QuotationService {
           ],
         })
         .exec();
+
+      // SENT SMS MESSAGES NOTIFICATION
+      // await this.SNSSERVICE.SmsNotification(
+      //   'quotation received from architects',
+      // );
+      // ==========  END  ============ //
       if (!IsArchitectId) {
         await this.projectModel.updateOne(
           { _id: createQuotationDto?.project_id },
@@ -136,6 +144,10 @@ export class QuotationService {
     } catch (error) {
       throw new NotFoundException(error);
     }
+  }
+
+  testsms() {
+    this.SNSSERVICE.SmsNotification('TEST');
   }
 
   remove(id: ObjectId) {

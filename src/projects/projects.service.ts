@@ -638,14 +638,14 @@ export class ProjectsService {
     }
   }
 
-  //
+  // TRUE BID PROJECTS FOR UNAUTHENTICATED USERS
   async unauth_bids() {
     try {
       const responseDta = await this.projectModel.find({ bid: true }).select({
         project_type: 1,
         project_requirements: 1,
         project_name: 1,
-        starting_date: 1,
+        createdAt: 1,
       });
       return { status: 200, data: responseDta };
     } catch (error) {}

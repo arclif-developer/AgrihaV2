@@ -25,6 +25,7 @@ import { QuotationModule } from './quotation/quotation.module';
 import { ArcPaymentModule } from './arc_payment/arc_payment.module';
 import { UserPaymentModule } from './user_payment/user_payment.module';
 import { ProductModule } from './product/product.module';
+import { SnsModule } from './sns/sns.module';
 
 @Module({
   imports: [
@@ -63,6 +64,7 @@ import { ProductModule } from './product/product.module';
     ArcPaymentModule,
     UserPaymentModule,
     ProductModule,
+    SnsModule,
   ],
   controllers: [],
   providers: [

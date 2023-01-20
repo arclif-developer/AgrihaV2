@@ -21,6 +21,11 @@ export class QuotationController {
     return this.quotationService.create(createQuotationDto);
   }
 
+  @Get('testsms')
+  testSms() {
+    return this.quotationService.testsms();
+  }
+
   @Get()
   findAll() {
     return this.quotationService.findAll();
