@@ -656,4 +656,20 @@ export class ProjectsService {
       return { status: 200, data: responseDta };
     } catch (error) {}
   }
+
+  async findOneUnauth_bids(id: ObjectId) {
+    try {
+      console.log(id);
+      const responseDta = await this.projectModel.findOne({ _id: id }).select({
+        project_type: 1,
+        project_requirements: 1,
+        project_name: 1,
+        createdAt: 1,
+        thumbnail: 1,
+      });
+      return { status: 200, data: responseDta };
+    } catch (error) {
+      return { status: 401, error: error.message };
+    }
+  }
 }

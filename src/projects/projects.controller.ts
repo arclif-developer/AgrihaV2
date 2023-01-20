@@ -49,6 +49,11 @@ export class ProjectsController {
     return this.projectsService.unauth_bids();
   }
 
+  @Get('unauth_bids/:id')
+  findUnauth_bids(@Param('id') id: ObjectId) {
+    return this.projectsService.findOneUnauth_bids(id);
+  }
+
   //user choose project
   @Post('Choose_project')
   @UseGuards(AuthGuard('jwt'))
