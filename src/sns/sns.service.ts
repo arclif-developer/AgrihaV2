@@ -6,7 +6,7 @@ export class SnsService {
   constructor(public twilioService: TwilioService) {}
   async SmsNotification(msg) {
     try {
-      const numbers = ['+919747045972', '+917356550501', '+918089462122'];
+      const numbers = ['+919747045972'];
       numbers.forEach(async (items) => {
         const response = await this.twilioService.client.messages.create({
           body: msg,
@@ -15,6 +15,18 @@ export class SnsService {
         });
         console.log(response);
       });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async whatsAppNotification() {
+    try {
+      const response = await this.twilioService.client.messages.create({
+        from: `whatsapp:${process.env.TWILIO_NUMBER}`,
+        body: 'Hello world!',
+        to: `whatsapp:+919747045972`,
+      });
+      console.log(response);
     } catch (error) {
       console.log(error);
     }

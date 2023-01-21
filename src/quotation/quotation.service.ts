@@ -64,17 +64,19 @@ export class QuotationService {
         })
         .exec();
 
-      // SENT SMS MESSAGES NOTIFICATION
-      // await this.SNSSERVICE.SmsNotification(
-      //   'quotation received from architects',
-      // );
-      // ==========  END  ============ //
       if (!IsArchitectId) {
         await this.projectModel.updateOne(
           { _id: createQuotationDto?.project_id },
           { $push: { acceptQuotes: createQuotationDto?.architect_id } },
         );
       }
+      // SENT SMS MESSAGES NOTIFICATION
+      // this.SNSSERVICE.SmsNotification('Quotation received from architects');
+      // ==========  END  ============ //
+
+      // WHATSAPP NOTIFICATION
+      // this.SNSSERVICE.SmsNotification('Quotation received from architects');
+      // ==========  END  ============ //
       return {
         status: 200,
         data: datasave,
@@ -147,7 +149,7 @@ export class QuotationService {
   }
 
   testsms() {
-    this.SNSSERVICE.SmsNotification('Quotation received from architects');
+    this.SNSSERVICE.whatsAppNotification();
   }
 
   remove(id: ObjectId) {
