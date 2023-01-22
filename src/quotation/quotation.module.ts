@@ -7,10 +7,12 @@ import { Project, ProjectSchema } from '../schemas/projects.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Activitylog, ActivitylogSchema } from '../schemas/activitylog.schema';
 import { SnsModule } from '../sns/sns.module';
+import { MailModule } from '../Mailer/mailer.module';
 
 @Module({
   imports: [
     SnsModule,
+    MailModule,
     MongooseModule.forFeature(
       [
         { name: Project.name, schema: ProjectSchema },

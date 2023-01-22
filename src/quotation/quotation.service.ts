@@ -13,6 +13,7 @@ import {
 import { Model, ObjectId } from 'mongoose';
 import { Project, ProjectDocument } from '../schemas/projects.schema';
 import { SnsService } from '../sns/sns.service';
+import { MailService } from '../Mailer/mailer.service';
 
 @Injectable()
 export class QuotationService {
@@ -24,6 +25,7 @@ export class QuotationService {
     @InjectModel(Activitylog.name, 'AGRIHA_DB')
     private ActivitylogModel: Model<ActivitylogDocument>,
     private SNSSERVICE: SnsService,
+    private MailerService: MailService,
   ) {}
 
   async create(createQuotationDto: CreateQuotationDto) {
@@ -76,6 +78,10 @@ export class QuotationService {
 
       // WHATSAPP NOTIFICATION
       // this.SNSSERVICE.SmsNotification('Quotation received from architects');
+      // ==========  END  ============ //
+
+      // MAIl NOTIFICATION
+      // this.MailerService.quotationNotification(IsArchitectId);
       // ==========  END  ============ //
       return {
         status: 200,

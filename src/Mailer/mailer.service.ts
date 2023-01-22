@@ -203,4 +203,30 @@ export class MailService {
       console.log(error);
     }
   }
+
+  async quotationNotification(IsArchitectId) {
+    try {
+      const date = moment().format('Do MMMM  YYYY');
+      const day = moment().format('dddd');
+      this.MailerService.sendMail({
+        to: 'support.arclif@gmail.com',
+        from: 'noreply.arclif@gmail.com',
+        subject: 'New registeration',
+        html: `  <h4>Date:- ${date}</h4> <br>
+        <h4>Project name :- ${IsArchitectId.project_name}</h4> <br>
+        <h4>Area:-${IsArchitectId.project_requirements[0].area}</h4> <br>
+        <h4>Budget:-${IsArchitectId.project_requirements[0].budget}</h4> <br>
+        <h4>Location:-${IsArchitectId.project_requirements[0].location}</h4> <br>`,
+      })
+        .then((res) => {
+          return res;
+        })
+        .catch((error) => {
+          console.log(error);
+          throw new Error(error);
+        });
+    } catch (error) {
+      return error;
+    }
+  }
 }

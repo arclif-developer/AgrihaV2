@@ -22,9 +22,9 @@ export class SnsService {
   async whatsAppNotification() {
     try {
       const response = await this.twilioService.client.messages.create({
-        from: `whatsapp:${process.env.TWILIO_NUMBER}`,
+        from: `whatsapp:${process.env.TWILIO_WHATSAPP}`,
         body: 'Hello world!',
-        to: `whatsapp:+919747045972`,
+        to: `whatsapp:+918848955060`,
       });
       console.log(response);
     } catch (error) {
