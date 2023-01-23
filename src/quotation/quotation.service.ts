@@ -14,6 +14,7 @@ import { Model, ObjectId } from 'mongoose';
 import { Project, ProjectDocument } from '../schemas/projects.schema';
 import { SnsService } from '../sns/sns.service';
 import { MailService } from '../Mailer/mailer.service';
+import { architects, architectsDocument } from '../schemas/architects.schema';
 
 @Injectable()
 export class QuotationService {
@@ -24,6 +25,8 @@ export class QuotationService {
     private quotationModel: Model<quotationDocument>,
     @InjectModel(Activitylog.name, 'AGRIHA_DB')
     private ActivitylogModel: Model<ActivitylogDocument>,
+    @InjectModel(architects.name, 'AGRIHA_DB')
+    private ArchitectsModel: Model<architectsDocument>,
     private SNSSERVICE: SnsService,
     private MailerService: MailService,
   ) {}
@@ -31,21 +34,23 @@ export class QuotationService {
   async create(createQuotationDto: CreateQuotationDto) {
     try {
       const datasave = await new this.quotationModel(createQuotationDto).save();
-      const projectuser = await this.projectModel
-        .find({ _id: createQuotationDto.project_id })
-        .exec()
-        .then((resp) => {
-          return resp.map((res) => {
-            return res.creator;
-          });
-        });
-
-      // console.log(datasave)
+      const architectDta = await this.ArchitectsModel.findOne({
+        _id: createQuotationDto.architect_id,
+      }).populate('registered_id');
+      const projectResponse = await this.projectModel
+        .findOne({ _id: createQuotationDto.project_id })
+        .populate({
+          path: 'creator',
+          populate: {
+            path: 'registered_id',
+          },
+        })
+        .exec();
       let createActivitylog: CreateActivitylogDto;
       // eslint-disable-next-line prefer-const
       createActivitylog = {
-        user: projectuser,
-        activity: 'quotation received from architects',
+        user: projectResponse.creator,
+        activity: 'Quotation received from architects',
         //project added
         //review added
         //scheduled site visits
@@ -65,7 +70,6 @@ export class QuotationService {
           ],
         })
         .exec();
-
       if (!IsArchitectId) {
         await this.projectModel.updateOne(
           { _id: createQuotationDto?.project_id },
@@ -81,7 +85,11 @@ export class QuotationService {
       // ==========  END  ============ //
 
       // MAIl NOTIFICATION
-      // this.MailerService.quotationNotification(IsArchitectId);
+      this.MailerService.quotationNotification(
+        architectDta,
+        projectResponse,
+        createQuotationDto.quote,
+      );
       // ==========  END  ============ //
       return {
         status: 200,

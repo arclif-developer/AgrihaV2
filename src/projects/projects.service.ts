@@ -653,13 +653,15 @@ export class ProjectsService {
         createdAt: 1,
         thumbnail: 1,
       });
-      return { status: 200, data: responseDta };
+      const bidcount = await this.projectModel
+        .find({ bid: true })
+        .countDocuments();
+      return { status: 200, data: responseDta, bidcount: bidcount };
     } catch (error) {}
   }
 
   async findOneUnauth_bids(id: ObjectId) {
     try {
-      console.log(id);
       const responseDta = await this.projectModel.findOne({ _id: id }).select({
         project_type: 1,
         project_requirements: 1,
@@ -667,7 +669,10 @@ export class ProjectsService {
         createdAt: 1,
         thumbnail: 1,
       });
-      return { status: 200, data: responseDta };
+      const bidcount = await this.projectModel
+        .find({ bid: true })
+        .countDocuments();
+      return { status: 200, data: responseDta, bidcount: bidcount };
     } catch (error) {
       return { status: 401, error: error.message };
     }

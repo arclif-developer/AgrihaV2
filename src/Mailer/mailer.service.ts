@@ -204,19 +204,32 @@ export class MailService {
     }
   }
 
-  async quotationNotification(IsArchitectId) {
+  async quotationNotification(architectDta, projectDta, quote) {
     try {
+      const mailList = [
+        'support@arclif.com',
+        'bdm@arclif.com',
+        'arclifdeveloper.forbdm@gmail.com',
+      ];
       const date = moment().format('Do MMMM  YYYY');
       const day = moment().format('dddd');
       this.MailerService.sendMail({
-        to: 'support.arclif@gmail.com',
+        to: mailList,
         from: 'noreply.arclif@gmail.com',
-        subject: 'New registeration',
-        html: `  <h4>Date:- ${date}</h4> <br>
-        <h4>Project name :- ${IsArchitectId.project_name}</h4> <br>
-        <h4>Area:-${IsArchitectId.project_requirements[0].area}</h4> <br>
-        <h4>Budget:-${IsArchitectId.project_requirements[0].budget}</h4> <br>
-        <h4>Location:-${IsArchitectId.project_requirements[0].location}</h4> <br>`,
+        subject: 'Architect Added new Quotes',
+        template: './quotesNotificaton.hbs',
+        context: {
+          date: date,
+          architectname: `${
+            architectDta.registered_id
+              ? architectDta.registered_id.name
+              : architectDta.firstname + architectDta.lastname
+          }`,
+          projectcode: projectDta.project_name,
+          amount: quote,
+          location: projectDta.project_requirements[0].location,
+          area: projectDta.project_requirements[0].area,
+        },
       })
         .then((res) => {
           return res;

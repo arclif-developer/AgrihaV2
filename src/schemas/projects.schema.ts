@@ -24,6 +24,9 @@ export class Project {
   thumbnail: string;
 
   @Prop()
+  view: string;
+
+  @Prop()
   projectsub_type: string;
 
   @Prop()
