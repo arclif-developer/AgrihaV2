@@ -9,6 +9,7 @@ import {
   Req,
   UseGuards,
   Put,
+  Query,
 } from '@nestjs/common';
 import { ProjectsService } from './projects.service';
 import {
@@ -110,8 +111,8 @@ export class ProjectsController {
   //single project view for user
   @Get('single/:id')
   // @UseGuards(AuthGuard('jwt'))
-  findSingleProject(@Param('id') id: ObjectId) {
-    return this.projectsService.findSingleProject(id);
+  findSingleProject(@Param('id') id: ObjectId, @Query() query: any) {
+    return this.projectsService.findSingleProject(id, query.arc_id);
   }
 
   //get all architects projects

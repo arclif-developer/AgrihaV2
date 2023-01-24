@@ -51,30 +51,55 @@ export class ProjectsService {
   ) {}
 
   //find single project of user
-  async findSingleProject(id: ObjectId) {
+  async findSingleProject(id: ObjectId, arc_id: ObjectId) {
     try {
-      const data = await this.projectModel
-        .find({ _id: id })
-        .populate({
-          path: 'architect_id',
-          populate: {
-            path: 'registered_id',
-          },
-        })
-        .populate({
-          path: 'creator',
-          populate: {
-            path: 'registered_id',
-          },
-        })
-        .populate('plan_id')
-        .exec();
+      console.log(arc_id);
+      let data;
+      let IsArchitectId;
+      if (arc_id) {
+        IsArchitectId = await this.projectModel.findOne({
+          view_status: { $in: arc_id },
+        });
+      }
+      if (IsArchitectId === null) {
+        data = await this.projectModel
+          .findByIdAndUpdate({ _id: id }, { $push: { view_status: arc_id } })
+          .populate({
+            path: 'architect_id',
+            populate: {
+              path: 'registered_id',
+            },
+          })
+          .populate({
+            path: 'creator',
+            populate: {
+              path: 'registered_id',
+            },
+          })
+          .populate('plan_id')
+          .exec();
+      } else {
+        data = await this.projectModel
+          .find({ _id: id })
+          .populate({
+            path: 'architect_id',
+            populate: {
+              path: 'registered_id',
+            },
+          })
+          .populate({
+            path: 'creator',
+            populate: {
+              path: 'registered_id',
+            },
+          })
+          .populate('plan_id')
+          .exec();
+      }
 
-      console.log(data);
       const details = await this.buildingdetailsModel
         .find({ project: id })
         .exec();
-
       return { status: 200, data: data, details: details };
     } catch (error) {
       throw new NotFoundException(error);
