@@ -312,8 +312,15 @@ export class ProjectsService {
     }
   }
 
-  async findSuggestedProducts(id: ObjectId) {
+  async findSuggestedProducts(projectId: ObjectId) {
     try {
+      const data = await this.projectModel.find({ _id: projectId }).populate({
+        path: 'products_per_facility',
+        populate: {
+          path: 'products',
+        },
+      });
+      console.log(data);
     } catch (error) {
       console.log(error);
       return { status: 404, message: 'Something went wrong' };
@@ -663,4 +670,12 @@ export class ProjectsService {
       return { status: 401, error: error.message };
     }
   }
+
+  // async readProject(id: ObjectId) {
+  //   try {
+  //     await this.projectModel.updateOne({_id})
+  //   } catch (error) {
+  //     return { status: 404, error: error.message };
+  //   }
+  // }
 }

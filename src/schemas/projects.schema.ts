@@ -5,6 +5,7 @@ import { Type } from '@nestjs/class-transformer';
 import { architects } from './architects.schema';
 import { paymentplan_tb } from './paymentplan.schema';
 import { Product } from './product.schema';
+import { quotation } from './quotation.schema';
 
 export type ProjectDocument = Project & Document;
 
@@ -29,12 +30,6 @@ export class Project {
 
   @Prop()
   projectsub_type: string;
-
-  @Prop({ default: 1 })
-  priority: number;
-
-  @Prop({ default: true })
-  view_status: Boolean;
 
   @Prop()
   project_type_details: object[];
@@ -84,21 +79,26 @@ export class Project {
   acceptQuotes: [];
 
   @Prop()
+  view_status: [];
+
+  @Prop()
   facilities: string[];
 
-  @Prop({
-    type: [
-      {
-        facility_name: String,
-        products: [{ type: mongoose.Schema.Types.ObjectId, ref: Product.name }],
-      },
-    ],
-  })
-  @Type(() => Product)
-  products_per_facility: {
-    facility_name: string;
-    products: Product;
-  }; // add products for each facilities
+  // @Prop({
+  //   type: [
+  //     {
+  //       facility_name: String,
+  //       products: [
+  //         { type: mongoose.Schema.Types.ObjectId, ref: quotation.name },
+  //       ],
+  //     },
+  //   ],
+  // })
+  // @Type(() => quotation)
+  // products_per_facility: {
+  //   facility_name: string;
+  //   products: quotation;
+  // }; // add products for each facilities
 }
 
 const ProjectSchema = SchemaFactory.createForClass(Project);

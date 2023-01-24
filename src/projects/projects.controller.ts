@@ -213,6 +213,13 @@ export class ProjectsController {
     return this.projectsService.findSuggestedProducts(id);
   }
 
+  // // PROJECT READING UPDATE
+  // @Put('read/:id')
+  // readProject(@Param('id') id: ObjectId) {
+  //   console.log(id);
+  //   return this.projectsService.readProject(id);
+  // }
+
   @Post('mail')
   @UseGuards(AuthGuard('jwt'))
   project_mail(

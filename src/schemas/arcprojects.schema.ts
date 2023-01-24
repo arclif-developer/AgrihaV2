@@ -24,6 +24,12 @@ export class arcprojects {
   @Prop()
   projectarea: string;
 
+  @Prop({ default: 1 })
+  priority: number;
+
+  @Prop({ default: true })
+  view_status: Boolean;
+
   @Prop()
   project_type: string;
 
