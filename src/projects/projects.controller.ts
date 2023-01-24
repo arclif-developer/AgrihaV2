@@ -8,6 +8,7 @@ import {
   Delete,
   Req,
   UseGuards,
+  Put,
 } from '@nestjs/common';
 import { ProjectsService } from './projects.service';
 import {
@@ -201,7 +202,7 @@ export class ProjectsController {
   }
 
   // Add architect suggested products
-  @Post('add_products')
+  @Put('add_products')
   addSuggestedProducts(@Body() addSuggestedProductDto: AddSuggestedProductDto) {
     return this.projectsService.addsuggestedProducts(addSuggestedProductDto);
   }

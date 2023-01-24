@@ -12,10 +12,6 @@ import { Activitylog, ActivitylogSchema } from '../schemas/activitylog.schema';
 import { MailModule } from '../Mailer/mailer.module';
 import { HttpModule } from '@nestjs/axios';
 import { User, UserSchema } from '../schemas/userSchema';
-import {
-  SuggestedProduct,
-  SuggestedProductSchema,
-} from '../schemas/suggestedProduct.schema';
 
 @Module({
   imports: [
@@ -28,7 +24,6 @@ import {
         { name: buildingdetails_tb.name, schema: buildingdetails_tbSchema },
         { name: Activitylog.name, schema: ActivitylogSchema },
         { name: User.name, schema: UserSchema },
-        { name: SuggestedProduct.name, schema: SuggestedProductSchema },
       ],
       'AGRIHA_DB',
     ),

@@ -26,6 +26,9 @@ export class Payment_user {
   status: string; //pending,paid
 
   @Prop()
+  amount: number; //pending,paid
+
+  @Prop()
   transaction_id: string; //gpay transaction id
 
   @Prop()

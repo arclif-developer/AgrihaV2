@@ -34,10 +34,6 @@ import { Requiremntlist } from '../models/Enums/requirementlist';
 import { MailService } from '../Mailer/mailer.service';
 import { projectDto } from '../user/dto/create-user.dto';
 import { User, UserDocument } from '../schemas/userSchema';
-import {
-  SuggestedProduct,
-  SuggestedProductDocument,
-} from '../schemas/suggestedProduct.schema';
 
 @Injectable()
 export class ProjectsService {
@@ -52,8 +48,6 @@ export class ProjectsService {
     private ActivitylogModel: Model<ActivitylogDocument>,
     private MailerService: MailService,
     @InjectModel(User.name, 'AGRIHA_DB') private userModel: Model<UserDocument>,
-    @InjectModel(SuggestedProduct.name, 'AGRIHA_DB')
-    private suggestedProductModel: Model<SuggestedProductDocument>,
   ) {}
 
   //find single project of user
@@ -300,18 +294,19 @@ export class ProjectsService {
     }
   }
 
-  // ADD ARCHITECT SUGGESTED PRODUCTS
+  // A
+
   async addsuggestedProducts(addSuggestedProductDto: AddSuggestedProductDto) {
     try {
-      await this.suggestedProductModel
-        .create({
-          project_id: addSuggestedProductDto.project_id,
-          products_per_facility: addSuggestedProductDto.products_per_facility,
-        })
-        .catch((error) => {
-          throw new NotAcceptableException(error);
-        });
-      return { status: 200, message: 'Suggested product added successfully' };
+      const response = await this.projectModel.updateOne(
+        { _id: addSuggestedProductDto.project_id },
+        {
+          $set: {
+            products_per_facility: addSuggestedProductDto.products_per_facility,
+          },
+        },
+      );
+      console.log(response);
     } catch (error) {
       return { status: 404, message: 'Something went wrong' };
     }
@@ -319,17 +314,6 @@ export class ProjectsService {
 
   async findSuggestedProducts(id: ObjectId) {
     try {
-      const products = await this.suggestedProductModel
-        .find({
-          project_id: id,
-        })
-        .populate({
-          path: 'products_per_facility',
-          populate: {
-            path: 'products',
-          },
-        });
-      return { status: 200, data: products };
     } catch (error) {
       console.log(error);
       return { status: 404, message: 'Something went wrong' };
@@ -646,13 +630,15 @@ export class ProjectsService {
   // TRUE BID PROJECTS FOR UNAUTHENTICATED USERS
   async unauth_bids() {
     try {
-      const responseDta = await this.projectModel.find({ bid: true }).select({
-        project_type: 1,
-        project_requirements: 1,
-        project_name: 1,
-        createdAt: 1,
-        thumbnail: 1,
-      });
+      const responseDta = await this.projectModel
+        .find({ $and: [{ bid: true }, { status: 'started' }] })
+        .select({
+          project_type: 1,
+          project_requirements: 1,
+          project_name: 1,
+          createdAt: 1,
+          thumbnail: 1,
+        });
       const bidcount = await this.projectModel
         .find({ bid: true })
         .countDocuments();
