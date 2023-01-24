@@ -29,6 +29,7 @@ import { register, registerDocument } from '../schemas/register.schema';
 import { User, UserDocument } from '../schemas/userSchema';
 import { DeviceIp } from './auth.model';
 import {
+  AdminLoginDto,
   architect_loginDto,
   GoogleDto,
   mobileLoginDto,
@@ -561,6 +562,32 @@ export class AuthService {
         } else {
           return { status: 401, error: response };
         }
+      }
+    } catch (error) {
+      return error;
+    }
+  }
+
+  architect_login(admin_loginDto: AdminLoginDto) {
+    try {
+      const username = 'ArclifAdmin';
+      const password = 'Arclif@123';
+      if (
+        username === admin_loginDto.username &&
+        password === admin_loginDto.password
+      ) {
+        const token = this.jwtService.sign(
+          {
+            secret: 'Agriha.arclif@123',
+          },
+          {
+            expiresIn: '29d',
+          },
+        );
+
+        return { status: 200, token: token };
+      } else {
+        throw new NotAcceptableException();
       }
     } catch (error) {
       return error;

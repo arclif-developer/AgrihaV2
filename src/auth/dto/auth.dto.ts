@@ -78,3 +78,8 @@ export class resentDto {
   @IsNotEmpty()
   role: string;
 }
+
+export class AdminLoginDto {
+  username: string;
+  password: string;
+}

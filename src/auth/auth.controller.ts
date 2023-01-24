@@ -16,6 +16,7 @@ import { DeviceIp } from './auth.model';
 import { AuthService } from './auth.service';
 import { DeviceAndip } from './deviceandip.decorator';
 import {
+  AdminLoginDto,
   architect_loginDto,
   GoogleDto,
   mobileLoginDto,
@@ -83,6 +84,11 @@ export class AuthController {
   @Post('resent_otp')
   resent_otp(@Body() resent_dta: resentDto) {
     return this.authService.resent_otp(resent_dta);
+  }
+
+  @Post('admin_login')
+  admin_login(@Body() admin_loginDto: AdminLoginDto) {
+    return this.authService.architect_login(admin_loginDto);
   }
 
   // @Get('update-role')
