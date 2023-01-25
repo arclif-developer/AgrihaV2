@@ -12,6 +12,7 @@ import { Activitylog, ActivitylogSchema } from '../schemas/activitylog.schema';
 import { MailModule } from '../Mailer/mailer.module';
 import { HttpModule } from '@nestjs/axios';
 import { User, UserSchema } from '../schemas/userSchema';
+import { Product, ProductSchema } from '../schemas/product.schema';
 
 @Module({
   imports: [
@@ -26,6 +27,10 @@ import { User, UserSchema } from '../schemas/userSchema';
         { name: User.name, schema: UserSchema },
       ],
       'AGRIHA_DB',
+    ),
+    MongooseModule.forFeature(
+      [{ name: Product.name, schema: ProductSchema }],
+      'ECOMMERCE_DB',
     ),
   ],
   controllers: [ProjectsController],

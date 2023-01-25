@@ -40,7 +40,7 @@ export class ProjectsController {
 
   // TRUE BID PROJECTS
   @Get('trueBidProject')
-  @UseGuards(AuthGuard('jwt'))
+  // @UseGuards(AuthGuard('jwt'))
   findTrueBidsProjects() {
     return this.projectsService.findTrueBidsProjects();
   }

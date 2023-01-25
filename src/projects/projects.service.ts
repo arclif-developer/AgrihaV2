@@ -34,6 +34,7 @@ import { Requiremntlist } from '../models/Enums/requirementlist';
 import { MailService } from '../Mailer/mailer.service';
 import { projectDto } from '../user/dto/create-user.dto';
 import { User, UserDocument } from '../schemas/userSchema';
+import { Product, ProductDocument } from '../schemas/product.schema';
 
 @Injectable()
 export class ProjectsService {
@@ -48,6 +49,8 @@ export class ProjectsService {
     private ActivitylogModel: Model<ActivitylogDocument>,
     private MailerService: MailService,
     @InjectModel(User.name, 'AGRIHA_DB') private userModel: Model<UserDocument>,
+    @InjectModel(Product.name, 'ECOMMERCE_DB')
+    private ProductModel: Model<ProductDocument>,
   ) {}
 
   //find single project of user
@@ -339,13 +342,24 @@ export class ProjectsService {
 
   async findSuggestedProducts(projectId: ObjectId) {
     try {
-      const data = await this.projectModel.find({ _id: projectId }).populate({
-        path: 'products_per_facility',
-        populate: {
-          path: 'products',
-        },
-      });
+      // const data = await this.projectModel.find({ _id: projectId }).populate({
+      //   path: 'products_per_facility',
+      //   populate: {
+      //     path: 'products',
+      //   },
+      // });
+      const data = await this.projectModel.find({ _id: projectId }).populate(
+        `{
+          path: 'products_per_facility',
+          populate: {
+            path: 'products',
+          },
+        }`,
+        'name',
+        this.ProductModel,
+      );
       console.log(data);
+      return data;
     } catch (error) {
       console.log(error);
       return { status: 404, message: 'Something went wrong' };
