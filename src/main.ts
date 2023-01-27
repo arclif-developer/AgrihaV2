@@ -12,7 +12,7 @@ async function bootstrap() {
   app.enableCors({
     origin: [
       'https://www.agriha.com',
-      'https://admin-arclif.vercel.app/',
+      'https://admin-arclif.vercel.app',
       'https://agriha.com',
       'https://arclif.com',
       'https://www.arclif.com',

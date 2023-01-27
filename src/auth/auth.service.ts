@@ -584,7 +584,6 @@ export class AuthService {
             expiresIn: '29d',
           },
         );
-
         return { status: 200, token: token };
       } else {
         throw new NotAcceptableException('Invalid username or password');
