@@ -12,6 +12,7 @@ async function bootstrap() {
   app.enableCors({
     origin: [
       'https://www.agriha.com',
+      'https://admin-arclif.vercel.app/',
       'https://agriha.com',
       'https://arclif.com',
       'https://www.arclif.com',
@@ -20,7 +21,7 @@ async function bootstrap() {
       'http://192.168.29.30:3000',
       'http://localhost:3000',
       'http://localhost:3001',
-      'https://admin-arclif.vercel.app/',
+      ,
     ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
