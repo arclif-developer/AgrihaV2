@@ -56,7 +56,6 @@ export class ProjectsService {
   //find single project of user
   async findSingleProject(id: ObjectId, arc_id: ObjectId) {
     try {
-      console.log(arc_id);
       let data;
       let IsArchitectId;
       if (arc_id) {
@@ -340,26 +339,18 @@ export class ProjectsService {
     }
   }
 
+  // ====================================================================
   async findSuggestedProducts(projectId: ObjectId) {
     try {
-      // const data = await this.projectModel.find({ _id: projectId }).populate({
-      //   path: 'products_per_facility',
-      //   populate: {
-      //     path: 'products',
-      //   },
-      // });
-      const data = await this.projectModel.find({ _id: projectId }).populate(
-        `{
-          path: 'products_per_facility',
-          populate: {
-            path: 'products',
-          },
-        }`,
-        'name',
-        this.ProductModel,
-      );
-      console.log(data);
-      return data;
+      const data = await this.projectModel.find({ _id: projectId }).populate({
+        path: 'products_per_facility',
+        populate: {
+          path: 'products',
+          model: this.ProductModel,
+        },
+      });
+
+      return { status: 200, data: data };
     } catch (error) {
       console.log(error);
       return { status: 404, message: 'Something went wrong' };
