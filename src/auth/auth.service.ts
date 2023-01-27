@@ -587,7 +587,7 @@ export class AuthService {
 
         return { status: 200, token: token };
       } else {
-        throw new NotAcceptableException();
+        throw new NotAcceptableException('Invalid username or password');
       }
     } catch (error) {
       return error;
