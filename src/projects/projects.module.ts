@@ -13,6 +13,10 @@ import { MailModule } from '../Mailer/mailer.module';
 import { HttpModule } from '@nestjs/axios';
 import { User, UserSchema } from '../schemas/userSchema';
 import { Product, ProductSchema } from '../schemas/product.schema';
+import {
+  suggestProduct,
+  suggestProductSchema,
+} from 'src/schemas/suggestedProdcut.schema';
 
 @Module({
   imports: [
@@ -25,6 +29,7 @@ import { Product, ProductSchema } from '../schemas/product.schema';
         { name: buildingdetails_tb.name, schema: buildingdetails_tbSchema },
         { name: Activitylog.name, schema: ActivitylogSchema },
         { name: User.name, schema: UserSchema },
+        { name: suggestProduct.name, schema: suggestProductSchema },
       ],
       'AGRIHA_DB',
     ),

@@ -20,7 +20,7 @@ import {
   CreateActivitylogDto,
   projectMailDto,
   Datalist,
-  AddSuggestedProductDto,
+  AddProductDto,
 } from './dto/create-project.dto';
 import {
   UpdateProjectDto,
@@ -35,6 +35,10 @@ import { MailService } from '../Mailer/mailer.service';
 import { projectDto } from '../user/dto/create-user.dto';
 import { User, UserDocument } from '../schemas/userSchema';
 import { Product, ProductDocument } from '../schemas/product.schema';
+import {
+  suggestProduct,
+  suggestProductDocument,
+} from 'src/schemas/suggestedProdcut.schema';
 
 @Injectable()
 export class ProjectsService {
@@ -49,6 +53,8 @@ export class ProjectsService {
     private ActivitylogModel: Model<ActivitylogDocument>,
     private MailerService: MailService,
     @InjectModel(User.name, 'AGRIHA_DB') private userModel: Model<UserDocument>,
+    @InjectModel(suggestProduct.name, 'AGRIHA_DB')
+    private suggestedProductModel: Model<suggestProductDocument>,
     @InjectModel(Product.name, 'ECOMMERCE_DB')
     private ProductModel: Model<ProductDocument>,
   ) {}
@@ -323,37 +329,60 @@ export class ProjectsService {
 
   // A
 
-  async addsuggestedProducts(addSuggestedProductDto: AddSuggestedProductDto) {
+  async addProducts(addSuggestedProductDto: AddProductDto) {
     try {
-      const response = await this.projectModel.updateOne(
-        { _id: addSuggestedProductDto.project_id },
-        {
-          $set: {
-            products_per_facility: addSuggestedProductDto.products_per_facility,
-          },
-        },
+      const response = await this.suggestedProductModel.create(
+        addSuggestedProductDto,
       );
-      console.log(response);
+      return { status: 200, message: 'Product added successfully' };
     } catch (error) {
       return { status: 404, message: 'Something went wrong' };
+    }
+  }
+
+  async selectProducts(id: ObjectId, products_id: ObjectId) {
+    try {
+      const response = await this.suggestedProductModel.findOneAndUpdate(
+        {
+          'products._id': id,
+        },
+        { $set: { 'products.$.select': true } },
+      );
+      return { status: 200, message: 'Product updated successfully' };
+    } catch (error) {
+      console.log(error);
     }
   }
 
   // ====================================================================
   async findSuggestedProducts(projectId: ObjectId) {
     try {
-      const data = await this.projectModel.find({ _id: projectId }).populate({
-        path: 'products_per_facility',
-        populate: {
+      const data = await this.suggestedProductModel
+        .find({ _id: projectId })
+        .populate({
           path: 'products',
-          model: this.ProductModel,
-        },
-      });
+          populate: {
+            path: 'productId',
+            model: this.ProductModel,
+          },
+        });
 
       return { status: 200, data: data };
     } catch (error) {
       console.log(error);
       return { status: 404, message: 'Something went wrong' };
+    }
+  }
+
+  // Selected Products
+  async selectedProducts() {
+    try {
+    } catch (error) {
+      return {
+        status: 404,
+        message: 'Something went wrong',
+        error: error?.message,
+      };
     }
   }
 

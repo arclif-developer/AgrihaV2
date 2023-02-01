@@ -91,6 +91,11 @@ export class AuthController {
     return this.authService.architect_login(admin_loginDto);
   }
 
+  @Post('generate_referralCode')
+  generate_referralCode(@Body() generateCodeDto: any) {
+    return this.authService.generateReferralCode(generateCodeDto);
+  }
+
   // @Get('update-role')
   // update_dbrole() {
   //   return this.authService.updateType();

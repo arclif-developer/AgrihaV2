@@ -73,7 +73,11 @@ export class Datalist {
   ];
 }
 
-export class AddSuggestedProductDto {
+export class AddProductDto {
   project_id: ObjectId;
   products_per_facility: Object[];
+}
+
+export class SelectProductDto {
+  id: ObjectId;
 }

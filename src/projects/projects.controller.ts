@@ -17,7 +17,8 @@ import {
   CreateArcProjectDto,
   Datalist,
   projectMailDto,
-  AddSuggestedProductDto,
+  AddProductDto,
+  SelectProductDto,
 } from './dto/create-project.dto';
 import {
   UpdateProjectDto,
@@ -203,11 +204,22 @@ export class ProjectsController {
   }
 
   // Add architect suggested products
-  @Put('add_products')
-  addSuggestedProducts(@Body() addSuggestedProductDto: AddSuggestedProductDto) {
-    return this.projectsService.addsuggestedProducts(addSuggestedProductDto);
+  @Post('add_products')
+  addProducts(@Body() addProductDto: AddProductDto) {
+    return this.projectsService.addProducts(addProductDto);
+  }
+  @Patch('select_products/:id')
+  selectProducts(
+    @Param('id') id: ObjectId,
+    @Body() selectProductDto: SelectProductDto,
+  ) {
+    return this.projectsService.selectProducts(id, selectProductDto.id);
   }
 
+  @Get('selectProducts')
+  selectedProducts() {
+    return this.projectsService.selectedProducts();
+  }
   // Add suggested products view / params was projectId
   @Get('suggestedProducts/:id')
   findSuggestedProducts(@Param('id') id: ObjectId) {

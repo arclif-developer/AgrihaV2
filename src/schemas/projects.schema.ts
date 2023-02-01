@@ -83,19 +83,28 @@ export class Project {
   @Prop()
   facilities: string[];
 
-  @Prop({
-    type: [
-      {
-        facility_name: String,
-        products: [{ type: mongoose.Schema.Types.ObjectId, ref: Product.name }],
-      },
-    ],
-  })
-  @Type(() => Product)
-  products_per_facility: {
-    facility_name: string;
-    products: Product;
-  }; // add products for each facilities
+  // @Prop({
+  //   type: [
+  //     {
+  //       facility_name: String,
+  //       products: [
+  //         {
+  //           select: { type: Boolean, default: false },
+  //           productId: {
+  //             type: mongoose.Schema.Types.ObjectId,
+  //             ref: Product.name,
+  //           },
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // })
+  // @Type(() => Product)
+  // products_per_facility: {
+  //   facility_name: string;
+  //   select: Boolean;
+  //   productId: Product;
+  // }; // add products for each facilities
 }
 
 const ProjectSchema = SchemaFactory.createForClass(Project);

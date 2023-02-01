@@ -26,6 +26,12 @@ export class registerDto {
   @IsString()
   @IsNotEmpty()
   role: string;
+
+  @IsString()
+  referral_code: string;
+
+  @IsString()
+  referral_user: string;
 }
 
 export class verifyMobileDto {

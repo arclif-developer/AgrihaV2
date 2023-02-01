@@ -21,6 +21,7 @@ import {
   testRegister,
   testRegisterSchema,
 } from '../schemas/testRegister.schema';
+import { Referral, ReferralSchema } from 'src/schemas/referral.schema';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import {
         { name: User.name, schema: UserSchema },
         { name: architects.name, schema: architectsSchema },
         { name: testRegister.name, schema: testRegisterSchema },
+        { name: Referral.name, schema: ReferralSchema },
       ],
       'AGRIHA_DB',
     ),

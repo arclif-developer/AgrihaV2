@@ -8,6 +8,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import * as randomstring from 'randomstring';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { log } from 'console';
 import e from 'express';
@@ -38,6 +39,7 @@ import {
   verifyMobileDto,
 } from './dto/auth.dto';
 import { otpService } from './otpService';
+import { Referral, ReferralDocument } from 'src/schemas/referral.schema';
 
 @Injectable()
 export class AuthService {
@@ -54,12 +56,13 @@ export class AuthService {
     private architectsModel: Model<architectsDocument>,
     @InjectModel(testRegister.name, 'AGRIHA_DB')
     private testRegisterModel: Model<testRegisterDocument>,
+    @InjectModel(Referral.name, 'AGRIHA_DB')
+    private referralModel: Model<ReferralDocument>,
     private MailerService: MailService,
   ) {}
 
   // User Registeration
   async register(registerDta: registerDto) {
-    console.log(registerDta);
     try {
       const Isregistered = await this.registerModel.findOne({
         $and: [{ role: registerDta.role }, { phone: registerDta.phone }],
@@ -86,6 +89,30 @@ export class AuthService {
         }
         throw new NotAcceptableException('Register Data could not be saved');
       });
+      if (registerDta.referral_code) {
+        const IsCode = await this.referralModel.findOne({
+          referralCode: registerDta.referral_code,
+        });
+        let saveRef;
+        if (IsCode) {
+          const IsreferralUser = await this.referralModel.findOne({
+            owner: registerDta.referral_user,
+          });
+          if (IsreferralUser) {
+            saveRef = await this.referralModel.findOneAndUpdate(
+              { owner: registerDta.referral_user },
+              { $push: { users: saveDta._id } },
+            );
+          } else {
+            saveRef = await this.referralModel.create({
+              owner: registerDta.referral_user,
+              users: saveDta._id,
+            });
+            console.log(saveRef);
+            await IsCode.update({ $push: { users: saveRef?._id } });
+          }
+        }
+      }
       const checkMobile = parsePhoneNumberFromString(registerDta.phone);
       // if (checkMobile?.country === 'IN') {
       //   const response = await this.otpService.sentOtpMobile(
@@ -592,6 +619,25 @@ export class AuthService {
       return error;
     }
   }
+
+  // Generate Referral code
+  async generateReferralCode(generateCodeDTO: any) {
+    try {
+      // console.log(randomstring.generate(7));
+      if (generateCodeDTO.owner) {
+        const response = await this.referralModel.create({
+          owner: generateCodeDTO.owner,
+          referralCode: `ARCLIF-REF-${randomstring.generate(7)}`,
+        });
+        return { status: 200, data: response };
+      }
+    } catch (error) {
+      return error;
+    }
+  }
+
+  // Generate Referral code END ===
+
   // async updateType() {
   //   const update_role = await this.registerModel.updateMany(
   //     {},
