@@ -65,8 +65,9 @@ export class ProjectsService {
       let data;
       let IsArchitectId;
       if (arc_id) {
+        console.log(arc_id);
         IsArchitectId = await this.projectModel.findOne({
-          view_status: { $in: arc_id },
+          $and: [{ _id: id }, { view_status: { $in: arc_id } }],
         });
       }
       if (IsArchitectId === null) {
