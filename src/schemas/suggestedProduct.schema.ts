@@ -1,34 +1,40 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Type } from 'class-transformer';
-import mongoose from 'mongoose';
+import mongoose, { Document } from 'mongoose';
 import { Product } from './product.schema';
 import { Project } from './projects.schema';
+import { register } from './register.schema';
 
-export type SuggestedProductDocument = SuggestedProduct & Document;
+export type suggestProductDocument = suggestProduct & Document;
 
 @Schema({ timestamps: true })
-export class SuggestedProduct {
+export class suggestProduct {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Project.name })
   @Type(() => Project)
   project_id: Project;
 
+  @Prop({ type: String })
+  facility_name: string;
+
   @Prop({
     type: [
       {
-        facility_type: String,
-        products: [{ type: mongoose.Schema.Types.ObjectId, ref: Product.name }],
+        select: { type: Boolean, default: false },
+        productId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: Product.name,
+        },
       },
     ],
   })
   @Type(() => Product)
-  products_per_facility: {
-    facility_type: string;
-    products: Product;
-  }; // add products for each facilities
+  products: {
+    productId: Product;
+  };
 }
 
-const SuggestedProductSchema = SchemaFactory.createForClass(SuggestedProduct);
+const suggestProductSchema = SchemaFactory.createForClass(suggestProduct);
 
-SuggestedProductSchema.index({ '$**': 'text' });
+suggestProductSchema.index({ '$**': 'text' });
 
-export { SuggestedProductSchema };
+export { suggestProductSchema };

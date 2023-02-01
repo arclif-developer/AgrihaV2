@@ -216,10 +216,10 @@ export class ProjectsController {
     return this.projectsService.selectProducts(id, selectProductDto.id);
   }
 
-  @Get('selectProducts')
-  selectedProducts() {
-    return this.projectsService.selectedProducts();
-  }
+  // @Get('selectProducts')
+  // selectedProducts() {
+  //   return this.projectsService.selectedProducts();
+  // }
   // Add suggested products view / params was projectId
   @Get('suggestedProducts/:id')
   findSuggestedProducts(@Param('id') id: ObjectId) {

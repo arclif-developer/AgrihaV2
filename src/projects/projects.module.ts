@@ -16,7 +16,7 @@ import { Product, ProductSchema } from '../schemas/product.schema';
 import {
   suggestProduct,
   suggestProductSchema,
-} from 'src/schemas/suggestedProdcut.schema';
+} from '../schemas/suggestedProduct.schema';
 
 @Module({
   imports: [

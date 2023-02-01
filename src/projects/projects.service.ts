@@ -38,7 +38,7 @@ import { Product, ProductDocument } from '../schemas/product.schema';
 import {
   suggestProduct,
   suggestProductDocument,
-} from 'src/schemas/suggestedProdcut.schema';
+} from '../schemas/suggestedProduct.schema';
 
 @Injectable()
 export class ProjectsService {
@@ -374,17 +374,14 @@ export class ProjectsService {
     }
   }
 
-  // Selected Products
-  async selectedProducts() {
-    try {
-    } catch (error) {
-      return {
-        status: 404,
-        message: 'Something went wrong',
-        error: error?.message,
-      };
-    }
-  }
+  //   // Selected Products
+  // async selectedProducts(){
+  //   try {
+
+  //   } catch (error) {
+  //     return
+  //   }
+  // }
 
   //get all projects of user
   async findAll(userId) {
