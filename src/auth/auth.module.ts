@@ -21,7 +21,7 @@ import {
   testRegister,
   testRegisterSchema,
 } from '../schemas/testRegister.schema';
-import { Referral, ReferralSchema } from 'src/schemas/referral.schema';
+import { Referral, ReferralSchema } from '../schemas/referral.schema';
 
 @Module({
   imports: [

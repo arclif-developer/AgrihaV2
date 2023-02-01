@@ -39,7 +39,7 @@ import {
   verifyMobileDto,
 } from './dto/auth.dto';
 import { otpService } from './otpService';
-import { Referral, ReferralDocument } from 'src/schemas/referral.schema';
+import { Referral, ReferralDocument } from '../schemas/referral.schema';
 
 @Injectable()
 export class AuthService {
