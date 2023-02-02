@@ -656,12 +656,12 @@ export class AuthService {
 
   // Generate Referral code END ===
 
-  async updateType() {
-    await this.referralModel.updateOne(
-      { 'users.registerId': IsregisterDta._id },
-      { $set: { 'users.$.status': 'approved' } },
-    );
-  }
+  // async updateType() {
+  //   await this.referralModel.updateOne(
+  //     { 'users.registerId': IsregisterDta._id },
+  //     { $set: { 'users.$.status': 'approved' } },
+  //   );
+  // }
 
   // async validateUser(details: any) {
   //   return details;
