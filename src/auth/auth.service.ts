@@ -101,7 +101,7 @@ export class AuthService {
           if (IsreferralUser) {
             saveRef = await this.referralModel.findOneAndUpdate(
               { owner: registerDta.referral_user },
-              { $push: { users: saveDta._id } },
+              { $push: { users: { registerId: saveDta._id } } },
             );
           } else {
             saveRef = await this.referralModel.create({
@@ -109,7 +109,9 @@ export class AuthService {
               users: saveDta._id,
             });
             console.log(saveRef);
-            await IsCode.update({ $push: { users: saveRef?._id } });
+            await IsCode.update({
+              $push: { referredTo: registerDta.referral_user },
+            });
           }
         }
       }
@@ -548,6 +550,10 @@ export class AuthService {
           {
             expiresIn: '29d',
           },
+        );
+        await this.referralModel.updateOne(
+          { 'users.registerId': IsregisterDta._id },
+          { $set: { 'users.$.status': 'approved' } },
         );
         return {
           status: 200,

@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Type } from 'class-transformer';
 import mongoose, { Document } from 'mongoose';
+import { type } from 'os';
 import { register } from './register.schema';
 
 export type ReferralDocument = Referral & Document;
@@ -13,9 +14,28 @@ export class Referral {
   @Prop({ type: String })
   referralCode: string;
 
-  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: register.name }])
+  @Prop({ type: Array })
+  referredTo: [];
+
+  @Prop({
+    type: [
+      {
+        status: {
+          type: String,
+          default: 'pending',
+          enum: ['pending', 'approved'],
+        },
+        registerId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: register.name,
+        },
+      },
+    ],
+  })
   @Type(() => register)
-  users: register;
+  users: {
+    registerId: register;
+  };
 }
 
 const ReferralSchema = SchemaFactory.createForClass(Referral);
