@@ -89,7 +89,7 @@ export class ProjectsService {
           .exec();
       } else {
         data = await this.projectModel
-          .find({ _id: id })
+          .findOne({ _id: id })
           .populate({
             path: 'architect_id',
             populate: {
