@@ -106,7 +106,7 @@ export class AuthService {
           } else {
             saveRef = await this.referralModel.create({
               owner: registerDta.referral_user,
-              users: saveDta._id,
+              users: { registerId: saveDta._id },
             });
             console.log(saveRef);
             await IsCode.update({
@@ -656,13 +656,12 @@ export class AuthService {
 
   // Generate Referral code END ===
 
-  // async updateType() {
-  //   const update_role = await this.registerModel.updateMany(
-  //     {},
-  //     { $set: { type: 'OTP' } },
-  //   );
-  //   console.log(update_role);
-  // }
+  async updateType() {
+    await this.referralModel.updateOne(
+      { 'users.registerId': IsregisterDta._id },
+      { $set: { 'users.$.status': 'approved' } },
+    );
+  }
 
   // async validateUser(details: any) {
   //   return details;
