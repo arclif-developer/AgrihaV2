@@ -636,6 +636,18 @@ export class AuthService {
     }
   }
 
+  async getAllReferralDetails() {
+    try {
+      const resp_data = await this.referralModel
+        .find({})
+        .populate('users')
+        .exec();
+      return { status: 200, referralDetails: resp_data };
+    } catch (error) {
+      return { status: 404, message: error.message };
+    }
+  }
+
   // Generate Referral code END ===
 
   // async updateType() {

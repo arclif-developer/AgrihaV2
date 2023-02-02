@@ -95,6 +95,10 @@ export class AuthController {
   generate_referralCode(@Body() generateCodeDto: any) {
     return this.authService.generateReferralCode(generateCodeDto);
   }
+  @Get('referralDetails')
+  getAllReferralDetails() {
+    return this.authService.getAllReferralDetails();
+  }
 
   // @Get('update-role')
   // update_dbrole() {
