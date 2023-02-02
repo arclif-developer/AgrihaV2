@@ -543,6 +543,7 @@ export class AuthService {
           // this.MailerService.notification_mail(IsregisterDta);
         }
         this.MailerService.supportMail(IsregisterDta);
+
         const token = this.jwtService.sign(
           {
             id: responseDta._id,
@@ -551,10 +552,12 @@ export class AuthService {
             expiresIn: '29d',
           },
         );
+
         await this.referralModel.updateOne(
           { 'users.registerId': IsregisterDta._id },
           { $set: { 'users.$.status': 'approved' } },
         );
+
         return {
           status: 200,
           message: `${IsregisterDta.role} registeration successfully`,
