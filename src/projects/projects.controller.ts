@@ -122,6 +122,12 @@ export class ProjectsController {
     return this.projectsService.getallArcProject(req);
   }
 
+  //get all architects projects
+  @Get('companybasesProjects')
+  companybasesProjects(@Req() req: Request) {
+    return this.projectsService.companybasesProjects(req);
+  }
+
   //user projects update - accept project (status update: accepted)
   @Patch('accept/:id')
   projectaccept(
@@ -220,6 +226,7 @@ export class ProjectsController {
   // selectedProducts() {
   //   return this.projectsService.selectedProducts();
   // }
+
   // Add suggested products view / params was projectId
   @Get('suggestedProducts/:id')
   findSuggestedProducts(@Param('id') id: ObjectId) {
