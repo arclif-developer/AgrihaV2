@@ -40,6 +40,7 @@ import {
 } from './dto/auth.dto';
 import { otpService } from './otpService';
 import { Referral, ReferralDocument } from '../schemas/referral.schema';
+import { business, businessDocument } from '../schemas/businessDetails.schema';
 
 @Injectable()
 export class AuthService {
@@ -58,11 +59,13 @@ export class AuthService {
     private testRegisterModel: Model<testRegisterDocument>,
     @InjectModel(Referral.name, 'AGRIHA_DB')
     private referralModel: Model<ReferralDocument>,
+    @InjectModel(business.name, 'AGRIHA_DB')
+    private businessModel: Model<businessDocument>,
     private MailerService: MailService,
   ) {}
 
   // User Registeration
-  async register(registerDta: registerDto) {
+  async register(registerDta: registerDto, deviceDta: DeviceIp) {
     try {
       const Isregistered = await this.registerModel.findOne({
         $and: [{ role: registerDta.role }, { phone: registerDta.phone }],
@@ -72,71 +75,56 @@ export class AuthService {
       } else if (Isregistered?.status === false) {
         throw new ConflictException('Please try resent otp option');
       }
-      let register: Partial<register>;
-      let newRegister: registerDocument;
-      register = {
+
+      let register = {
         phone: registerDta.phone,
         email: registerDta.email,
         name: registerDta.name,
         role: registerDta.role,
         type: accessType.OTP,
       };
-      newRegister = new this.registerModel(register);
-      const saveDta = await newRegister.save().catch((error) => {
-        console.log(error);
-        if (error.code === 11000) {
-          throw new ConflictException('Phone number or email already exit');
-        }
-        throw new NotAcceptableException('Register Data could not be saved');
-      });
+
+      // ADD NEW REGISTER DOCUMENT
+      const saveDta = await this.registerModel.create(register);
+
+      // ADD NEW REGISTERED USER LOGIN SESSION
+      let session = {
+        device: deviceDta.device,
+        ip: deviceDta.ip,
+        status: Status.ACTIVE,
+        reason: OtpReason.REGISTRATION,
+        user: saveDta._id,
+      };
+      this.sessionModel.create(session);
+
+      // CHECK REFERRAL CODE IS VALID
       if (registerDta.referral_code) {
         const IsCode = await this.referralModel.findOne({
           referralCode: registerDta.referral_code,
         });
         let saveRef;
         if (IsCode) {
-          const IsreferralUser = await this.referralModel.findOne({
-            owner: registerDta.referral_user,
-          });
-          if (IsreferralUser) {
-            saveRef = await this.referralModel.findOneAndUpdate(
-              { owner: registerDta.referral_user },
-              { $push: { users: { registerId: saveDta._id } } },
-            );
-          } else {
+          const IsreferralUser = await this.referralModel.findOneAndUpdate(
+            {
+              owner: registerDta.referral_user,
+            },
+            { $push: { users: { registerId: saveDta._id } } },
+          );
+          if (!IsreferralUser) {
             saveRef = await this.referralModel.create({
               owner: registerDta.referral_user,
               users: { registerId: saveDta._id },
             });
-            console.log(saveRef);
             await IsCode.update({
               $push: { referredTo: registerDta.referral_user },
             });
           }
         }
       }
-      const checkMobile = parsePhoneNumberFromString(registerDta.phone);
-      // if (checkMobile?.country === 'IN') {
-      //   const response = await this.otpService.sentOtpMobile(
-      //     registerDta.phone,
-      //     OtpReason.REGISTRATION,
-      //   );
-      //   if (response.status === true) {
-      //     const token = this.jwtService.sign({
-      //       reg_id: saveDta._id,
-      //       id: response.OtpDta._id,
-      //     });
-      //     return {
-      //       status: 200,
-      //       message: 'OTP send successfully',
-      //       token: token,
-      //     };
-      //   }
-      //   return response;
-      // } else {
+
+      // SENT OTP USING TWILIO
       const response = await this.otpService.TwiliosentOtp(registerDta.phone);
       if (response.status === 'pending') {
-        console.log(saveDta);
         const token = this.jwtService.sign(
           {
             phone: registerDta.phone,
@@ -173,24 +161,8 @@ export class AuthService {
           ],
         })
         .exec();
-      const checkMobile = parsePhoneNumberFromString(dta.phone);
 
       if (Isphone?.status === true) {
-        // if (checkMobile?.country === 'IN') {
-        //   const response = await this.otpService.sentOtpMobile(
-        //     dta.phone,
-        //     OtpReason.LOGIN,
-        //   );
-        //   if (response?.status === true) {
-        //     const token = this.jwtService.sign({
-        //       reg_id: Isphone._id,
-        //       id: response.OtpDta?._id,
-        //       role: dta.role,
-        //     });
-        //     return { status: 200, token: token };
-        //   }
-        //   return response;
-        // } else {
         const response = await this.otpService.TwiliosentOtp(dta.phone);
         if (response.status === 'pending') {
           const token = this.jwtService.sign(
@@ -479,68 +451,36 @@ export class AuthService {
     }
   }
 
-  async verify_register(
-    verifyDta: verifyMobileDto,
-    deviceDta: DeviceIp,
-    jwtdata: any,
-  ) {
+  async verify_register(verifyDta: verifyMobileDto, jwtdata: any) {
     try {
-      console.log(jwtdata);
       const id = new mongoose.Types.ObjectId(jwtdata.id);
       const IsregisterDta = await this.registerModel
         .findOne({
           _id: id,
         })
         .exec();
-      let verifyOtp;
-      // if (jwtdata.internationNumber) {
-      verifyOtp = await this.otpService.twilioVerifyOtp(
+      let verifyOtp = await this.otpService.twilioVerifyOtp(
         verifyDta,
         jwtdata.phone,
       );
-      // } else {
-      //   if (IsregisterDta && IsregisterDta.status === false) {
-      //     verifyOtp = await this.otpService.verifyOtp(jwtdata.id, verifyDta);
-      //   } else {
-      //     throw new NotFoundException(
-      //       'something went wrong please try resent otp option',
-      //     );
-      //   }
-      // }
       if (verifyOtp.status === 'Otp Matched') {
         IsregisterDta.status = true;
         IsregisterDta.save();
-        let session: Partial<LoginSession>;
-        let newSession: LoginSessionDocument;
-        // eslint-disable-next-line prefer-const
-        session = {
-          device: deviceDta.device,
-          ip: deviceDta.ip,
-          status: Status.ACTIVE,
-          reason: OtpReason.REGISTRATION,
-          user: IsregisterDta._id,
-        };
-        newSession = new this.sessionModel(session);
-        newSession.save();
         let responseDta;
         if (IsregisterDta.role == 'user') {
-          let user: Partial<User>;
-          let newUser: UserDocument;
-          user = {
+          responseDta = await this.userModel.create({
             registered_id: IsregisterDta._id,
-          };
-          newUser = new this.userModel(user);
-          responseDta = await newUser.save();
+          });
           this.MailerService.welcomeMail(IsregisterDta);
         } else if (IsregisterDta.role == 'architect') {
-          let architect: Partial<architects>;
-          let newArchitect: architectsDocument;
-          architect = {
+          responseDta = await this.architectsModel.create({
             registered_id: IsregisterDta._id,
-          };
-          newArchitect = new this.architectsModel(architect);
-          responseDta = await newArchitect.save();
+          });
           // this.MailerService.notification_mail(IsregisterDta);
+        } else if (IsregisterDta.role === 'business') {
+          responseDta = this.businessModel.create({
+            registered_id: IsregisterDta._id,
+          });
         }
         this.MailerService.supportMail(IsregisterDta);
 
@@ -552,7 +492,7 @@ export class AuthService {
             expiresIn: '29d',
           },
         );
-
+        // REFFERAL CODE DOCUMENT STATUS UPDATE
         await this.referralModel.updateOne(
           { 'users.registerId': IsregisterDta._id },
           { $set: { 'users.$.status': 'approved' } },
@@ -578,7 +518,6 @@ export class AuthService {
         $and: [{ phone: resent_dta.phone, role: resent_dta.role }],
       });
       if (IsTry_registeration.status === false) {
-        const checkMobile = parsePhoneNumberFromString(resent_dta.phone);
         const response = await this.otpService.TwiliosentOtp(resent_dta.phone);
         if (response.status === 'pending') {
           const token = this.jwtService.sign(

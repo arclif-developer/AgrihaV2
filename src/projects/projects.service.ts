@@ -39,6 +39,7 @@ import {
   suggestProduct,
   suggestProductDocument,
 } from '../schemas/suggestedProduct.schema';
+import { architects, architectsDocument } from '../schemas/architects.schema';
 
 @Injectable()
 export class ProjectsService {
@@ -57,6 +58,8 @@ export class ProjectsService {
     private suggestedProductModel: Model<suggestProductDocument>,
     @InjectModel(Product.name, 'ECOMMERCE_DB')
     private ProductModel: Model<ProductDocument>,
+    @InjectModel(architects.name, 'AGRIHA_DB')
+    private architectModel: Model<architectsDocument>,
   ) {}
 
   //find single project of user
@@ -191,8 +194,18 @@ export class ProjectsService {
       const count = await this.arcProjectModel.find().countDocuments();
       return { status: 200, data: datasave, project_count: count };
     } catch (error) {
-      throw new NotFoundException(error);
+      throw new NotAcceptableException(error);
     }
+  }
+
+  //
+  async companybasesProjects(req) {
+    // try {
+    //   const responseData = await this.architectModel.findOne({companyName:req.query.name});
+    //   const data = await this.arcProjectModel.findOne
+    // } catch (error) {
+    //   throw new NotAcceptableException(error);
+    // }
   }
 
   //user project creation
@@ -330,8 +343,15 @@ export class ProjectsService {
 
   // A
 
-  async addProducts(addSuggestedProductDto: AddProductDto) {
+  async addProducts(addSuggestedProductDto: any) {
     try {
+      const Issug_Product = await this.suggestedProductModel.findOne({
+        project_id: addSuggestedProductDto.project_id,
+      });
+      if (
+        Issug_Product.facility_name === addSuggestedProductDto.facility_name
+      ) {
+      }
       const response = await this.suggestedProductModel.create(
         addSuggestedProductDto,
       );
@@ -359,7 +379,7 @@ export class ProjectsService {
   async findSuggestedProducts(projectId: ObjectId) {
     try {
       const data = await this.suggestedProductModel
-        .find({ _id: projectId })
+        .find({ project_id: projectId })
         .populate({
           path: 'products',
           populate: {

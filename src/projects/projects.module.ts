@@ -17,6 +17,7 @@ import {
   suggestProduct,
   suggestProductSchema,
 } from '../schemas/suggestedProduct.schema';
+import { architects, architectsSchema } from '../schemas/architects.schema';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import {
       [
         { name: Project.name, schema: ProjectSchema },
         { name: arcprojects.name, schema: arcprojectsSchema },
+        { name: architects.name, schema: architectsSchema },
         { name: buildingdetails_tb.name, schema: buildingdetails_tbSchema },
         { name: Activitylog.name, schema: ActivitylogSchema },
         { name: User.name, schema: UserSchema },

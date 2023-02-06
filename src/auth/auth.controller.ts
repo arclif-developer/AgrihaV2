@@ -38,8 +38,11 @@ export class AuthController {
   }
 
   @Post('register')
-  register(@Body() registerDta: registerDto) {
-    return this.authService.register(registerDta);
+  register(
+    @Body() registerDta: registerDto,
+    @DeviceAndip() DeviceAndip: DeviceIp,
+  ) {
+    return this.authService.register(registerDta, DeviceAndip);
   }
 
   @Post('mobile_login')
@@ -71,14 +74,9 @@ export class AuthController {
   @UseGuards(AuthGuard('jwt'))
   verify_register(
     @Body() verifyMobileDta: verifyMobileDto,
-    @DeviceAndip() DeviceAndip: DeviceIp,
     @GetCurrentUserById() Jwtdata: any,
   ) {
-    return this.authService.verify_register(
-      verifyMobileDta,
-      DeviceAndip,
-      Jwtdata,
-    );
+    return this.authService.verify_register(verifyMobileDta, Jwtdata);
   }
 
   @Post('resent_otp')

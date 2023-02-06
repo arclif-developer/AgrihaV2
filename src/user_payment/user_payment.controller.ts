@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { UserPaymentService } from './user_payment.service';
 import { CreateUserPaymentDto } from './dto/create-user_payment.dto';
 import { UpdateUserPaymentDto } from './dto/update-user_payment.dto';
@@ -26,18 +34,21 @@ export class UserPaymentController {
   //find by project id=>Project id
   @Get('getbyproject/:id')
   findbyproject(@Param('id') id: ObjectId) {
-    return this.userPaymentService.findOne(id);
+    return this.userPaymentService.findbyproject(id);
   }
 
-//find by creator id=>creator id
-@Get('getbycreator/:id')
-findbycreator(@Param('id') id: ObjectId) {
-  return this.userPaymentService.findOne(id);
-}
+  //find by creator id=>creator id
+  @Get('getbycreator/:id')
+  findbycreator(@Param('id') id: ObjectId) {
+    return this.userPaymentService.findbycreator(id);
+  }
 
-//update
+  //update
   @Patch(':id')
-  update(@Param('id') id: ObjectId, @Body() updateUserPaymentDto: UpdateUserPaymentDto) {
+  update(
+    @Param('id') id: ObjectId,
+    @Body() updateUserPaymentDto: UpdateUserPaymentDto,
+  ) {
     return this.userPaymentService.update(id, updateUserPaymentDto);
   }
 
