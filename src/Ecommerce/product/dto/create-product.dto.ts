@@ -12,4 +12,7 @@ export class Req_productDetails {
 
   @IsString()
   creator: string;
+
+  @IsString()
+  test: string;
 }
