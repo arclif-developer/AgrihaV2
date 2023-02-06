@@ -32,13 +32,14 @@ import { architects, architectsSchema } from '../schemas/architects.schema';
         { name: Activitylog.name, schema: ActivitylogSchema },
         { name: User.name, schema: UserSchema },
         { name: suggestProduct.name, schema: suggestProductSchema },
+        { name: Product.name, schema: ProductSchema },
       ],
       'AGRIHA_DB',
     ),
-    MongooseModule.forFeature(
-      [{ name: Product.name, schema: ProductSchema }],
-      'ECOMMERCE_DB',
-    ),
+    // MongooseModule.forFeature(
+    //   [{ name: Product.name, schema: ProductSchema }],
+    //   'ECOMMERCE_DB',
+    // ),
   ],
   controllers: [ProjectsController],
   providers: [ProjectsService],

@@ -56,7 +56,7 @@ export class ProjectsService {
     @InjectModel(User.name, 'AGRIHA_DB') private userModel: Model<UserDocument>,
     @InjectModel(suggestProduct.name, 'AGRIHA_DB')
     private suggestedProductModel: Model<suggestProductDocument>,
-    @InjectModel(Product.name, 'ECOMMERCE_DB')
+    @InjectModel(Product.name, 'AGRIHA_DB')
     private ProductModel: Model<ProductDocument>,
     @InjectModel(architects.name, 'AGRIHA_DB')
     private architectModel: Model<architectsDocument>,
@@ -268,7 +268,6 @@ export class ProjectsService {
 
       //   const datasave = await new this.projectModel(createProjectDto).save()
       //   return datasave
-
       // })
 
       proje += await this.projectModel.find().countDocuments();
@@ -351,10 +350,12 @@ export class ProjectsService {
       if (
         Issug_Product.facility_name === addSuggestedProductDto.facility_name
       ) {
+        Issug_Product.update({
+          $push: { products: addSuggestedProductDto.products },
+        });
+      } else {
+        await this.suggestedProductModel.create(addSuggestedProductDto);
       }
-      const response = await this.suggestedProductModel.create(
-        addSuggestedProductDto,
-      );
       return { status: 200, message: 'Product added successfully' };
     } catch (error) {
       return { status: 404, message: 'Something went wrong' };
@@ -384,7 +385,7 @@ export class ProjectsService {
           path: 'products',
           populate: {
             path: 'productId',
-            model: this.ProductModel,
+            // model: this.ProductModel,
           },
         });
 

@@ -5,15 +5,20 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { ReqProducts } from '../../schemas/reqProducts.schema';
 import { Product, ProductDocument } from '../../schemas/product.schema';
 import { review, reviewDocument } from '../../schemas/reviews.schema';
+import { Req_productDetails } from './dto/create-product.dto';
 
 // import { UpdateProductDto } from './dto/update-product.dto';
 
 @Injectable()
 export class ProductService {
   constructor(
-    @InjectModel(Product.name) private productModel: Model<ProductDocument>,
+    @InjectModel(Product.name, 'AGRIHA_DB')
+    private productModel: Model<ProductDocument>,
+    @InjectModel(ReqProducts.name, 'AGRIHA_DB')
+    private reqProductModel: Model<ProductDocument>,
   ) {}
 
   /// ######################################### Search products ######################################## ///
@@ -83,12 +88,14 @@ export class ProductService {
   }
   /// ##################################### ...................... ####################################### ///
 
-  // async facility_toFindProduct(facilityname) {
-  //   try {
-  //   } catch (error) {
-  //     return { status: 404, error: error.message };
-  //   }
-  // }
+  async add_requests(req_productDetails: Req_productDetails) {
+    try {
+      const resp = await this.reqProductModel.create(req_productDetails);
+      return { status: 200, data: resp };
+    } catch (error) {
+      return { status: 404, error: error.message };
+    }
+  }
 
   getProduct() {
     return this.productModel

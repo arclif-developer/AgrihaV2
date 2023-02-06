@@ -24,7 +24,7 @@ import { RequirementlistModule } from './requirementlist/requirementlist.module'
 import { QuotationModule } from './quotation/quotation.module';
 import { ArcPaymentModule } from './arc_payment/arc_payment.module';
 import { UserPaymentModule } from './user_payment/user_payment.module';
-import { ProductModule } from './product/product.module';
+import { ProductModule } from './Ecommerce/product/product.module';
 import { SnsModule } from './sns/sns.module';
 
 @Module({
@@ -63,8 +63,8 @@ import { SnsModule } from './sns/sns.module';
     QuotationModule,
     ArcPaymentModule,
     UserPaymentModule,
-    ProductModule,
     SnsModule,
+    ProductModule,
   ],
   controllers: [],
   providers: [

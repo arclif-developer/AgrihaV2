@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
+import { Req_productDetails } from './dto/create-product.dto';
 import { ProductService } from './product.service';
 // import { UpdateProductDto } from './dto/update-product.dto';
 
@@ -35,24 +36,24 @@ export class ProductController {
   }
   /// #################### ...................... ##################### ///
 
-  /// ######### Category or subCategory id to find product ################ ///
+  /// ######### CATEGORY or SUBCATEGORY id TO FIND PRODUCTS ################ ///
   @Get('catelogOrSubcatelog/:id')
   catelog_Or_Products(@Param('id') id: string) {
     return this.productService.catelog_Or_Products(id);
   }
   /// #################### ...................... ##################### ///
 
-  // ################## Product id to get details ####################### //
+  // ################## PRODUCT id TO GET DETAILS ####################### //
   @Get(':id')
   findSingleProduct(@Param('id') id: string) {
     return this.productService.findSingleProduct(id);
   }
   /// #################### ...................... ##################### ///
 
-  // // ################## GET FACILITY NAME TO FIND PRODUCTS ####################### //
-  // @Get('facility/:facilityname')
-  // facility_toFindProduct(@Param('facilityname') facilityname: string) {
-  //   return this.productService.facility_toFindProduct(facilityname);
-  // }
+  // // ################## USER REQUEST PRODUCTS  ####################### //
+  @Get('add_requests')
+  add_requests(@Body() req_productDetails: Req_productDetails) {
+    return this.productService.add_requests(req_productDetails);
+  }
   /// #################### ...................... ##################### ///
 }
