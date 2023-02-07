@@ -348,7 +348,8 @@ export class ProjectsService {
         project_id: addSuggestedProductDto.project_id,
       });
       if (
-        Issug_Product.facility_name === addSuggestedProductDto.facility_name
+        Issug_Product.facility_name === addSuggestedProductDto.facility_name &&
+        Issug_Product.phase === addSuggestedProductDto.phase
       ) {
         Issug_Product.update({
           $push: { products: addSuggestedProductDto.products },
