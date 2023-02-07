@@ -3,7 +3,6 @@ import { Type } from 'class-transformer';
 import mongoose, { Document } from 'mongoose';
 import { Product } from './product.schema';
 import { Project } from './projects.schema';
-import { register } from './register.schema';
 
 export type suggestProductDocument = suggestProduct & Document;
 
@@ -15,6 +14,9 @@ export class suggestProduct {
 
   @Prop({ type: String })
   facility_name: string;
+
+  @Prop({ type: String })
+  stage: string;
 
   @Prop({
     type: [

@@ -26,6 +26,9 @@ import { ArcPaymentModule } from './arc_payment/arc_payment.module';
 import { UserPaymentModule } from './user_payment/user_payment.module';
 import { ProductModule } from './Ecommerce/product/product.module';
 import { SnsModule } from './sns/sns.module';
+import { CartModule } from './Ecommerce/cart/cart.module';
+import { adminProductModule } from './Ecommerce/admin/product/product.module';
+import { PaymentModule } from './Ecommerce/payment/payment.module';
 
 @Module({
   imports: [
@@ -65,6 +68,9 @@ import { SnsModule } from './sns/sns.module';
     UserPaymentModule,
     SnsModule,
     ProductModule,
+    CartModule,
+    adminProductModule,
+    PaymentModule,
   ],
   controllers: [],
   providers: [
