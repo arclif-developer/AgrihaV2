@@ -75,6 +75,8 @@ export class Datalist {
 
 export class AddProductDto {
   project_id: ObjectId;
+  facility_name: string;
+  stage: string;
   products_per_facility: Object[];
 }
 
