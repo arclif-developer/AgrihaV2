@@ -348,16 +348,21 @@ export class ProjectsService {
         project_id: addSuggestedProductDto.project_id,
       });
       if (
-        Issug_Product.facility_name === addSuggestedProductDto.facility_name
+        Issug_Product?.facility_name ===
+          addSuggestedProductDto?.facility_name &&
+        Issug_Product?.phase === addSuggestedProductDto?.phase
       ) {
-        Issug_Product.update({
+        await Issug_Product.update({
           $push: { products: addSuggestedProductDto.products },
         });
       } else {
-        await this.suggestedProductModel.create(addSuggestedProductDto);
+        const res = await this.suggestedProductModel.create(
+          addSuggestedProductDto,
+        );
       }
       return { status: 200, message: 'Product added successfully' };
     } catch (error) {
+      console.log(error);
       return { status: 404, message: 'Something went wrong' };
     }
   }

@@ -16,7 +16,10 @@ export class suggestProduct {
   facility_name: string;
 
   @Prop({ type: String })
-  stage: string;
+  phase: string;
+
+  @Prop({ type: Boolean, default: false })
+  realese: Boolean;
 
   @Prop({
     type: [
