@@ -8,60 +8,59 @@ import {
 import { ObjectId } from 'mongoose';
 
 export class CreateProductDto {
-  // @IsString()
-  // @IsNotEmpty()
-  // category_id: ObjectId;
+  @IsString()
+  @IsNotEmpty()
+  category_id: ObjectId;
 
-  // @IsString()
-  // @IsNotEmpty()
-  // subcategory_id: ObjectId;
+  @IsString()
+  @IsNotEmpty()
+  subcategory_id: ObjectId;
 
-  // @IsString()
-  // @IsNotEmpty()
-  // name: string;
+  @IsString()
+  @IsNotEmpty()
+  name: string;
 
-  // @IsString()
-  // @IsNotEmpty()
-  // sku: string;
+  @IsString()
+  @IsNotEmpty()
+  sku: string;
 
-  // @IsNumber()
-  // @IsNotEmpty()
-  // mrp: number;
+  @IsNumber()
+  @IsNotEmpty()
+  mrp: number;
 
-  // @IsString()
-  // @IsNotEmpty()
-  // productCode: string;
+  @IsString()
+  @IsNotEmpty()
+  productCode: string;
 
-  // @IsArray()
-  // @IsNotEmpty()
-  // image: [];
+  @IsArray()
+  @IsNotEmpty()
+  image: [];
 
-  // @IsString()
-  // @IsNotEmpty()
-  // thumbnail: string;
+  @IsString()
+  @IsNotEmpty()
+  thumbnail: string;
 
-  // @IsString()
-  // @IsNotEmpty()
-  // description;
+  @IsString()
+  @IsNotEmpty()
+  description;
 
   @IsNumber()
   discount_rate: any;
 
-  @IsString()
   @IsNotEmpty()
-  tag: string;
+  hashtags: [];
 
-  // @IsNumber()
-  // @IsNotEmpty()
-  // stock_qty: number;
+  @IsNumber()
+  @IsNotEmpty()
+  stock_qty: number;
 
-  // @IsNumber()
-  // @IsNotEmpty()
-  // weight: number;
+  @IsNumber()
+  @IsNotEmpty()
+  weight: number;
 
-  // @IsNumber()
-  // @IsNotEmpty()
-  // volume: number;
+  @IsNumber()
+  @IsNotEmpty()
+  volume: number;
 }
 
 export class CreateCategoryDto {

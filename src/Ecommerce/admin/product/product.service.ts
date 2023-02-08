@@ -128,9 +128,6 @@ export class ProductService {
   // ############################ Add new product  ################################# //
   async create(createProductDto: any) {
     try {
-      const hashtags = createProductDto.tag.split(',');
-      createProductDto.hashtags = hashtags;
-      delete createProductDto.tag;
       const newProduct = new this.productModel(createProductDto);
       const response_dta = await newProduct.save().catch((error) => {
         console.log(error);
