@@ -55,17 +55,13 @@ export class PaymentService {
     }
   }
 
-  // async capturePayment(paymentId: string, amount: number) {
-  //   try {
-  //     const payment = await this.razorpayClient.payments.capture(
-  //       paymentId,
-  //       amount,
-  //     );
-  //     console.log(payment);
-  //   } catch (error) {
-  //     return error;
-  //   }
-  // }
+  async capturePayment(paymentId: string, amount: number) {
+    const payment = await this.razorpayClient.payments.capture(
+      paymentId,
+      amount,
+    );
+    return payment;
+  }
 
   async verifyPayment(razorpay_order_id: string, razorpay_payment_id: string) {
     try {

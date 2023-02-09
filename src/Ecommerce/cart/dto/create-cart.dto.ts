@@ -8,8 +8,4 @@ export class CreateCartDto {
   @IsString()
   @IsNotEmpty()
   user_id: string;
-
-  @IsNumber()
-  @IsNotEmpty()
-  quantity: number;
 }

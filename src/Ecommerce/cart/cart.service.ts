@@ -19,25 +19,20 @@ export class CartService {
   ) {}
 
   /// ########################  Add product to cart ######################### ///
-  async create(createCartDto: CreateCartDto) {
+  async create(createCartDto: CreateCartDto, Jwtdata) {
     try {
-      const response = await this.productModel.findById(
-        createCartDto.product_id,
-      );
-      const newCart = new this.cartModel({
+      const IsCart = await this.cartModel.findOne({
         product_id: createCartDto.product_id,
-        user_id: createCartDto.user_id,
-        quantity: createCartDto.quantity,
-        subTotal: response.mrp * createCartDto.quantity,
       });
-      const data = await newCart.save().catch((error) => {
-        throw new NotAcceptableException(error);
-      });
-      if (data) {
-        return { status: 200, message: 'Product added to cart' };
+      if (IsCart) {
+        IsCart.status = true;
       } else {
-        return { status: 401, error: 'Something went wrong' };
+        this.cartModel.create({
+          product_id: createCartDto.product_id,
+          user_id: Jwtdata.id,
+        });
       }
+      return { status: 200, message: 'Product add to cart' };
     } catch (error) {
       return error;
     }
@@ -48,7 +43,7 @@ export class CartService {
   async findAll(id: string) {
     try {
       const cartItems = await this.cartModel
-        .find({ user_id: id })
+        .find({ $and: [{ user_id: id }, { status: true }] })
         .populate('product_id')
         .catch((error) => {
           throw new NotFoundException(error);
@@ -64,11 +59,10 @@ export class CartService {
   async updateQuanity(id: string, updateCartDto: UpdateCartDto) {
     try {
       const response = await this.productModel.findById(id);
-      const subtotal = response.mrp * updateCartDto.quantity;
       await this.cartModel.updateOne(
         { _id: updateCartDto.cart_id },
         {
-          $inc: { quantity: updateCartDto.quantity, subTotal: subtotal },
+          $inc: { quantity: updateCartDto.quantity },
         },
       );
       return { status: 200, message: 'Cart product Quantity updated' };
