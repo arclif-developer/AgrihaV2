@@ -28,11 +28,20 @@ export class PaymentController {
   }
 
   @Post('verify')
-  capturePayment(@Body() body: any) {
+  verifyPayment(@Body() body: any) {
     const { razorpay_order_id, razorpay_payment_id } = body;
     return this.paymentService.verifyPayment(
       razorpay_order_id,
       razorpay_payment_id,
     );
+  }
+
+  @Post('capture-payment/:paymentId')
+  async capturePayment(
+    @Param('paymentId') paymentId: string,
+    @Body('amount') amount: number,
+  ) {
+    const payment = await this.paymentService.capturePayment(paymentId, amount);
+    return { payment };
   }
 }

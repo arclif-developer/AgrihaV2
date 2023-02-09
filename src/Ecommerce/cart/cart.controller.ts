@@ -6,7 +6,10 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { GetCurrentUserById } from '../../utils';
 import { CartService } from './cart.service';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { UpdateCartDto } from './dto/update-cart.dto';
@@ -17,8 +20,12 @@ export class CartController {
 
   /// ##################  Add to cart  ####################### ///
   @Post()
-  create(@Body() createCartDto: CreateCartDto) {
-    return this.cartService.create(createCartDto);
+  @UseGuards(AuthGuard('jwt'))
+  create(
+    @Body() createCartDto: CreateCartDto,
+    @GetCurrentUserById() Jwtdata: any,
+  ) {
+    return this.cartService.create(createCartDto, Jwtdata);
   }
   /// ############## ...................... ################# ///
 
