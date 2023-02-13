@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { ObjectId } from 'mongoose';
 
 export class CreateProjectDto {
@@ -74,12 +75,23 @@ export class Datalist {
 }
 
 export class AddProductDto {
+  @ApiProperty({ example: 'project_id', required: true })
   project_id: ObjectId;
+
+  @ApiProperty({ example: 'phase', required: true })
+  phase: string;
+
+  @ApiProperty({ example: 'bedroom, hall etc.', required: true })
   facility_name: string;
-  stage: string;
-  products_per_facility: Object[];
+
+  @ApiProperty({
+    example: '[{productId:745454},{productId:9345848}]',
+    required: true,
+  })
+  products: Object[];
 }
 
 export class SelectProductDto {
+  @ApiProperty({ example: 'products array inside object _id', required: true })
   id: ObjectId;
 }

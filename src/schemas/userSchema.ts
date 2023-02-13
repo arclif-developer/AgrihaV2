@@ -42,7 +42,7 @@ export class User {
   panchayath: string;
 
   @Prop({ default: null })
-  Address: string;
+  Address: [];
 
   @Prop({ default: null })
   city: string;

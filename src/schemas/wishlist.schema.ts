@@ -4,10 +4,10 @@ import mongoose from 'mongoose';
 import { Product } from './product.schema';
 import { User } from './userSchema';
 
-export type CartDocument = Cart & Document;
+export type wishlistDocument = wishlist & Document;
 
 @Schema({ timestamps: true })
-export class Cart {
+export class wishlist {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Product.name })
   @Type(() => Product)
   product_id: Product;
@@ -16,14 +16,11 @@ export class Cart {
   @Type(() => User)
   user_id: User;
 
-  @Prop({ default: 1 })
-  quantity: Number;
+  @Prop()
+  status: string;
 
   @Prop({ default: false })
-  whishlist: Boolean;
-
-  @Prop({ default: true })
-  status: Boolean;
+  cart_status: Boolean;
 }
 
-export const CartSchema = SchemaFactory.createForClass(Cart);
+export const wishlistSchema = SchemaFactory.createForClass(wishlist);

@@ -1,6 +1,7 @@
 import { Transform, Type } from '@nestjs/class-transformer';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
+import { address } from './address.schema';
 import { architects } from './architects.schema';
 import { Product } from './product.schema';
 import { User } from './userSchema';
@@ -17,6 +18,10 @@ export class Order {
   @Type(() => Product)
   product_id: Product;
 
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: address.name })
+  @Type(() => address)
+  address_id: address;
+
   @Prop()
   razorpay_order_id: string;
 
@@ -30,13 +35,10 @@ export class Order {
   captured: Boolean = false;
 
   @Prop()
-  method: string;
-
-  @Prop()
   amount: string;
 
   @Prop()
-  acquirer_data: [];
+  delivery_status: string;
 
   createdAt?: boolean | string;
   updatedAt?: boolean | string;

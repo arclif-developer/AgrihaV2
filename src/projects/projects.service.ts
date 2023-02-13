@@ -393,7 +393,7 @@ export class ProjectsService {
             // model: this.ProductModel,
           },
         });
-
+      console.log(data);
       return { status: 200, data: data };
     } catch (error) {
       console.log(error);
