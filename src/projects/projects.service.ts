@@ -40,6 +40,7 @@ import {
   suggestProductDocument,
 } from '../schemas/suggestedProduct.schema';
 import { architects, architectsDocument } from '../schemas/architects.schema';
+import { Category, CategoryDocument } from '../schemas/category.schema';
 
 @Injectable()
 export class ProjectsService {
@@ -60,6 +61,8 @@ export class ProjectsService {
     private ProductModel: Model<ProductDocument>,
     @InjectModel(architects.name, 'AGRIHA_DB')
     private architectModel: Model<architectsDocument>,
+    @InjectModel(Category.name, 'AGRIHA_DB')
+    private categoryModel: Model<CategoryDocument>,
   ) {}
 
   //find single project of user
@@ -367,7 +370,8 @@ export class ProjectsService {
     }
   }
 
-  async selectProducts(id: ObjectId, products_id: ObjectId) {
+  // user select products
+  async selectProducts(id: ObjectId) {
     try {
       const response = await this.suggestedProductModel.findOneAndUpdate(
         {
@@ -385,7 +389,9 @@ export class ProjectsService {
   async findSuggestedProducts(projectId: ObjectId) {
     try {
       const data = await this.suggestedProductModel
-        .find({ project_id: projectId })
+        .find({
+          project_id: projectId,
+        })
         .populate({
           path: 'products',
           populate: {
@@ -393,7 +399,7 @@ export class ProjectsService {
             // model: this.ProductModel,
           },
         });
-      console.log(data);
+
       return { status: 200, data: data };
     } catch (error) {
       console.log(error);

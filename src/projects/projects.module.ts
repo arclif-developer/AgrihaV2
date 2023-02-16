@@ -18,6 +18,7 @@ import {
   suggestProductSchema,
 } from '../schemas/suggestedProduct.schema';
 import { architects, architectsSchema } from '../schemas/architects.schema';
+import { Category, CategorySchema } from '../schemas/category.schema';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { architects, architectsSchema } from '../schemas/architects.schema';
         { name: User.name, schema: UserSchema },
         { name: suggestProduct.name, schema: suggestProductSchema },
         { name: Product.name, schema: ProductSchema },
+        { name: Category.name, schema: CategorySchema },
       ],
       'AGRIHA_DB',
     ),

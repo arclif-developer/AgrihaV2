@@ -18,7 +18,6 @@ import {
   Datalist,
   projectMailDto,
   AddProductDto,
-  SelectProductDto,
 } from './dto/create-project.dto';
 import {
   UpdateProjectDto,
@@ -215,11 +214,8 @@ export class ProjectsController {
     return this.projectsService.addProducts(addProductDto);
   }
   @Patch('select_products/:id')
-  selectProducts(
-    @Param('id') id: ObjectId,
-    @Body() selectProductDto: SelectProductDto,
-  ) {
-    return this.projectsService.selectProducts(id, selectProductDto.id);
+  selectProducts(@Param('id') id: ObjectId) {
+    return this.projectsService.selectProducts(id);
   }
 
   // @Get('selectProducts')
