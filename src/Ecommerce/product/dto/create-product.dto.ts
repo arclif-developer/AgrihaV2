@@ -40,6 +40,11 @@ export class AddNewProductsDto {
   @IsNotEmpty()
   name: string;
 
+  @ApiProperty({ example: 'sku => type : string', required: true })
+  @IsString()
+  @IsNotEmpty()
+  sku: string;
+
   @ApiProperty({ example: 'tax => type  : number', required: true })
   @IsNumber()
   @IsNotEmpty()
