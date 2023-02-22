@@ -8,6 +8,7 @@ import { Model } from 'mongoose';
 import { ReqProducts } from '../../schemas/reqProducts.schema';
 import { Product, ProductDocument } from '../../schemas/product.schema';
 import { review, reviewDocument } from '../../schemas/reviews.schema';
+import * as crypto from 'crypto';
 import {
   AddNewProductsDto,
   Req_productDetails,
@@ -112,14 +113,15 @@ export class ProductService {
   /// ############### SELLER / BUSINESS USERS  ADD  NEW PRODUCTS   ################## ///
   addNewProduct(addNewProductsDta: any) {
     try {
-      const brand = addNewProductsDta?.brand.slice(0, 2);
       const name = addNewProductsDta?.name.slice(0, 3);
       const randomNumber = Math.floor(Math.random() * 1000);
-      addNewProductsDta.sku = name + brand + randomNumber;
-      // const productCode = `ARCPROD` +
-      // this.productModel.create(addNewProductsDta).catch((error) => {
-      //   throw new Error(error.message);
-      // });
+      addNewProductsDta.sku = 'ARC' + name + randomNumber;
+      const hash = crypto.randomBytes(4).toString('hex');
+      hash.toUpperCase();
+      addNewProductsDta.productCode = `ARCPRO` + hash;
+      this.productModel.create(addNewProductsDta).catch((error) => {
+        throw new Error(error.message);
+      });
     } catch (error) {
       return { status: 401, error: error.message };
     }

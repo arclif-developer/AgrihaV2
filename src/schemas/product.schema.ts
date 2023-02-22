@@ -28,7 +28,6 @@ export class Product {
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
     ref: User.name,
-    required: true,
   })
   @Type(() => User)
   seller: User;

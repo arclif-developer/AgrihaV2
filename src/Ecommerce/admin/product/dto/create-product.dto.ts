@@ -19,10 +19,9 @@ export class CreateProductDto {
   @IsNotEmpty()
   subcategory_id: ObjectId;
 
-  @ApiProperty({ example: 'seller_id', required: true })
+  @ApiProperty({ example: 'seller_id' })
   @IsString()
-  @IsNotEmpty()
-  seller_id: ObjectId;
+  seller_id: any;
 
   @ApiProperty({ example: 'name => type :  string', required: true })
   @IsString()
