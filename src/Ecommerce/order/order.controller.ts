@@ -9,10 +9,11 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { OrderService } from './order.service';
-import { CreateOrderDto } from './dto/create-order.dto';
+import { confirmOrderDto, CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { GetCurrentUserById } from '../../utils';
+import { ObjectId } from 'mongoose';
 
 @Controller('order')
 export class OrderController {
@@ -24,9 +25,9 @@ export class OrderController {
     return this.orderService.sellerOrderPlacedList(Jwtdata);
   }
 
-  // @Patch('order_confirmed')
-  // @UseGuards(AuthGuard('jwt'))
-  // orderConfirmed(@GetCurrentUserById() Jwtdata: any) {
-  //   return this.orderService.orderConfirmed(Jwtdata);
-  // }
+  @Patch('order_confirmed/:id')
+  @UseGuards(AuthGuard('jwt'))
+  orderConfirmed(@Param('id') id: ObjectId) {
+    return this.orderService.orderConfirmed(id);
+  }
 }
