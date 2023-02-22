@@ -25,9 +25,9 @@ export class OrderController {
     return this.orderService.sellerOrderPlacedList(Jwtdata);
   }
 
-  @Patch('order_confirmed/:id')
+  @Patch('order_confirmed')
   @UseGuards(AuthGuard('jwt'))
-  orderConfirmed(@Param('id') id: ObjectId) {
+  orderConfirmed(@Body('products_id') id: ObjectId) {
     return this.orderService.orderConfirmed(id);
   }
 }
