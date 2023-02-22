@@ -1,6 +1,7 @@
 import { Transform, Type } from '@nestjs/class-transformer';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
+import { Status } from '../models/Enums';
 import { address } from './address.schema';
 import { architects } from './architects.schema';
 import { Product } from './product.schema';
@@ -18,15 +19,23 @@ export class Order {
   @Type(() => User)
   user_id: User;
 
-  @Prop([
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: Product.name,
-      required: true,
-    },
-  ])
+  @Prop({
+    type: [
+      {
+        confirm: { type: Boolean, default: false },
+        delivery_status: { type: String, default: Status.PLACED },
+        productId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: Product.name,
+        },
+      },
+    ],
+  })
   @Type(() => Product)
-  product_id: Product;
+  products: {
+    productId: Product;
+    delivery_status: string;
+  };
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
@@ -60,7 +69,7 @@ export class Order {
   amount: Number;
 
   @Prop()
-  delivery_status: string;
+  quantity: Number;
 
   createdAt?: boolean | string;
   updatedAt?: boolean | string;

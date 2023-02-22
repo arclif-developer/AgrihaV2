@@ -23,4 +23,10 @@ export class OrderController {
   sellerOrderPlacedList(@GetCurrentUserById() Jwtdata: any) {
     return this.orderService.sellerOrderPlacedList(Jwtdata);
   }
+
+  // @Patch('order_confirmed')
+  // @UseGuards(AuthGuard('jwt'))
+  // orderConfirmed(@GetCurrentUserById() Jwtdata: any) {
+  //   return this.orderService.orderConfirmed(Jwtdata);
+  // }
 }

@@ -12,7 +12,7 @@ export class CreatePaymentDto {
   seller_id: ObjectId;
 
   @ApiProperty({ example: 'Product _id ', required: true })
-  product_id: [];
+  product_id: Object[];
 
   @ApiProperty({ example: 'product amount', required: true })
   @IsNumber()
@@ -21,4 +21,8 @@ export class CreatePaymentDto {
   @ApiProperty({ example: 'INR/...', required: true })
   @IsString()
   currency: string;
+
+  @ApiProperty({ example: 2, required: true })
+  @IsNumber()
+  quantity: Number;
 }
