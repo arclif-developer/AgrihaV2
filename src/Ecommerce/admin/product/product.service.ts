@@ -25,6 +25,7 @@ import {
   CreateSub_SubCategoryDto,
 } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import * as crypto from 'crypto';
 
 @Injectable()
 export class ProductService {
@@ -128,10 +129,12 @@ export class ProductService {
   // ############################ Add new product  ################################# //
   async create(createProductDto: any) {
     try {
-      const brand = createProductDto?.brand.slice(0, 2);
       const name = createProductDto?.name.slice(0, 3);
       const randomNumber = Math.floor(Math.random() * 1000);
-      createProductDto.sku = name + brand + randomNumber;
+      createProductDto.sku = 'ARC' + name + randomNumber;
+      const hash = crypto.randomBytes(4).toString('hex');
+      hash.toUpperCase();
+      createProductDto.productCode = `ARCPRO` + hash;
       const newProduct = new this.productModel(createProductDto);
       const response_dta = await newProduct.save().catch((error) => {
         console.log(error);
