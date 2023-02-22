@@ -3,6 +3,7 @@ import { Type } from 'class-transformer';
 import mongoose from 'mongoose';
 import { Category } from './category.schema';
 import { subcategory } from './subcategory.schema';
+import { User } from './userSchema';
 
 export type ProductDocument = Product & Document;
 
@@ -15,6 +16,7 @@ export class Product {
   })
   @Type(() => Category)
   category_id: Category;
+
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
     ref: subcategory.name,
@@ -23,11 +25,61 @@ export class Product {
   @Type(() => subcategory)
   subcategory_id: subcategory;
 
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: User.name,
+    required: true,
+  })
+  @Type(() => User)
+  seller: User;
+
   @Prop({ required: true })
   name: string;
 
+  @Prop()
+  manufactured_by: string;
+
   @Prop({ required: true, unique: true })
   sku: string;
+
+  @Prop()
+  tax: Number;
+
+  @Prop()
+  gst: Number;
+
+  @Prop()
+  brand: string;
+
+  @Prop()
+  video: string;
+
+  @Prop()
+  color: [];
+
+  @Prop()
+  material_type: string;
+
+  @Prop()
+  model: string;
+
+  @Prop()
+  offers: string;
+
+  @Prop()
+  size: string;
+
+  @Prop()
+  width: string;
+
+  @Prop()
+  production_date: string;
+
+  @Prop()
+  height: string;
+
+  @Prop()
+  length: number;
 
   @Prop({ required: true })
   mrp: number;
@@ -48,7 +100,7 @@ export class Product {
   discount_rate: number;
 
   @Prop({ required: true })
-  hashtags: [];
+  hashtags: string;
 
   @Prop({ required: true })
   stock_qty: number;

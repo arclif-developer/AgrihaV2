@@ -407,14 +407,17 @@ export class ProjectsService {
     }
   }
 
-  //   // Selected Products
-  // async selectedProducts(){
-  //   try {
-
-  //   } catch (error) {
-  //     return
-  //   }
-  // }
+  // Selected Products
+  async selectedProducts(id: ObjectId) {
+    try {
+      const responseDta = await this.suggestedProductModel.find({
+        $and: [{ project_id: id }, { 'products.$.select': true }],
+      });
+      console.log(responseDta);
+    } catch (error) {
+      return;
+    }
+  }
 
   //get all projects of user
   async findAll(userId) {

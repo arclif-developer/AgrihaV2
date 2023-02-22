@@ -213,15 +213,17 @@ export class ProjectsController {
   addProducts(@Body() addProductDto: AddProductDto) {
     return this.projectsService.addProducts(addProductDto);
   }
+
   @Patch('select_products/:id')
   selectProducts(@Param('id') id: ObjectId) {
     return this.projectsService.selectProducts(id);
   }
 
-  // @Get('selectProducts')
-  // selectedProducts() {
-  //   return this.projectsService.selectedProducts();
-  // }
+  // SELECTED PRODUCT LISTING
+  @Get('select_products/:id')
+  selectedProducts(@Param('id') id: ObjectId) {
+    return this.projectsService.selectedProducts(id);
+  }
 
   // Add suggested products view / params was projectId
   @Get('suggestedProducts/:id')

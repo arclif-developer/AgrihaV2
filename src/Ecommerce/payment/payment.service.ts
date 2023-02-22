@@ -41,6 +41,8 @@ export class PaymentService {
           razorpay_order_id: order.id,
           status: order.status,
           amount: order.amount,
+          address_id: createOrderDto.address_id,
+          product_id: createOrderDto.product_id,
         });
         return {
           status: 200,

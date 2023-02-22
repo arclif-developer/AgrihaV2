@@ -13,13 +13,25 @@ export class address {
   @Type(() => User)
   user_id: User;
 
-  @Prop()
-  pincode: string;
+  @Prop({ required: true })
+  fullName: string;
+
+  @Prop({ required: true })
+  pincode: Number;
+
+  @Prop({ required: true })
+  state: string;
+
+  @Prop({ required: true })
+  city: string;
+
+  @Prop({ required: true })
+  address: string;
+
+  @Prop({ required: true })
+  type_of_address: string;
 
   @Prop()
-  secondary_number: string;
-
-  @Prop()
-  delivery_address: string;
+  phone: string;
 }
 export const addressSchema = SchemaFactory.createForClass(address);
