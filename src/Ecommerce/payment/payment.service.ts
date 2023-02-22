@@ -43,8 +43,7 @@ export class PaymentService {
           status: order.status,
           amount: order.amount,
           address_id: createOrderDto.address_id,
-          product_id: createOrderDto.product_id,
-          delivery_status: Status.PLACED,
+          products: createOrderDto.product_id,
           seller_id: createOrderDto.seller_id,
         });
         return {

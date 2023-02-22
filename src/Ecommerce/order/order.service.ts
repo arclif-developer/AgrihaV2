@@ -19,9 +19,13 @@ export class OrderService {
         $and: [{ seller_id: JwtData.id }, { delivery_status: Status.PLACED }],
       })
         .populate('user_id')
-        .populate('product_id')
+        .populate({
+          path: 'products',
+          populate: {
+            path: 'productId',
+          },
+        })
         .populate('address_id');
-
       return { status: 200, orderList: data };
     } catch (error) {
       return { status: 401, error: error.message };

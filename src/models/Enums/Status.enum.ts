@@ -5,7 +5,7 @@ export enum Status {
   INACTIVE = 'INACTIVE',
   CANCEL = 'CANCEL',
   PLACED = 'PLACED',
-  CONFORM = 'CONFORM',
+  CONFIRM = 'CONFIRM',
   SHIPPED = 'SHIPPED',
   DELIVERED = 'DELIVERED',
 }
