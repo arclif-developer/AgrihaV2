@@ -36,7 +36,7 @@ async function bootstrap() {
     .setTitle('AGRIHA SERVICE')
     .setDescription('API DOCUMENTATION')
     .setVersion('1.0')
-    .addTag('cats')
+    .addTag('API DOCUMENTATION')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

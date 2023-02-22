@@ -29,6 +29,7 @@ import { SnsModule } from './sns/sns.module';
 import { CartModule } from './Ecommerce/cart/cart.module';
 import { adminProductModule } from './Ecommerce/admin/product/product.module';
 import { PaymentModule } from './Ecommerce/payment/payment.module';
+import { AddressModule } from './Ecommerce/address/address.module';
 
 @Module({
   imports: [
@@ -71,6 +72,7 @@ import { PaymentModule } from './Ecommerce/payment/payment.module';
     CartModule,
     adminProductModule,
     PaymentModule,
+    AddressModule,
   ],
   controllers: [],
   providers: [

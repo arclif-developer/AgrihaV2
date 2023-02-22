@@ -10,15 +10,27 @@ export type OrderDocument = Order & Document;
 
 @Schema({ timestamps: { createdAt: true, updatedAt: true } })
 export class Order {
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: User.name,
+    required: true,
+  })
   @Type(() => User)
   user_id: User;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: Product.name })
+  @Prop([{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: Product.name,
+    required: true,
+  }])
   @Type(() => Product)
   product_id: Product;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: address.name })
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: address.name,
+    required: true,
+  })
   @Type(() => address)
   address_id: address;
 
@@ -35,7 +47,7 @@ export class Order {
   captured: Boolean = false;
 
   @Prop()
-  amount: string;
+  amount: Number;
 
   @Prop()
   delivery_status: string;

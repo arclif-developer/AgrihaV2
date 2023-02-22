@@ -6,8 +6,13 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
-import { Req_productDetails } from './dto/create-product.dto';
+import { AuthGuard } from '@nestjs/passport';
+import {
+  AddNewProductsDto,
+  Req_productDetails,
+} from './dto/create-product.dto';
 import { ProductService } from './product.service';
 // import { UpdateProductDto } from './dto/update-product.dto';
 
@@ -55,5 +60,15 @@ export class ProductController {
   add_requests(@Body() req_productDetails: Req_productDetails) {
     return this.productService.add_requests(req_productDetails);
   }
+  /// #################### ...................... ##################### ///
+
+  // #########  SELLER / BUSINESS USERS  ADD  NEW PRODUCTS  ############ //
+
+  @Post('add_new_products')
+  @UseGuards(AuthGuard('jwt'))
+  add_new_products(@Body() addNewProductsDta: AddNewProductsDto) {
+    return this.productService.addNewProduct(addNewProductsDta)
+  }
+
   /// #################### ...................... ##################### ///
 }

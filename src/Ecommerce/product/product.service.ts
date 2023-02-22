@@ -8,7 +8,10 @@ import { Model } from 'mongoose';
 import { ReqProducts } from '../../schemas/reqProducts.schema';
 import { Product, ProductDocument } from '../../schemas/product.schema';
 import { review, reviewDocument } from '../../schemas/reviews.schema';
-import { Req_productDetails } from './dto/create-product.dto';
+import {
+  AddNewProductsDto,
+  Req_productDetails,
+} from './dto/create-product.dto';
 
 // import { UpdateProductDto } from './dto/update-product.dto';
 
@@ -86,7 +89,7 @@ export class ProductService {
       return error;
     }
   }
-  /// ##################################### ...................... ####################################### ///
+  /// ##################################### ...................... ######################## ///
 
   async add_requests(req_productDetails: Req_productDetails) {
     try {
@@ -97,10 +100,28 @@ export class ProductService {
     }
   }
 
+  /// ########################### GET ALL PRODUCTS  ############################### ///
   getProduct() {
     return this.productModel
       .find({})
       .populate('category_id')
       .populate('subcategory_id');
   }
+  /// ############################## ...................... ######################## ///
+
+  /// ############### SELLER / BUSINESS USERS  ADD  NEW PRODUCTS   ################## ///
+  addNewProduct(addNewProductsDta: any) {
+    try {
+      const brand = addNewProductsDta?.brand.slice(0, 2);
+      const name = addNewProductsDta?.name.slice(0, 3);
+      const randomNumber = Math.floor(Math.random() * 1000);
+      addNewProductsDta.sku = name + brand + randomNumber;
+      this.productModel.create(addNewProductsDta).catch((error) => {
+        throw new Error(error.message);
+      });
+    } catch (error) {
+      return { status: 401, error: error.message };
+    }
+  }
+  /// ############################## ...................... ######################## ///
 }

@@ -90,8 +90,3 @@ export class AddProductDto {
   })
   products: Object[];
 }
-
-export class SelectProductDto {
-  @ApiProperty({ example: 'products array inside object _id', required: true })
-  id: ObjectId;
-}
