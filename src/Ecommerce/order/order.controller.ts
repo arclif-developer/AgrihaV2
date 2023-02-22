@@ -12,7 +12,7 @@ import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { GetCurrentUserById } from 'src/utils';
+import { GetCurrentUserById } from '../../utils';
 
 @Controller('order')
 export class OrderController {
