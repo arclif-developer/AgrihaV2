@@ -33,9 +33,8 @@ export class CreateProductDto {
   @IsString()
   manufactered_by: string;
 
-  @ApiProperty({ example: 'sku => type : string', required: true })
+  @ApiProperty({ example: 'sku => type : string' })
   @IsString()
-  @IsNotEmpty()
   sku: string;
 
   @ApiProperty({ example: 'tax => type  : number' })
