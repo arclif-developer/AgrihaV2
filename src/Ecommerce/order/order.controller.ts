@@ -18,9 +18,9 @@ import { GetCurrentUserById } from 'src/utils';
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
-  @Get('seller/orderlist')
+  @Get('seller/order_placed_list')
   @UseGuards(AuthGuard('jwt'))
-  sellerOrderList(@GetCurrentUserById() Jwtdata: any) {
-    return this.orderService.sellerOrderList(Jwtdata);
+  sellerOrderPlacedList(@GetCurrentUserById() Jwtdata: any) {
+    return this.orderService.sellerOrderPlacedList(Jwtdata);
   }
 }

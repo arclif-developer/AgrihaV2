@@ -45,6 +45,7 @@ export class PaymentService {
           address_id: createOrderDto.address_id,
           product_id: createOrderDto.product_id,
           delivery_status: Status.PLACED,
+          seller_id: createOrderDto.seller_id,
         });
         return {
           status: 200,

@@ -37,7 +37,7 @@ export class Product {
   name: string;
 
   @Prop()
-  manufactured_by: string;
+  manufactered_by: string;
 
   @Prop({ required: true, unique: true })
   sku: string;

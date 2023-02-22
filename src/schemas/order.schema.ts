@@ -18,13 +18,23 @@ export class Order {
   @Type(() => User)
   user_id: User;
 
-  @Prop([{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: Product.name,
-    required: true,
-  }])
+  @Prop([
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: Product.name,
+      required: true,
+    },
+  ])
   @Type(() => Product)
   product_id: Product;
+
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: User.name,
+    required: true,
+  })
+  @Type(() => User)
+  seller_id: User;
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,

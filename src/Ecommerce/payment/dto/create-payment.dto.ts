@@ -7,6 +7,10 @@ export class CreatePaymentDto {
   @IsMongoId()
   address_id: ObjectId;
 
+  @ApiProperty({ example: 'Seller id', required: true })
+  @IsMongoId()
+  seller_id: ObjectId;
+
   @ApiProperty({ example: 'Product _id ', required: true })
   product_id: [];
 
