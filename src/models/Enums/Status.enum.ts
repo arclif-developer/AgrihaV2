@@ -4,6 +4,10 @@ export enum Status {
   EXPIRED = 'EXPIRED',
   INACTIVE = 'INACTIVE',
   CANCEL = 'CANCEL',
+  PLACED = 'PLACED',
+  CONFORM = 'CONFORM',
+  SHIPPED = 'SHIPPED',
+  DELIVERED = 'DELIVERED',
 }
 export enum accessType {
   OTP = 'OTP',

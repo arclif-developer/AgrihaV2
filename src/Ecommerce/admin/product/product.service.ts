@@ -128,10 +128,10 @@ export class ProductService {
   // ############################ Add new product  ################################# //
   async create(createProductDto: any) {
     try {
-      const brand = createProductDto?.brand.slice(0, 2);
-      const name = createProductDto?.name.slice(0, 3);
-      const randomNumber = Math.floor(Math.random() * 1000);
-      createProductDto.sku = name + brand + randomNumber;
+      // const brand = createProductDto?.brand.slice(0, 2);
+      // const name = createProductDto?.name.slice(0, 3);
+      // const randomNumber = Math.floor(Math.random() * 1000);
+      // createProductDto.sku = name + brand + randomNumber;
       const newProduct = new this.productModel(createProductDto);
       const response_dta = await newProduct.save().catch((error) => {
         console.log(error);

@@ -9,6 +9,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { InjectRazorpay } from 'nestjs-razorpay';
 import * as Razorpay from 'razorpay';
+import { Status } from '../../models/Enums';
 import { Order, OrderDocument } from '../../schemas/order.schema';
 import { CreatePaymentDto } from './dto/create-payment.dto';
 import { UpdatePaymentDto } from './dto/update-payment.dto';
@@ -43,6 +44,7 @@ export class PaymentService {
           amount: order.amount,
           address_id: createOrderDto.address_id,
           product_id: createOrderDto.product_id,
+          delivery_status: Status.PLACED,
         });
         return {
           status: 200,

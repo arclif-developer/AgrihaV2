@@ -112,10 +112,10 @@ export class ProductService {
   /// ############### SELLER / BUSINESS USERS  ADD  NEW PRODUCTS   ################## ///
   addNewProduct(addNewProductsDta: any) {
     try {
-      const brand = addNewProductsDta?.brand.slice(0, 2);
-      const name = addNewProductsDta?.name.slice(0, 3);
-      const randomNumber = Math.floor(Math.random() * 1000);
-      addNewProductsDta.sku = name + brand + randomNumber;
+      // const brand = addNewProductsDta?.brand.slice(0, 2);
+      // const name = addNewProductsDta?.name.slice(0, 3);
+      // const randomNumber = Math.floor(Math.random() * 1000);
+      // addNewProductsDta.sku = name + brand + randomNumber;
       this.productModel.create(addNewProductsDta).catch((error) => {
         throw new Error(error.message);
       });
