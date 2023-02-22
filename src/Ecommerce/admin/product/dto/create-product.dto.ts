@@ -29,9 +29,8 @@ export class CreateProductDto {
   @IsNotEmpty()
   name: string;
 
-  @ApiProperty({ example: 'Manufacture by => type :  string', required: true })
+  @ApiProperty({ example: 'Manufacture by => type :  string' })
   @IsString()
-  @IsNotEmpty()
   manufactered_by: string;
 
   @ApiProperty({ example: 'sku => type : string', required: true })
@@ -39,9 +38,8 @@ export class CreateProductDto {
   @IsNotEmpty()
   sku: string;
 
-  @ApiProperty({ example: 'tax => type  : number', required: true })
+  @ApiProperty({ example: 'tax => type  : number' })
   @IsNumber()
-  @IsNotEmpty()
   tax: number;
 
   @ApiProperty({ example: 'GST => type  : number', required: true })
@@ -49,12 +47,11 @@ export class CreateProductDto {
   @IsNotEmpty()
   gst: number;
 
-  @ApiProperty({ example: 'brand  => type : string', required: true })
+  @ApiProperty({ example: 'brand  => type : string' })
   @IsString()
-  @IsNotEmpty()
   brand: string;
 
-  @ApiProperty({ example: 'color => type : Array', required: true })
+  @ApiProperty({ example: 'color => type : Array' })
   @IsArray()
   color: [];
 
@@ -62,19 +59,19 @@ export class CreateProductDto {
   @IsString()
   material_type: string;
 
-  @ApiProperty({ example: 'model', required: true })
+  @ApiProperty({ example: 'model' })
   @IsString()
   model: string;
 
-  @ApiProperty({ example: 'offers', required: true })
+  @ApiProperty({ example: 'offers' })
   @IsString()
   offers: string;
 
-  @ApiProperty({ example: 'size', required: true })
+  @ApiProperty({ example: 'size' })
   @IsString()
   size: string;
 
-  @ApiProperty({ example: 'width', required: true })
+  @ApiProperty({ example: 'width' })
   @IsString()
   width: string;
 
@@ -83,12 +80,11 @@ export class CreateProductDto {
   @IsNotEmpty()
   mrp: number;
 
-  @ApiProperty({ example: 'productCode', required: true })
+  @ApiProperty({ example: 'productCode' })
   @IsString()
-  @IsNotEmpty()
   productCode: string;
 
-  @ApiProperty({ example: 'production_date', required: true })
+  @ApiProperty({ example: 'production_date' })
   @IsString()
   production_date: string;
 
@@ -107,7 +103,7 @@ export class CreateProductDto {
   @IsNotEmpty()
   description: string;
 
-  @ApiProperty({ example: 'discount_rate', required: true })
+  @ApiProperty({ example: 'discount_rate' })
   @IsNumber()
   discount_rate: any;
 
@@ -120,11 +116,11 @@ export class CreateProductDto {
   @IsNotEmpty()
   stock_qty: number;
 
-  @ApiProperty({ example: 'weight', required: true })
+  @ApiProperty({ example: 'weight' })
   @IsNumber()
   weight: number;
 
-  @ApiProperty({ example: 'volume', required: true })
+  @ApiProperty({ example: 'volume' })
   @IsNumber()
   volume: number;
 }

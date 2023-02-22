@@ -105,10 +105,10 @@ export class Product {
   @Prop({ required: true })
   stock_qty: number;
 
-  @Prop({ required: true })
+  @Prop()
   weight: number;
 
-  @Prop({ required: true })
+  @Prop()
   volume: number;
 }
 
