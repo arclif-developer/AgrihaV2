@@ -76,7 +76,7 @@ export class OrderService {
           },
         })
         .populate('address_id');
-      return { status: 200, orderList: data };
+      return { status: 200, orderHistory: data };
     } catch (error) {
       return { status: 401, error: error.message };
     }
