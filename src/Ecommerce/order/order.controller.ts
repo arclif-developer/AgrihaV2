@@ -30,4 +30,10 @@ export class OrderController {
   orderConfirmed(@Body('products_id') id: ObjectId) {
     return this.orderService.orderConfirmed(id);
   }
+
+  @Patch('delivered_orders')
+  @UseGuards(AuthGuard('jwt'))
+  deliveredOrders(@GetCurrentUserById() Jwtdata: any) {
+    return this.orderService.deliveredOrders(Jwtdata);
+  }
 }
