@@ -31,6 +31,7 @@ export class OrderController {
     return this.orderService.orderConfirmed(id);
   }
 
+  // Order history view
   @Get('delivered_orders')
   @UseGuards(AuthGuard('jwt'))
   deliveredOrders(@GetCurrentUserById() Jwtdata: any) {
