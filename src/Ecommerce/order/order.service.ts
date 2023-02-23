@@ -15,8 +15,12 @@ export class OrderService {
 
   async sellerOrderPlacedList(JwtData: any) {
     try {
+      console.log(JwtData);
       const data = await this.OrderModel.find({
-        $and: [{ seller_id: JwtData.id }, { delivery_status: Status.PLACED }],
+        $and: [
+          { seller_id: JwtData.id },
+          { products: { $elemMatch: { confirm: { $eq: false } } } },
+        ],
       })
         .populate('user_id')
         .populate({
