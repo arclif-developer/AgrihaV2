@@ -24,6 +24,7 @@ export class Order {
       {
         confirm: { type: Boolean, default: false },
         delivery_status: { type: String, default: Status.PLACED },
+        quantity: { type: Number, default: 1 },
         productId: {
           type: mongoose.Schema.Types.ObjectId,
           ref: Product.name,
@@ -35,6 +36,7 @@ export class Order {
   products: {
     productId: Product;
     delivery_status: string;
+    quantity: Number;
   };
 
   @Prop({
@@ -68,7 +70,7 @@ export class Order {
   @Prop()
   amount: Number;
 
-  @Prop()
+  @Prop({ default: 1 })
   quantity: Number;
 
   createdAt?: boolean | string;

@@ -22,7 +22,7 @@ export class CreatePaymentDto {
   @IsString()
   currency: string;
 
-  @ApiProperty({ example: 2, required: true })
+  @ApiProperty({ example: 1, required: true })
   @IsNumber()
   quantity: Number;
 }
