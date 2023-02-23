@@ -32,7 +32,7 @@ export class OrderController {
   }
 
   // Order history view
-  @Post('delivered_orders')
+  @Get('delivered_orders')
   @UseGuards(AuthGuard('jwt'))
   deliveredOrders(@GetCurrentUserById() Jwtdata: any) {
     return this.orderService.deliveredOrders(Jwtdata);
