@@ -65,6 +65,9 @@ export class Order {
   status: string;
 
   @Prop()
+  payment_method: string;
+
+  @Prop()
   captured: Boolean = false;
 
   @Prop()

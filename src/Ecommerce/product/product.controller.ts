@@ -9,6 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { GetCurrentUserById } from '../../utils';
 import {
   AddNewProductsDto,
   Req_productDetails,
@@ -57,8 +58,12 @@ export class ProductController {
 
   // // ################## USER REQUEST PRODUCTS  ####################### //
   @Get('add_requests')
-  add_requests(@Body() req_productDetails: Req_productDetails) {
-    return this.productService.add_requests(req_productDetails);
+  @UseGuards(AuthGuard('jwt'))
+  add_requests(
+    @Body() req_productDetails: Req_productDetails,
+    @GetCurrentUserById() Jwtdata: any,
+  ) {
+    return this.productService.add_requests(req_productDetails, Jwtdata);
   }
   /// #################### ...................... ##################### ///
 
@@ -67,7 +72,7 @@ export class ProductController {
   @Post('add_new_products')
   @UseGuards(AuthGuard('jwt'))
   add_new_products(@Body() addNewProductsDta: AddNewProductsDto) {
-    return this.productService.addNewProduct(addNewProductsDta)
+    return this.productService.addNewProduct(addNewProductsDta);
   }
 
   /// #################### ...................... ##################### ///
