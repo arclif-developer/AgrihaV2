@@ -114,7 +114,7 @@ export class ProductService {
   /// ############################## ...................... ######################## ///
 
   /// ############### SELLER / BUSINESS USERS  ADD  NEW PRODUCTS   ################## ///
-  addNewProduct(addNewProductsDta: any) {
+  addNewProduct(addNewProductsDta: any, Jwtdata) {
     try {
       const name = addNewProductsDta?.name.slice(0, 3);
       const randomNumber = Math.floor(Math.random() * 1000);
@@ -122,6 +122,7 @@ export class ProductService {
       const hash = crypto.randomBytes(4).toString('hex');
       hash.toUpperCase();
       addNewProductsDta.productCode = `ARCPRO` + hash;
+      addNewProductsDta.seller_id = Jwtdata.id;
       this.productModel.create(addNewProductsDta).catch((error) => {
         throw new Error(error.message);
       });
