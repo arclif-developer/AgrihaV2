@@ -126,6 +126,7 @@ export class ProductService {
       this.productModel.create(addNewProductsDta).catch((error) => {
         throw new Error(error.message);
       });
+      return { status: 200, message: 'New Products created' };
     } catch (error) {
       return { status: 401, error: error.message };
     }
