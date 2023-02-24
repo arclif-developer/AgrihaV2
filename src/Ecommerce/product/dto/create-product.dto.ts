@@ -7,16 +7,23 @@ export class Req_productDetails {
   image: string;
 
   @IsString()
+  @IsNotEmpty()
   product_name: string;
 
   @IsString()
+  @IsNotEmpty()
   product_category: string;
 
   @IsString()
-  creator: string;
+  @IsNotEmpty()
+  district: string;
 
   @IsString()
-  test: string;
+  @IsNotEmpty()
+  panchayath: string;
+
+  @IsString()
+  description: string;
 }
 
 export class AddNewProductsDto {

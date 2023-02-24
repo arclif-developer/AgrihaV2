@@ -22,6 +22,10 @@ export class CreatePaymentDto {
   @IsString()
   currency: string;
 
+  @ApiProperty({ example: 'online / cod', required: true })
+  @IsString()
+  payment_mode: string;
+
   @ApiProperty({ example: 1, required: true })
   @IsNumber()
   quantity: Number;

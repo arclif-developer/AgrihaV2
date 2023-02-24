@@ -16,6 +16,15 @@ export class ReqProducts {
   @Prop()
   product_category: string;
 
+  @Prop()
+  district: string;
+
+  @Prop()
+  panchayath: string;
+
+  @Prop()
+  description: string;
+
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: User.name })
   @Type(() => User)
   creator: User;

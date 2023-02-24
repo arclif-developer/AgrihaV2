@@ -65,6 +65,8 @@ export class ProductService {
     try {
       const data = await this.productModel
         .findById(id)
+        .populate('category_id')
+        .populate('subcategory_id')
         .exec()
         .catch((error) => {
           throw new NotFoundException();
@@ -92,8 +94,9 @@ export class ProductService {
   }
   /// ##################################### ...................... ######################## ///
 
-  async add_requests(req_productDetails: Req_productDetails) {
+  async add_requests(req_productDetails: any, Jwtdata) {
     try {
+      req_productDetails.creator = Jwtdata.id;
       const resp = await this.reqProductModel.create(req_productDetails);
       return { status: 200, data: resp };
     } catch (error) {

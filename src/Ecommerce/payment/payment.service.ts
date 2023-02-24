@@ -29,15 +29,22 @@ export class PaymentService {
     payment_capture: 0 | 1 = 1,
   ) {
     try {
-      const options = {
-        amount: createOrderDto.amount,
-        currency: createOrderDto.currency,
-        receipt: 'receipt#1',
-        payment_capture,
-      };
-      const order = await this.razorpayClient.orders.create(options);
+      let order;
+      let response;
+
+      if (createOrderDto.payment_mode === 'online') {
+        const options = {
+          amount: createOrderDto.amount,
+          currency: createOrderDto.currency,
+          receipt: 'receipt#1',
+          payment_capture,
+        };
+        order = await this.razorpayClient.orders.create(options);
+      } else {
+        order.status = 'created';
+      }
       if (order?.status === 'created') {
-        const response = await this.orderModel.create({
+        response = await this.orderModel.create({
           user_id: Jwtdata.id,
           razorpay_order_id: order.id,
           status: order.status,
@@ -46,14 +53,12 @@ export class PaymentService {
           products: createOrderDto.product_id,
           seller_id: createOrderDto.seller_id,
         });
-        return {
-          status: 200,
-          message: 'New order created successfully.',
-          data: response,
-        };
-      } else {
-        return { status: 401, message: 'Order not found' };
       }
+      return {
+        status: 200,
+        message: 'New order created successfully.',
+        data: response,
+      };
     } catch (error) {
       return error;
     }
