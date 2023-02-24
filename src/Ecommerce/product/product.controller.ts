@@ -71,8 +71,11 @@ export class ProductController {
 
   @Post('add_new_products')
   @UseGuards(AuthGuard('jwt'))
-  add_new_products(@Body() addNewProductsDta: AddNewProductsDto) {
-    return this.productService.addNewProduct(addNewProductsDta);
+  add_new_products(
+    @Body() addNewProductsDta: AddNewProductsDto,
+    @GetCurrentUserById() Jwtdata: any,
+  ) {
+    return this.productService.addNewProduct(addNewProductsDta, Jwtdata);
   }
 
   /// #################### ...................... ##################### ///
