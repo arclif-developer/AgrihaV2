@@ -16,10 +16,10 @@ export class ReqProducts {
   @Prop()
   product_category: string;
 
-  @Prop()
+  @Prop({ lowercase: true })
   district: string;
 
-  @Prop()
+  @Prop({ lowercase: true })
   panchayath: string;
 
   @Prop()
