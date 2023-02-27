@@ -31,3 +31,5 @@ export class ReqProducts {
 }
 
 export const ReqProductsSchema = SchemaFactory.createForClass(ReqProducts);
+
+ReqProductsSchema.index({ '$**': 'text' });

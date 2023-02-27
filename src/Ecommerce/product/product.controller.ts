@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { GetCurrentUserById } from '../../utils';
@@ -92,8 +93,8 @@ export class ProductController {
   // // ################## USER REQUEST PRODUCTS VIEW ####################### //
 
   @Get('requestProduct_view')
-  requestProducts() {
-    return this.productService.requestProducts();
+  requestProducts(@Query() query: any) {
+    return this.productService.requestProducts(query);
   }
 
   /// #################### ...................... ##################### ///

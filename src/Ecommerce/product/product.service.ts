@@ -142,9 +142,14 @@ export class ProductService {
     }
   }
 
-  async requestProducts() {
+  async requestProducts(query) {
     try {
-      const data = await this.reqProductModel.find({});
+      let data;
+      if (query.district === 'all') {
+        data = await this.reqProductModel.find({});
+      } else {
+        data = await this.reqProductModel.find({ district: query?.district });
+      }
       return { status: 200, reqProducts: data };
     } catch (error) {
       return { status: 401, error: error.message };
