@@ -135,7 +135,7 @@ export class ProductService {
 
   async sellersProductsFn(Jwtdata) {
     try {
-      const data = await this.productModel.find({ seller_id: Jwtdata });
+      const data = await this.productModel.find({ seller_id: Jwtdata.id });
       return { status: 200, sellerProducts: data };
     } catch (error) {
       return { status: 401, error: error.message };
