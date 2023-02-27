@@ -113,7 +113,7 @@ export class ProductService {
   }
   /// ############################## ...................... ######################## ///
 
-  /// ############### SELLER / BUSINESS USERS  ADD  NEW PRODUCTS   ################## ///
+  /// ############### SELLER / BUSINESS USERS  ADD  NEW PRODUCTS   ################### ///
   addNewProduct(addNewProductsDta: any, Jwtdata) {
     try {
       const name = addNewProductsDta?.name.slice(0, 3);
@@ -132,4 +132,13 @@ export class ProductService {
     }
   }
   /// ############################## ...................... ######################## ///
+
+  async sellersProductsFn(Jwtdata) {
+    try {
+      const data = await this.productModel.find({ seller_id: Jwtdata });
+      return { status: 200, sellerProducts: data };
+    } catch (error) {
+      return { status: 401, error: error.message };
+    }
+  }
 }

@@ -79,4 +79,13 @@ export class ProductController {
   }
 
   /// #################### ...................... ##################### ///
+
+  // #########  SELLER / BUSINESS USERS ADDED PRODUCTS VIEW ############ //
+  @Get('sellersProducts')
+  @UseGuards(AuthGuard('jwt'))
+  sellersProducts(@GetCurrentUserById() Jwtdata: any) {
+    return this.productService.sellersProductsFn(Jwtdata);
+  }
+
+  /// #################### ...................... ##################### ///
 }
