@@ -58,14 +58,15 @@ export class ProductController {
   /// #################### ...................... ##################### ///
 
   // ################## PRODUCT id TO GET DETAILS ####################### //
-  @Get(':id')
+  @Get('details/:id')
   findSingleProduct(@Param('id') id: string) {
+    console.log('working ddd');
     return this.productService.findSingleProduct(id);
   }
   /// #################### ...................... ##################### ///
 
   // // ################## USER REQUEST PRODUCTS  ####################### //
-  @Get('add_requests')
+  @Post('add_requests')
   @UseGuards(AuthGuard('jwt'))
   add_requests(
     @Body() req_productDetails: Req_productDetails,
@@ -84,6 +85,15 @@ export class ProductController {
     @GetCurrentUserById() Jwtdata: any,
   ) {
     return this.productService.addNewProduct(addNewProductsDta, Jwtdata);
+  }
+
+  /// #################### ...................... ##################### ///
+
+  // // ################## USER REQUEST PRODUCTS VIEW ####################### //
+
+  @Get('requestProduct_view')
+  requestProducts() {
+    return this.productService.requestProducts();
   }
 
   /// #################### ...................... ##################### ///

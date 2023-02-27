@@ -141,4 +141,13 @@ export class ProductService {
       return { status: 401, error: error.message };
     }
   }
+
+  async requestProducts() {
+    try {
+      const data = await this.reqProductModel.find({});
+      return { status: 200, reqProducts: data };
+    } catch (error) {
+      return { status: 401, error: error.message };
+    }
+  }
 }
