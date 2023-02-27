@@ -30,7 +30,7 @@ export class Product {
     ref: User.name,
   })
   @Type(() => User)
-  seller: User;
+  seller_id: User;
 
   @Prop({ required: true })
   name: string;

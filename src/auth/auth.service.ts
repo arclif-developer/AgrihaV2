@@ -199,10 +199,14 @@ export class AuthService {
     console.log(DeviceAndip);
     const Isregister = await this.registerModel.findOne({ _id: Jwtdta.reg_id });
     let userDta;
-    if (Jwtdta.role == 'user') {
+    if (Jwtdta.role == 'user' || Jwtdta.role == 'general') {
       userDta = await this.userModel.findOne({ registered_id: Jwtdta.reg_id });
-    } else {
+    } else if (Jwtdta.role == 'architect') {
       userDta = await this.architectsModel.findOne({
+        registered_id: Jwtdta.reg_id,
+      });
+    } else {
+      userDta = await this.businessModel.findOne({
         registered_id: Jwtdta.reg_id,
       });
     }
@@ -355,102 +359,6 @@ export class AuthService {
     }
   }
 
-  // test  register users
-  async testRegister(registerDta: registerDto) {
-    try {
-      let data = {
-        phone: registerDta.phone,
-        email: registerDta.email,
-        name: registerDta.name,
-        role: registerDta.role,
-        type: accessType.OTP,
-      };
-      const IsRegister = await this.registerModel.findOne({
-        $and: [{ phone: registerDta.phone }, { role: registerDta.role }],
-      });
-      if (IsRegister) {
-        return {
-          status: 201,
-          message: 'User already exists',
-        };
-      }
-      const newRegister = await this.registerModel
-        .create(data)
-        .catch((error) => {
-          throw new NotAcceptableException(error);
-        });
-      let newUser;
-      if (registerDta.role === 'user') {
-        newUser = await this.userModel
-          .create({ registered_id: newRegister._id })
-          .catch((error) => {
-            throw new NotAcceptableException(error);
-          });
-      } else {
-        newUser = await this.architectsModel
-          .create({ registered_id: newRegister._id })
-          .catch((error) => {
-            throw new NotAcceptableException(error);
-          });
-      }
-      const token = this.jwtService.sign(
-        {
-          id: newUser._id,
-        },
-        {
-          expiresIn: '29d',
-        },
-      );
-      return {
-        status: 200,
-        message: `${newRegister.role} registeration successfully`,
-        role: newRegister.role,
-        id: newUser._id,
-        token: token,
-      };
-    } catch (error) {
-      return error;
-    }
-  }
-
-  // test user login
-  async testLogin(loginDta: mobileLoginDto) {
-    try {
-      const IsLoggedIn = await this.registerModel.findOne({
-        $and: [{ phone: loginDta.phone }, { role: loginDta.role }],
-      });
-      if (IsLoggedIn) {
-        let IsUser;
-        if (loginDta.role === 'user') {
-          IsUser = await this.userModel.findOne({
-            registered_id: IsLoggedIn.id,
-          });
-        } else {
-          IsUser = await this.architectsModel.findOne({
-            registered_id: IsLoggedIn.id,
-          });
-        }
-        const token = this.jwtService.sign({
-          id: IsUser._id,
-        });
-        return {
-          status: 200,
-          message: `${loginDta.role} login successfully`,
-          role: loginDta.role,
-          id: IsUser._id,
-          token: token,
-        };
-      } else {
-        return {
-          status: 401,
-          message: `${loginDta.role} not registered. Please register now`,
-        };
-      }
-    } catch (error) {
-      return error;
-    }
-  }
-
   async verify_register(verifyDta: verifyMobileDto, jwtdata: any) {
     try {
       const id = new mongoose.Types.ObjectId(jwtdata.id);
@@ -467,7 +375,7 @@ export class AuthService {
         IsregisterDta.status = true;
         IsregisterDta.save();
         let responseDta;
-        if (IsregisterDta.role == 'user') {
+        if (IsregisterDta.role == 'user' || IsregisterDta.role == 'general') {
           responseDta = await this.userModel.create({
             registered_id: IsregisterDta._id,
           });
@@ -595,31 +503,4 @@ export class AuthService {
       return { status: 404, message: error.message };
     }
   }
-
-  // Generate Referral code END ===
-
-  // async updateType() {
-  //   await this.referralModel.updateOne(
-  //     { 'users.registerId': IsregisterDta._id },
-  //     { $set: { 'users.$.status': 'approved' } },
-  //   );
-  // }
-
-  // async validateUser(details: any) {
-  //   return details;
-  //   // const user = await this.userModel.findOne({ email: details.email });
-  //   // if (user) return user;
-  //   // console.log('user not found. creating.....');
-  //   // const newUser = new this.userModel(details);
-  //   // const data = await newUser.save();
-  //   // return data;
-  // }
-  // async testMails() {
-  //   const IsregisterDta = {
-  //     name: 'shijin',
-  //     email: 'shijin.arclif@gmail.com',
-  //     phone: '+919747045972',
-  //   };
-  //   this.MailerService.notification_mail(IsregisterDta);
-  // }
 }

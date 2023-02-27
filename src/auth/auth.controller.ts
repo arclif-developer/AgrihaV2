@@ -60,16 +60,6 @@ export class AuthController {
     return this.authService.veriyLogin(verifyDta, DeviceAndip, Jwtdta.user);
   }
 
-  @Post('test/register')
-  testRegister(@Body() registerDta: registerDto) {
-    return this.authService.testRegister(registerDta);
-  }
-
-  @Post('test/login')
-  testLogin(@Body() loginDta: mobileLoginDto) {
-    return this.authService.testLogin(loginDta);
-  }
-
   @Post('verify_mobile')
   @UseGuards(AuthGuard('jwt'))
   verify_register(
