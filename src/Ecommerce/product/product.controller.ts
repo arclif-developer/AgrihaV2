@@ -28,8 +28,16 @@ export class ProductController {
   }
   /// #################### ...................... ##################### ///
 
+  // #########  SELLER / BUSINESS USERS ADDED PRODUCTS VIEW ############ //
+  @Get('sellers_products_view')
+  @UseGuards(AuthGuard('jwt'))
+  SellersProductView(@GetCurrentUserById() Jwtdata: any) {
+    return this.productService.sellersProductsFn(Jwtdata);
+  }
+  /// #################### ...................... ##################### ///
+
   /// ##################  GET ALL PRODUCTS ####################### ///
-  @Get('')
+  @Get()
   getProducts() {
     return this.productService.getProduct();
   }
@@ -76,15 +84,6 @@ export class ProductController {
     @GetCurrentUserById() Jwtdata: any,
   ) {
     return this.productService.addNewProduct(addNewProductsDta, Jwtdata);
-  }
-
-  /// #################### ...................... ##################### ///
-
-  // #########  SELLER / BUSINESS USERS ADDED PRODUCTS VIEW ############ //
-  @Get('sellersProducts')
-  @UseGuards(AuthGuard('jwt'))
-  sellersProducts(@GetCurrentUserById() Jwtdata: any) {
-    return this.productService.sellersProductsFn(Jwtdata);
   }
 
   /// #################### ...................... ##################### ///
