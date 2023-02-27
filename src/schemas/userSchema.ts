@@ -14,7 +14,7 @@ export class User {
   @Prop({ required: false, default: null })
   name: string;
 
-  @Prop({ lowercase: true, index: true, unique: true, sparse: true })
+  @Prop({ index: true, unique: true, sparse: true })
   secondaryContact: string;
 
   @Prop({ unique: true, index: true, sparse: true })

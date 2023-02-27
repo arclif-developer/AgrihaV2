@@ -150,6 +150,7 @@ export class ProductService {
       } else {
         data = await this.reqProductModel.find({ district: query?.district });
       }
+
       return { status: 200, reqProducts: data };
     } catch (error) {
       return { status: 401, error: error.message };
