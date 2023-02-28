@@ -8,6 +8,7 @@ import {
   ReqProducts,
   ReqProductsSchema,
 } from '../../schemas/reqProducts.schema';
+import { Cart, CartSchema } from '../../schemas/cart.schema';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import {
       [
         { name: Product.name, schema: ProductSchema },
         { name: ReqProducts.name, schema: ReqProductsSchema },
+        { name: Cart.name, schema: CartSchema },
       ],
       'AGRIHA_DB',
     ),
