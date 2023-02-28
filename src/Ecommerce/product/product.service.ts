@@ -65,6 +65,7 @@ export class ProductService {
   /// ########################### Product id to find single product data ############################### ///
   async findSingleProduct(id: string, query) {
     try {
+      let cart = false;
       const data: any = await this.productModel
         .findById(id)
         .populate('category_id')
@@ -77,11 +78,12 @@ export class ProductService {
         const IsCart = await this.CartModel.findOne({
           $and: [{ product_id: data._id }, { user_id: query?.user_id }],
         });
-        if (!IsCart === null) {
-          data.cart = true;
+
+        if (IsCart !== null) {
+          cart = true;
         }
       }
-      return { status: 200, productDta: data };
+      return { status: 200, productDta: data, cart: cart };
     } catch (error) {
       return error;
     }
