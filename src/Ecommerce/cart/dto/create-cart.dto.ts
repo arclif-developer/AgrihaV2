@@ -7,11 +7,6 @@ export class CreateCartDto {
   @IsNotEmpty()
   product_id: string;
 
-  @ApiProperty({ example: '634e5330c5b0e4e57043e97b', required: true })
-  @IsString()
-  @IsNotEmpty()
-  user_id: string;
-
   @ApiProperty({ example: 2, required: true })
   @IsNumber()
   quantity: number;
