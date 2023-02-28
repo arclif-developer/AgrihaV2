@@ -18,7 +18,6 @@ export class business {
   @Prop({
     lowercase: true,
     index: true,
-    unique: true,
     sparse: true,
     default: null,
   })
@@ -27,7 +26,6 @@ export class business {
   @Prop({
     lowercase: true,
     index: true,
-    unique: true,
     sparse: true,
     default: null,
   })
@@ -36,7 +34,6 @@ export class business {
   @Prop({
     lowercase: true,
     index: true,
-    unique: true,
     sparse: true,
     default: null,
   })
