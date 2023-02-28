@@ -196,7 +196,6 @@ export class AuthService {
   }
 
   async veriyLogin(verifyDta: verifyMobileDto, DeviceAndip: DeviceIp, Jwtdta) {
-    console.log(DeviceAndip);
     const Isregister = await this.registerModel.findOne({ _id: Jwtdta.reg_id });
     let userDta;
     if (Jwtdta.role == 'user' || Jwtdta.role == 'general') {
@@ -205,21 +204,17 @@ export class AuthService {
       userDta = await this.architectsModel.findOne({
         registered_id: Jwtdta.reg_id,
       });
-    } else {
+    } else if (Jwtdta.role == 'business') {
       userDta = await this.businessModel.findOne({
         registered_id: Jwtdta.reg_id,
       });
     }
     if (Isregister) {
       let verifyOtp;
-      // if (Jwtdta.internationNumber) {
       verifyOtp = await this.otpService.twilioVerifyOtp(
         verifyDta,
         Jwtdta.phone,
       );
-      // } else {
-      //   verifyOtp = await this.otpService.verifyOtp(Jwtdta.id, verifyDta);
-      // }
       if (verifyOtp.status === 'Otp Matched') {
         let session: Partial<LoginSession>;
         let newSession: LoginSessionDocument;

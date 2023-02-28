@@ -9,6 +9,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { ObjectId } from 'mongoose';
 import { GetCurrentUserById } from '../../utils';
 import { CartService } from './cart.service';
 import { CreateCartDto } from './dto/create-cart.dto';
@@ -30,14 +31,24 @@ export class CartController {
   /// ############## ...................... ################# ///
 
   /// ############  User Id to find Cart all items ############### ///
-  @Get(':id')
-  findall(@Param('id') id: string) {
-    return this.cartService.findAll(id);
+  @Get()
+  @UseGuards(AuthGuard('jwt'))
+  findall(@GetCurrentUserById() Jwtdata: any) {
+    return this.cartService.findAll(Jwtdata.id);
+  }
+  /// ############## ...................... ################# ///
+
+  /// ############  product Id to find Cart items ############### ///
+  @Get('findone/:id')
+  @UseGuards(AuthGuard('jwt'))
+  findOne(@Param('id') id: ObjectId) {
+    return this.cartService.findOne(id);
   }
   /// ############## ...................... ################# ///
 
   /// ######## Cart product qauntity increment and decrement ####### ///
   @Patch(':id')
+  @UseGuards(AuthGuard('jwt'))
   updateQuanity(@Param('id') id: string, @Body() updateCartDto: UpdateCartDto) {
     return this.cartService.updateQuanity(id, updateCartDto);
   }
@@ -45,6 +56,7 @@ export class CartController {
 
   /// ##################  Delete cart items  ####################### ///
   @Delete(':id')
+  @UseGuards(AuthGuard('jwt'))
   remove(@Param('id') id: string) {
     return this.cartService.remove(id);
   }
