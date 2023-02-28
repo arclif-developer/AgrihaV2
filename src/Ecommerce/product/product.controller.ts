@@ -60,9 +60,8 @@ export class ProductController {
 
   // ################## PRODUCT id TO GET DETAILS ####################### //
   @Get('details/:id')
-  findSingleProduct(@Param('id') id: string) {
-    console.log('working ddd');
-    return this.productService.findSingleProduct(id);
+  findSingleProduct(@Param('id') id: string, @Query() query: any) {
+    return this.productService.findSingleProduct(id, query);
   }
   /// #################### ...................... ##################### ///
 

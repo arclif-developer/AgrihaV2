@@ -13,6 +13,7 @@ import {
   AddNewProductsDto,
   Req_productDetails,
 } from './dto/create-product.dto';
+import { Cart, CartDocument } from '../../schemas/cart.schema';
 
 // import { UpdateProductDto } from './dto/update-product.dto';
 
@@ -23,6 +24,7 @@ export class ProductService {
     private productModel: Model<ProductDocument>,
     @InjectModel(ReqProducts.name, 'AGRIHA_DB')
     private reqProductModel: Model<ProductDocument>,
+    @InjectModel(Cart.name, 'AGRIHA_DB') private CartModel: Model<CartDocument>,
   ) {}
 
   /// ######################################### Search products ######################################## ///
@@ -61,9 +63,9 @@ export class ProductService {
   /// ###################################### ...................... #################################### ///
 
   /// ########################### Product id to find single product data ############################### ///
-  async findSingleProduct(id: string) {
+  async findSingleProduct(id: string, query) {
     try {
-      const data = await this.productModel
+      const data: any = await this.productModel
         .findById(id)
         .populate('category_id')
         .populate('subcategory_id')
@@ -71,6 +73,14 @@ export class ProductService {
         .catch((error) => {
           throw new NotFoundException();
         });
+      if (query.user_id) {
+        const IsCart = await this.CartModel.findOne({
+          $and: [{ product_id: data._id }, { user_id: query?.user_id }],
+        });
+        if (!IsCart === null) {
+          data.cart = true;
+        }
+      }
       return { status: 200, productDta: data };
     } catch (error) {
       return error;

@@ -38,14 +38,6 @@ export class CartController {
   }
   /// ############## ...................... ################# ///
 
-  /// ############  product Id to find Cart items ############### ///
-  @Get('findone/:id')
-  @UseGuards(AuthGuard('jwt'))
-  findOne(@Param('id') id: ObjectId) {
-    return this.cartService.findOne(id);
-  }
-  /// ############## ...................... ################# ///
-
   /// ######## Cart product qauntity increment and decrement ####### ///
   @Patch(':id')
   @UseGuards(AuthGuard('jwt'))
