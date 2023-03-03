@@ -23,7 +23,7 @@ export class Cart {
   whishlist: Boolean;
 
   @Prop({ default: true })
-  status: Boolean;
+  cart: Boolean;
 }
 
 export const CartSchema = SchemaFactory.createForClass(Cart);
