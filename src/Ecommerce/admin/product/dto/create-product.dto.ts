@@ -28,6 +28,11 @@ export class CreateProductDto {
   @IsNotEmpty()
   name: string;
 
+  @ApiProperty({ example: 'seller/company name' })
+  @IsString()
+  @IsNotEmpty()
+  seller: string;
+
   @ApiProperty({ example: 'Manufacture by => type :  string' })
   @IsString()
   manufactered_by: string;
