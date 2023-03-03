@@ -22,10 +22,13 @@ export class CartService {
   async create(createCartDto: CreateCartDto, Jwtdata) {
     try {
       const IsCart = await this.cartModel.findOne({
-        product_id: createCartDto.product_id,
+        $and: [
+          { product_id: createCartDto.product_id },
+          { user_id: Jwtdata.id },
+        ],
       });
       if (IsCart) {
-        IsCart.status = true;
+        return { status: 200, message: 'Product already added to cart' };
       } else {
         this.cartModel.create({
           product_id: createCartDto.product_id,
