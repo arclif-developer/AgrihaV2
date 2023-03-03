@@ -36,6 +36,9 @@ export class Product {
   name: string;
 
   @Prop()
+  seller: string;
+
+  @Prop()
   manufactered_by: string;
 
   @Prop({ required: true, unique: true })
