@@ -46,7 +46,7 @@ export class CartService {
   async findAll(id: string) {
     try {
       const cartItems = await this.cartModel
-        .find({ $and: [{ user_id: id }, { status: true }] })
+        .find({ $and: [{ user_id: id }, { cart: true }] })
         .populate('product_id')
         .catch((error) => {
           throw new NotFoundException(error);
