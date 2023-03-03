@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: agrihav2
+  labels:
+    app: agrihav2
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: agrihav2
+  template:
+    metadata:
+      labels:
+        app: agrihav2
+    spec:
+      containers:
+        - name: agrihav2
+          image: agrihav2:
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DATABASE_URL
+              value: mongodb+srv://arclifuser:VeZeUSLtaxILLyl8@arclif-test.cc1se.mongodb.net/AGRIHA_DB?retryWrites=true&w=majority
