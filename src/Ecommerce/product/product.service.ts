@@ -74,7 +74,12 @@ export class ProductService {
         .catch((error) => {
           throw new NotFoundException();
         });
-      if (query.user_id) {
+      if (
+        query.user_id &&
+        query.user_id !== undefined &&
+        query.user_id !== '' &&
+        query.user_id !== 'undefined'
+      ) {
         const IsCart = await this.CartModel.findOne({
           $and: [{ product_id: data._id }, { user_id: query?.user_id }],
         });
