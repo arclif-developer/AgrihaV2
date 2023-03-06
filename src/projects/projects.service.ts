@@ -432,7 +432,12 @@ export class ProjectsService {
           },
         })
         .populate('plan_id')
-        .populate('architect_id')
+        .populate({
+          path: 'architect_id',
+          populate: {
+            path: 'registered_id',
+          },
+        })
         .catch((error) => {
           console.log(error);
         });
