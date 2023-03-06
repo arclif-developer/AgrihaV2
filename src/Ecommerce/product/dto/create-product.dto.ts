@@ -3,25 +3,49 @@ import { IsArray, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { ObjectId } from 'mongoose';
 
 export class Req_productDetails {
+  @ApiProperty({
+    example:
+      'https://firebasestorage.googleapis.com/v0/b/arclifimg.appspot.com/o/files%2FreferanceImages%2F5_400x400.webp?alt=media&token=0b48a104-31cb-4e63-9277-f81c8a3f63d6',
+    required: true,
+  })
   @IsString()
   image: string;
 
+  @ApiProperty({
+    example: 'chair/light...',
+    required: true,
+  })
   @IsString()
   @IsNotEmpty()
   product_name: string;
 
+  @ApiProperty({
+    example: 'category name',
+    required: true,
+  })
   @IsString()
   @IsNotEmpty()
   product_category: string;
 
+  @ApiProperty({
+    example: 'district',
+    required: true,
+  })
   @IsString()
   @IsNotEmpty()
   district: string;
 
+  @ApiProperty({
+    example: 'panchayath',
+    required: true,
+  })
   @IsString()
   @IsNotEmpty()
   panchayath: string;
 
+  @ApiProperty({
+    example: 'description',
+  })
   @IsString()
   description: string;
 }
