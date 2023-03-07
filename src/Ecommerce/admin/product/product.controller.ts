@@ -90,4 +90,14 @@ export class ProductController {
     return this.productService.remove(id);
   }
   /// ############### ................. ############## ///
+
+  // ##################### Delete Product Image {API} ################ //
+  @Delete('image/:id')
+  deleteProductImage(
+    @Param('id') id: ObjectId,
+    @Body('img_url') img_url: string,
+  ) {
+    return this.productService.removeProductImg(id, img_url);
+  }
+  /// ############### ................. ############## ///
 }
