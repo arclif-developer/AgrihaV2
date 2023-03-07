@@ -64,11 +64,4 @@ export class CreateAddressDto {
   })
   @IsString()
   phone: string;
-
-  @ApiProperty({
-    example: 'user_id',
-    required: true,
-  })
-  @IsString()
-  user_id: string;
 }
