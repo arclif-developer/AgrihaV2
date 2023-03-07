@@ -12,11 +12,15 @@ export class AddressService {
     @InjectModel(address.name, 'AGRIHA_DB')
     private addressModel: Model<addressDocument>,
   ) {}
-  create(createAddressDto: CreateAddressDto, Jwtdata: any) {
+  async create(createAddressDto: CreateAddressDto, Jwtdata: any) {
     try {
       createAddressDto.user_id = Jwtdata.id;
-      this.addressModel.create(createAddressDto);
-      return { status: 200, message: 'Delivery address added' };
+      const data = await this.addressModel.create(createAddressDto);
+      return {
+        status: 200,
+        message: 'Delivery address added',
+        addressDta: data,
+      };
     } catch (error) {
       return { status: 401, error: error.message };
     }
