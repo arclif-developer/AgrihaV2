@@ -14,7 +14,7 @@ export class address {
   user_id: User;
 
   @Prop({ required: true })
-  fullName: string;
+  address_name: string;
 
   @Prop({ required: true })
   pincode: Number;
@@ -26,12 +26,18 @@ export class address {
   city: string;
 
   @Prop({ required: true })
-  address: string;
+  location: string;
 
   @Prop({ required: true })
   type_of_address: string;
 
   @Prop()
+  landmark: string;
+
+  @Prop()
   phone: string;
+
+  @Prop()
+  alternative_phone: string;
 }
 export const addressSchema = SchemaFactory.createForClass(address);
