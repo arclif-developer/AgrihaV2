@@ -14,7 +14,7 @@ export class address {
   user_id: User;
 
   @Prop({ required: true })
-  address_name: string;
+  name: string;
 
   @Prop({ required: true })
   pincode: Number;

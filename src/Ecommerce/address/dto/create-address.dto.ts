@@ -3,11 +3,11 @@ import { IsNumber, IsString } from 'class-validator';
 
 export class CreateAddressDto {
   @ApiProperty({
-    example: 'address name',
+    example: 'Floki',
     required: true,
   })
   @IsString()
-  address_name: string;
+  name: string;
 
   @ApiProperty({
     example: 678597,
