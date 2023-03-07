@@ -26,6 +26,9 @@ export class address {
   city: string;
 
   @Prop({ required: true })
+  address: string;
+
+  @Prop({ required: true })
   location: string;
 
   @Prop({ required: true })
