@@ -203,4 +203,17 @@ export class ProductService {
     }
   }
   // ##############################...........##################################### //
+
+  async removeProductImg(id: ObjectId, img_url: string) {
+    try {
+      await this.productModel
+        .updateOne({ _id: id }, { $pull: { image: img_url } })
+        .catch((error) => {
+          throw new Error(error);
+        });
+      return { status: 200, message: 'Image removed successfully' };
+    } catch (error) {
+      return { status: 401, error: error.message };
+    }
+  }
 }
