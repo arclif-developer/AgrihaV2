@@ -26,9 +26,9 @@ export class AddressService {
     }
   }
 
-  async findAll(Jwtdata) {
+  async findAll(Jwtdata: any) {
     try {
-      const address = await this.addressModel.find({ user_id: Jwtdata });
+      const address = await this.addressModel.find({ user_id: Jwtdata.id });
       return { status: 200, data: address };
     } catch (error) {
       return { status: 401, error: error.message };
