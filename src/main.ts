@@ -11,21 +11,7 @@ async function bootstrap() {
     cors: true,
   });
   app.enableCors({
-    origin: [
-      'https://www.agriha.com',
-      'https://admin-arclif.vercel.app',
-      'https://ecommerce-arclif.vercel.app',
-      'https://agriha.com',
-      'https://arclif.com',
-      'https://www.arclif.com',
-      'http://192.168.29.27:3000',
-      'http://192.168.29.158:3000',
-      'http://192.168.29.143:3000',
-      'http://192.168.29.143:3001',
-      'http://192.168.29.30:3000',
-      'http://localhost:3000',
-      'http://localhost:3001',
-    ],
+    origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
   });
