@@ -16,7 +16,6 @@ export class ArcPaymentService {
     try {
       console.log(createArcPaymentDto);
       const datasave = await new this.paymentModel(createArcPaymentDto).save();
-
       return { status: 200, data: datasave, message: 'Payment Data added' };
     } catch (error) {
       throw new NotFoundException(error);
