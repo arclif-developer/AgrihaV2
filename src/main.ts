@@ -20,6 +20,8 @@ async function bootstrap() {
       'https://www.arclif.com',
       'http://192.168.29.27:3000',
       'http://192.168.29.158:3000',
+      'http://192.168.29.143:3000',
+      'http://192.168.29.143:3001',
       'http://192.168.29.30:3000',
       'http://localhost:3000',
       'http://localhost:3001',
