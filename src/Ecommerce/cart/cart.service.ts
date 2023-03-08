@@ -27,17 +27,27 @@ export class CartService {
           { user_id: Jwtdata.id },
         ],
       });
-      if (IsCart) {
-        return { status: 200, message: 'Product already added to cart' };
+      const IsProduct = await this.productModel.findOne({
+        _id: createCartDto.product_id,
+      });
+      if (IsProduct.stock_qty >= createCartDto.quantity) {
+        if (IsCart) {
+          return { status: 200, message: 'Product already added to cart' };
+        } else {
+          this.cartModel.create({
+            product_id: createCartDto.product_id,
+            user_id: Jwtdata.id,
+          });
+          await IsProduct.updateOne({
+            $inc: { stock_qty: -createCartDto.quantity },
+          });
+        }
+        return { status: 200, message: 'Product add to cart' };
       } else {
-        this.cartModel.create({
-          product_id: createCartDto.product_id,
-          user_id: Jwtdata.id,
-        });
+        throw new Error('Out of stock quantity');
       }
-      return { status: 200, message: 'Product add to cart' };
     } catch (error) {
-      return error;
+      return { status: 400, error: error.message };
     }
   }
   /// ####################### ...................... ######################## ///
@@ -62,6 +72,7 @@ export class CartService {
   async updateQuanity(id: string, updateCartDto: UpdateCartDto) {
     try {
       const response = await this.productModel.findById(id);
+      console.log(response);
       await this.cartModel.updateOne(
         { _id: updateCartDto.cart_id },
         {
