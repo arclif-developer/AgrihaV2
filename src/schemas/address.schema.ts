@@ -19,8 +19,8 @@ export class address {
   @Prop({ required: true })
   pincode: Number;
 
-  // @Prop({ required: true })
-  // state: string;
+  @Prop({ required: true })
+  district: string;
 
   @Prop({ required: true })
   city: string;

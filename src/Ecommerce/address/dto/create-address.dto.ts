@@ -17,11 +17,11 @@ export class CreateAddressDto {
   pincode: Number;
 
   @ApiProperty({
-    example: 'kerala',
+    example: 'kozhikode',
     required: true,
   })
   @IsString()
-  state: string;
+  district: string;
 
   @ApiProperty({
     example: 'palakkad',
