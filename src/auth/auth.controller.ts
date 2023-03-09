@@ -88,6 +88,10 @@ export class AuthController {
     return this.authService.getAllReferralDetails();
   }
 
+  @Get('healthcheck')
+  healthcheck() {
+    return { status: 200 };
+  }
   // @Get('update-role')
   // update_dbrole() {
   //   return this.authService.updateType();

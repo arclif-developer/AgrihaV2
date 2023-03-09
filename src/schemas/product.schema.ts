@@ -111,6 +111,9 @@ export class Product {
   weight: number;
 
   @Prop()
+  unit: string;
+
+  @Prop()
   volume: number;
 }
 

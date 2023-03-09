@@ -126,6 +126,10 @@ export class CreateProductDto {
   @ApiProperty({ example: 'volume' })
   @IsNumber()
   volume: number;
+
+  @ApiProperty({ example: 'unit', required: true })
+  @IsString()
+  unit: string;
 }
 
 export class CreateCategoryDto {
