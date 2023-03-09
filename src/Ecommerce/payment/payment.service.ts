@@ -51,7 +51,7 @@ export class PaymentService {
           amount: order.amount,
           address_id: createOrderDto.address_id,
           products: createOrderDto.product_id,
-          seller_id: createOrderDto.seller_id,
+          payment_method: createOrderDto.payment_mode,
         });
       }
       return {

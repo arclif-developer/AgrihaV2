@@ -25,27 +25,26 @@ export class Order {
         confirm: { type: Boolean, default: false },
         delivery_status: { type: String, default: Status.PLACED },
         quantity: { type: Number, default: 1 },
+        seller_id: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: User.name,
+        },
         productId: {
           type: mongoose.Schema.Types.ObjectId,
           ref: Product.name,
+          required: true,
         },
       },
     ],
   })
   @Type(() => Product)
+  @Type(() => User)
   products: {
     productId: Product;
     delivery_status: string;
     quantity: Number;
+    seller_id: User;
   };
-
-  @Prop({
-    type: mongoose.Schema.Types.ObjectId,
-    ref: User.name,
-    required: true,
-  })
-  @Type(() => User)
-  seller_id: User;
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
