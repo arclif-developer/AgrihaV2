@@ -173,4 +173,15 @@ export class ProductService {
       return { status: 401, error: error.message };
     }
   }
+
+  async brandListFn() {
+    try {
+      const brands = await this.productModel
+        .find({ brand: { $nin: [null, ''] } })
+        .select('brand');
+      return { status: 200, brands: brands };
+    } catch (error) {
+      return { status: 404, error: error.message };
+    }
+  }
 }
