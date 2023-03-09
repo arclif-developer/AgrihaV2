@@ -34,7 +34,7 @@ export class PaymentService {
 
       if (createOrderDto.payment_mode === 'online') {
         const options = {
-          amount: createOrderDto.amount,
+          amount: `${parseFloat(createOrderDto.amount)}00`,
           currency: createOrderDto.currency,
           receipt: 'receipt#1',
           payment_capture,

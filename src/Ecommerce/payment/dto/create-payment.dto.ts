@@ -11,8 +11,8 @@ export class CreatePaymentDto {
   product_id: Object[];
 
   @ApiProperty({ example: 'product amount', required: true })
-  @IsNumber()
-  amount: number;
+  @IsString()
+  amount: string;
 
   @ApiProperty({ example: 'INR/...', required: true })
   @IsString()
