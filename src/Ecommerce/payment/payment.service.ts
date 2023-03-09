@@ -33,7 +33,7 @@ export class PaymentService {
       let response;
       if (createOrderDto.payment_mode === 'online') {
         const options = {
-          amount: `${parseFloat(createOrderDto.amount)}00`,
+          amount: `${parseInt(createOrderDto.amount)}00`,
           currency: createOrderDto.currency,
           receipt: 'receipt#1',
           payment_capture,
@@ -63,6 +63,7 @@ export class PaymentService {
         data: response,
       };
     } catch (error) {
+      console.log(error);
       return { status: 401, error: error.message };
     }
   }
