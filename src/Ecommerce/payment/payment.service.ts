@@ -31,7 +31,6 @@ export class PaymentService {
     try {
       let order;
       let response;
-
       if (createOrderDto.payment_mode === 'online') {
         const options = {
           amount: `${parseFloat(createOrderDto.amount)}00`,
@@ -44,15 +43,19 @@ export class PaymentService {
         order.status = 'created';
       }
       if (order?.status === 'created') {
-        response = await this.orderModel.create({
-          user_id: Jwtdata.id,
-          razorpay_order_id: order.id,
-          status: order.status,
-          amount: order.amount,
-          address_id: createOrderDto.address_id,
-          products: createOrderDto.product_id,
-          payment_method: createOrderDto.payment_mode,
-        });
+        response = await this.orderModel
+          .create({
+            user_id: Jwtdata.id,
+            razorpay_order_id: order.id,
+            status: order.status,
+            amount: order.amount,
+            address_id: createOrderDto.address_id,
+            products: createOrderDto.product_id,
+            payment_method: createOrderDto.payment_mode,
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       }
       return {
         status: 200,
@@ -60,7 +63,7 @@ export class PaymentService {
         data: response,
       };
     } catch (error) {
-      return error;
+      return { status: 401, error: error.message };
     }
   }
 
