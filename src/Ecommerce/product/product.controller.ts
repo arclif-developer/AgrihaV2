@@ -97,4 +97,13 @@ export class ProductController {
   }
 
   /// #################### ...................... ##################### ///
+
+  // // ################## PRODUCTS BRAND  VIEW ####################### //
+
+  @Get('brand_list')
+  brandListFn() {
+    return this.productService.brandListFn();
+  }
+
+  /// #################### ...................... ##################### ///
 }
