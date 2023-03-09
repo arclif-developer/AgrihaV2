@@ -100,6 +100,9 @@ export class UserPaymentService {
           path: 'project_id',
           populate: {
             path: 'architect_id',
+            populate: {
+              path: 'registered_id',
+            },
           },
         })
         .populate('payment_id')
