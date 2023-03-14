@@ -389,17 +389,18 @@ export class ProjectsService {
   async findSuggestedProducts(projectId: ObjectId) {
     try {
       const data = await this.suggestedProductModel
-        .find({
+        .findOne({
           project_id: projectId,
         })
         .populate({
           path: 'products',
           populate: {
             path: 'productId',
-            // model: this.ProductModel,
+            populate: {
+              path: 'category_id subcategory_id',
+            },
           },
         });
-
       return { status: 200, data: data };
     } catch (error) {
       console.log(error);
