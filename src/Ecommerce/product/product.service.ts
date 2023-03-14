@@ -34,6 +34,8 @@ export class ProductService {
         .find({
           $text: { $search: searchString },
         })
+        .populate('category_id')
+        .populate('subcategory_id')
         .catch((error) => {
           throw new NotFoundException(error);
         });
