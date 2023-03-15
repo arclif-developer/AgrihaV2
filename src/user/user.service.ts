@@ -12,7 +12,7 @@ import { Project, ProjectDocument } from '../schemas/projects.schema';
 import { User, UserDocument } from '../schemas/userSchema';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { business, businessDocument } from 'src/schemas/businessDetails.schema';
+import { business, businessDocument } from '../schemas/businessDetails.schema';
 
 @Injectable()
 export class UserService {

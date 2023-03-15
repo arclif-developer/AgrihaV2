@@ -7,7 +7,7 @@ import { Project, ProjectSchema } from '../schemas/projects.schema';
 import { MailModule } from '../Mailer/mailer.module';
 import { Fileupload, FileuploadSchema } from '../schemas/fileupload.schema';
 import { register, registerSchema } from '../schemas/register.schema';
-import { business, businessSchema } from 'src/schemas/businessDetails.schema';
+import { business, businessSchema } from '../schemas/businessDetails.schema';
 
 @Module({
   imports: [
