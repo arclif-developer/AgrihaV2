@@ -30,6 +30,11 @@ export class UserController {
     return this.userService.findAllUsers();
   }
 
+  @Get('business_userlist')
+  findAllbusinessUsers() {
+    return this.userService.findAllbusinessUsers();
+  }
+
   @Patch('update')
   @UseGuards(AuthGuard('jwt'))
   update(

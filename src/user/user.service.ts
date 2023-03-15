@@ -12,6 +12,7 @@ import { Project, ProjectDocument } from '../schemas/projects.schema';
 import { User, UserDocument } from '../schemas/userSchema';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { business, businessDocument } from 'src/schemas/businessDetails.schema';
 
 @Injectable()
 export class UserService {
@@ -24,6 +25,8 @@ export class UserService {
     private MailerService: MailService,
     @InjectModel(register.name, 'AGRIHA_DB')
     private registerModel: Model<registerDocument>,
+    @InjectModel(business.name, 'AGRIHA_DB')
+    private businessModel: Model<businessDocument>,
   ) {}
 
   async findOne(userId) {
@@ -92,7 +95,7 @@ export class UserService {
 
   async findAllUsers() {
     try {
-      const userlist = await this.userModel
+      const data = await this.userModel
         .find({})
         .populate('registered_id')
         .sort({ createdAt: -1 })
@@ -100,9 +103,18 @@ export class UserService {
         .catch((error) => {
           throw new NotFoundException(error);
         });
-      return { status: 200, data: userlist };
+      return { status: 200, data };
     } catch (error) {
       return error;
     }
+  }
+
+  async findAllbusinessUsers() {
+    const data = await this.businessModel
+      .find({})
+      .populate('registered_id')
+      .sort({ createdAt: -1 })
+      .exec();
+    return { status: 200, data };
   }
 }
