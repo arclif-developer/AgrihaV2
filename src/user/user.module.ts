@@ -7,6 +7,7 @@ import { Project, ProjectSchema } from '../schemas/projects.schema';
 import { MailModule } from '../Mailer/mailer.module';
 import { Fileupload, FileuploadSchema } from '../schemas/fileupload.schema';
 import { register, registerSchema } from '../schemas/register.schema';
+import { business, businessSchema } from 'src/schemas/businessDetails.schema';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { register, registerSchema } from '../schemas/register.schema';
         { name: Project.name, schema: ProjectSchema },
         { name: Fileupload.name, schema: FileuploadSchema },
         { name: register.name, schema: registerSchema },
+        { name: business.name, schema: businessSchema },
       ],
       'AGRIHA_DB',
     ),
