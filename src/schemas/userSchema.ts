@@ -20,7 +20,7 @@ export class User {
   @Prop({ unique: true, index: true, sparse: true })
   email: string;
 
-  @Prop({ default: null, index: true, sparse: true })
+  @Prop({ index: true, sparse: true })
   profession: string;
 
   @Prop({ default: null })
@@ -43,6 +43,27 @@ export class User {
 
   @Prop({ default: null })
   Address: [];
+
+  @Prop({
+    lowercase: true,
+    index: true,
+    sparse: true,
+  })
+  business_name: string;
+
+  @Prop({
+    lowercase: true,
+    index: true,
+    sparse: true,
+  })
+  business_type: string;
+
+  @Prop({
+    lowercase: true,
+    index: true,
+    sparse: true,
+  })
+  foundYear: string;
 
   @Prop({ default: null })
   city: string;

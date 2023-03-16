@@ -31,6 +31,7 @@ import { adminProductModule } from './Ecommerce/admin/product/product.module';
 import { PaymentModule } from './Ecommerce/payment/payment.module';
 import { AddressModule } from './Ecommerce/address/address.module';
 import { OrderModule } from './Ecommerce/order/order.module';
+import { WalletModule } from './wallet/wallet.module';
 
 @Module({
   imports: [
@@ -75,6 +76,7 @@ import { OrderModule } from './Ecommerce/order/order.module';
     PaymentModule,
     AddressModule,
     OrderModule,
+    WalletModule,
   ],
   controllers: [],
   providers: [
