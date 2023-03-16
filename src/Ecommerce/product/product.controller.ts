@@ -89,11 +89,20 @@ export class ProductController {
 
   /// #################### ...................... ##################### ///
 
-  // // ################## USER REQUEST PRODUCTS VIEW ####################### //
+  // // ##################  REQUEST PRODUCTS VIEW ####################### //
 
   @Get('requestProduct_view')
   requestProducts(@Query() query: any) {
     return this.productService.requestProducts(query);
+  }
+
+  /// #################### ...................... ##################### ///
+
+  // // ##################  USER REQUEST PRODUCTS HISTORY ####################### //
+  @Get('requestProduct_view')
+  @UseGuards(AuthGuard('jwt'))
+  userRequestHistory(@GetCurrentUserById() Jwtdata: any) {
+    return this.productService.userRequestHistory(Jwtdata);
   }
 
   /// #################### ...................... ##################### ///

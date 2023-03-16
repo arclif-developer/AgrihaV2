@@ -9,10 +9,7 @@ import { Wallet, WalletSchema } from '../../schemas/wallet.schema';
 @Module({
   imports: [
     MongooseModule.forFeature(
-      [
-        { name: Order.name, schema: OrderSchema },
-        { name: Wallet.name, schema: WalletSchema },
-      ],
+      [{ name: Order.name, schema: OrderSchema }],
       'AGRIHA_DB',
     ),
     RazorpayModule.forRoot({
