@@ -67,6 +67,9 @@ export class Order {
   payment_method: string;
 
   @Prop()
+  role: string;
+
+  @Prop()
   captured: Boolean = false;
 
   @Prop()

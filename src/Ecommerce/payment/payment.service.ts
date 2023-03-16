@@ -9,6 +9,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { InjectRazorpay } from 'nestjs-razorpay';
 import * as Razorpay from 'razorpay';
+import { Wallet, WalletDocument } from '../../schemas/wallet.schema';
 import { Status } from '../../models/Enums';
 import { Order, OrderDocument } from '../../schemas/order.schema';
 import { CreatePaymentDto } from './dto/create-payment.dto';
@@ -21,6 +22,8 @@ export class PaymentService {
     @InjectRazorpay() private readonly razorpayClient: any = Razorpay,
     @InjectModel(Order.name, 'AGRIHA_DB')
     private orderModel: Model<OrderDocument>,
+    @InjectModel(Wallet.name, 'AGRIHA_DB')
+    private walletModel: Model<WalletDocument>,
   ) {}
 
   async createOrder(
@@ -48,10 +51,11 @@ export class PaymentService {
             user_id: Jwtdata.id,
             razorpay_order_id: order.id,
             status: order.status,
-            amount: order.amount,
+            amount: createOrderDto.amount,
             address_id: createOrderDto.address_id,
             products: createOrderDto.product_id,
             payment_method: createOrderDto.payment_mode,
+            role: Jwtdata.role,
           })
           .catch((error) => {
             console.log(error);
@@ -82,7 +86,7 @@ export class PaymentService {
         razorpay_payment_id,
       );
       if (response?.captured === true) {
-        await this.orderModel.updateOne(
+        const data: any = await this.orderModel.findOneAndUpdate(
           { razorpay_order_id: razorpay_order_id },
           {
             $set: {
@@ -94,6 +98,15 @@ export class PaymentService {
             },
           },
         );
+        if (data?.role === 'contractor' || data.role === 'business') {
+          if (data?.amount >= 50000) {
+            const credits = data.amount % 50;
+            await this.walletModel.updateOne(
+              { user_id: data.user_id },
+              { $inc: { balance: credits } },
+            );
+          }
+        }
         return { status: 200, message: 'Payment successfully completed' };
       }
     } catch (error) {
