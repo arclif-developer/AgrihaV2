@@ -99,7 +99,7 @@ export class ProductController {
   /// #################### ...................... ##################### ///
 
   // // ##################  USER REQUEST PRODUCTS HISTORY ####################### //
-  @Get('requestProduct_view')
+  @Get('userReqProduct_histroy')
   @UseGuards(AuthGuard('jwt'))
   userRequestHistory(@GetCurrentUserById() Jwtdata: any) {
     return this.productService.userRequestHistory(Jwtdata);
