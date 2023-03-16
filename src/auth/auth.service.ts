@@ -185,12 +185,21 @@ export class AuthService {
             user_id: responseDta._id,
             balance: 1000,
           });
+        } else if (IsregisterDta.role === 'contractor') {
+          responseDta = await this.userModel.create({
+            registered_id: IsregisterDta._id,
+          });
+          this.walletModel.create({
+            user_id: responseDta._id,
+            balance: 0,
+          });
         }
         this.MailerService.supportMail(IsregisterDta);
 
         const token = this.jwtService.sign(
           {
             id: responseDta._id,
+            role: IsregisterDta.role,
           },
           {
             expiresIn: '29d',
@@ -265,14 +274,15 @@ export class AuthService {
   async veriyLogin(verifyDta: verifyMobileDto, DeviceAndip: DeviceIp, Jwtdta) {
     const Isregister = await this.registerModel.findOne({ _id: Jwtdta.reg_id });
     let userDta;
-    if (Jwtdta.role == 'user' || Jwtdta.role == 'general') {
+    if (
+      Jwtdta.role == 'user' ||
+      Jwtdta.role == 'general' ||
+      Jwtdta.role == 'business' ||
+      Jwtdta.role == 'contractor'
+    ) {
       userDta = await this.userModel.findOne({ registered_id: Jwtdta.reg_id });
     } else if (Jwtdta.role == 'architect') {
       userDta = await this.architectsModel.findOne({
-        registered_id: Jwtdta.reg_id,
-      });
-    } else if (Jwtdta.role == 'business') {
-      userDta = await this.userModel.findOne({
         registered_id: Jwtdta.reg_id,
       });
     }
@@ -297,6 +307,7 @@ export class AuthService {
         const token = this.jwtService.sign(
           {
             id: userDta._id,
+            role: Jwtdta.role,
           },
           {
             expiresIn: '29d',
