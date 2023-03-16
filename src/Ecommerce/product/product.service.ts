@@ -189,4 +189,12 @@ export class ProductService {
       return { status: 404, error: error.message };
     }
   }
+  async userRequestHistory(Jwtdata) {
+    try {
+      const data = await this.reqProductModel.find({ creator: Jwtdata.id });
+      return { status: 200, data };
+    } catch (error) {
+      return { status: 401, error: error };
+    }
+  }
 }

@@ -22,8 +22,6 @@ export class PaymentService {
     @InjectRazorpay() private readonly razorpayClient: any = Razorpay,
     @InjectModel(Order.name, 'AGRIHA_DB')
     private orderModel: Model<OrderDocument>,
-    @InjectModel(Wallet.name, 'AGRIHA_DB')
-    private walletModel: Model<WalletDocument>,
   ) {}
 
   async createOrder(
@@ -98,15 +96,6 @@ export class PaymentService {
             },
           },
         );
-        if (data?.role === 'contractor' || data.role === 'business') {
-          if (data?.amount >= 50000) {
-            const credits = data.amount % 50;
-            await this.walletModel.updateOne(
-              { user_id: data.user_id },
-              { $inc: { balance: credits } },
-            );
-          }
-        }
         return { status: 200, message: 'Payment successfully completed' };
       }
     } catch (error) {

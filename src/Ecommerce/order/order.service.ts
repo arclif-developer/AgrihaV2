@@ -50,7 +50,7 @@ export class OrderService {
           },
         },
       );
-      return { status: 200, message: 'Order confirmation successful' };
+      return { status: 200, message: 'Order confirmed' };
     } catch (error) {
       return { status: 401, error: error.message };
     }
