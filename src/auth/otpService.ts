@@ -118,7 +118,6 @@ export class otpService {
         return response;
       }
     } catch (error) {
-      console.log(error);
       return error;
     }
   }
@@ -139,7 +138,6 @@ export class otpService {
           }
         })
         .catch((error) => {
-          console.log(error);
           if (error.status === 404) {
             throw new NotAcceptableException('OTP miss match');
           }

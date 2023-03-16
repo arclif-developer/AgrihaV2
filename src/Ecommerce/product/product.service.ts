@@ -53,10 +53,13 @@ export class ProductService {
         .find({
           $or: [{ category_id: id }, { subcategory_id: id }],
         })
+        .populate('category_id')
+        .populate('subcategory_id')
         .catch((error) => {
           console.log(error);
           throw new NotFoundException();
         });
+
       return { status: 200, products: data };
     } catch (error) {
       return error;
