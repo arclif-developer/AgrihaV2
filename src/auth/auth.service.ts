@@ -41,6 +41,7 @@ import {
 import { otpService } from './otpService';
 import { Referral, ReferralDocument } from '../schemas/referral.schema';
 import { business, businessDocument } from '../schemas/businessDetails.schema';
+import { Wallet, WalletDocument } from '../schemas/wallet.schema';
 
 @Injectable()
 export class AuthService {
@@ -62,6 +63,8 @@ export class AuthService {
     @InjectModel(business.name, 'AGRIHA_DB')
     private businessModel: Model<businessDocument>,
     private MailerService: MailService,
+    @InjectModel(Wallet.name, 'AGRIHA_DB')
+    private walletModel: Model<WalletDocument>,
   ) {}
 
   // User Registeration
@@ -148,6 +151,70 @@ export class AuthService {
     }
   }
 
+  async verify_register(verifyDta: verifyMobileDto, jwtdata: any) {
+    try {
+      const id = new mongoose.Types.ObjectId(jwtdata.id);
+      const IsregisterDta = await this.registerModel
+        .findOne({
+          _id: id,
+        })
+        .exec();
+      let verifyOtp = await this.otpService.twilioVerifyOtp(
+        verifyDta,
+        jwtdata.phone,
+      );
+      if (verifyOtp.status === 'Otp Matched') {
+        IsregisterDta.status = true;
+        IsregisterDta.save();
+        let responseDta;
+        if (IsregisterDta.role == 'user' || IsregisterDta.role == 'general') {
+          responseDta = await this.userModel.create({
+            registered_id: IsregisterDta._id,
+          });
+          this.MailerService.welcomeMail(IsregisterDta);
+        } else if (IsregisterDta.role == 'architect') {
+          responseDta = await this.architectsModel.create({
+            registered_id: IsregisterDta._id,
+          });
+          // this.MailerService.notification_mail(IsregisterDta);
+        } else if (IsregisterDta.role === 'business') {
+          responseDta = await this.userModel.create({
+            registered_id: IsregisterDta._id,
+          });
+          this.walletModel.create({
+            user_id: responseDta._id,
+            balance: 1000,
+          });
+        }
+        this.MailerService.supportMail(IsregisterDta);
+
+        const token = this.jwtService.sign(
+          {
+            id: responseDta._id,
+          },
+          {
+            expiresIn: '29d',
+          },
+        );
+        // REFFERAL CODE DOCUMENT STATUS UPDATE
+        await this.referralModel.updateOne(
+          { 'users.registerId': IsregisterDta._id },
+          { $set: { 'users.$.status': 'approved' } },
+        );
+
+        return {
+          status: 200,
+          message: `${IsregisterDta.role} registeration successfully`,
+          role: IsregisterDta.role,
+          id: responseDta._id,
+          token: token,
+        };
+      }
+    } catch (error) {
+      return { status: 401, error: error };
+    }
+  }
+
   // User mobile login
   async mobileLogin(dta: mobileLoginDto) {
     try {
@@ -205,7 +272,7 @@ export class AuthService {
         registered_id: Jwtdta.reg_id,
       });
     } else if (Jwtdta.role == 'business') {
-      userDta = await this.businessModel.findOne({
+      userDta = await this.userModel.findOne({
         registered_id: Jwtdta.reg_id,
       });
     }
@@ -298,7 +365,6 @@ export class AuthService {
         };
         newRegister = new this.registerModel(register);
         const saveDta = await newRegister.save().catch((error) => {
-          console.log(error);
           if (error.code === 11000) {
             throw new ConflictException('Phone number or email already exit');
           }
@@ -350,67 +416,6 @@ export class AuthService {
         };
       }
     } catch (error) {
-      return error;
-    }
-  }
-
-  async verify_register(verifyDta: verifyMobileDto, jwtdata: any) {
-    try {
-      const id = new mongoose.Types.ObjectId(jwtdata.id);
-      const IsregisterDta = await this.registerModel
-        .findOne({
-          _id: id,
-        })
-        .exec();
-      let verifyOtp = await this.otpService.twilioVerifyOtp(
-        verifyDta,
-        jwtdata.phone,
-      );
-      if (verifyOtp.status === 'Otp Matched') {
-        IsregisterDta.status = true;
-        IsregisterDta.save();
-        let responseDta;
-        if (IsregisterDta.role == 'user' || IsregisterDta.role == 'general') {
-          responseDta = await this.userModel.create({
-            registered_id: IsregisterDta._id,
-          });
-          this.MailerService.welcomeMail(IsregisterDta);
-        } else if (IsregisterDta.role == 'architect') {
-          responseDta = await this.architectsModel.create({
-            registered_id: IsregisterDta._id,
-          });
-          // this.MailerService.notification_mail(IsregisterDta);
-        } else if (IsregisterDta.role === 'business') {
-          responseDta = await this.businessModel.create({
-            registered_id: IsregisterDta._id,
-          });
-        }
-        this.MailerService.supportMail(IsregisterDta);
-
-        const token = this.jwtService.sign(
-          {
-            id: responseDta._id,
-          },
-          {
-            expiresIn: '29d',
-          },
-        );
-        // REFFERAL CODE DOCUMENT STATUS UPDATE
-        await this.referralModel.updateOne(
-          { 'users.registerId': IsregisterDta._id },
-          { $set: { 'users.$.status': 'approved' } },
-        );
-
-        return {
-          status: 200,
-          message: `${IsregisterDta.role} registeration successfully`,
-          role: IsregisterDta.role,
-          id: responseDta._id,
-          token: token,
-        };
-      }
-    } catch (error) {
-      console.log(error);
       return error;
     }
   }

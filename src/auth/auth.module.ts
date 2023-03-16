@@ -23,6 +23,7 @@ import {
 } from '../schemas/testRegister.schema';
 import { Referral, ReferralSchema } from '../schemas/referral.schema';
 import { business, businessSchema } from '../schemas/businessDetails.schema';
+import { Wallet, WalletSchema } from '../schemas/wallet.schema';
 
 @Module({
   imports: [
@@ -44,6 +45,7 @@ import { business, businessSchema } from '../schemas/businessDetails.schema';
         { name: testRegister.name, schema: testRegisterSchema },
         { name: Referral.name, schema: ReferralSchema },
         { name: business.name, schema: businessSchema },
+        { name: Wallet.name, schema: WalletSchema },
       ],
       'AGRIHA_DB',
     ),
