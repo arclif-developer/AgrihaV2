@@ -97,9 +97,11 @@ export class ProductService {
   //######################## getting product subcategory  #########################//
   async get_subcategories(id: ObjectId) {
     try {
-      const data = await this.subcategoryModel.find({
-        category_id: id,
-      });
+      const data = await this.subcategoryModel
+        .find({
+          category_id: id,
+        })
+        .populate('category_id');
       return { status: 200, subcategories: data };
     } catch (error) {}
   }
