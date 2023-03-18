@@ -27,8 +27,11 @@ export class OrderController {
 
   @Patch('order_confirmed')
   @UseGuards(AuthGuard('jwt'))
-  orderConfirmed(@Body('products_id') id: ObjectId) {
-    return this.orderService.orderConfirmed(id);
+  orderConfirmed(
+    @Body('products_id') id: ObjectId,
+    @GetCurrentUserById() Jwtdata: any,
+  ) {
+    return this.orderService.orderConfirmed(id, Jwtdata);
   }
 
   // Order history view
