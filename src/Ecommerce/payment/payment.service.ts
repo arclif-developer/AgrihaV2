@@ -14,6 +14,7 @@ import { Status } from '../../models/Enums';
 import { Order, OrderDocument } from '../../schemas/order.schema';
 import { CreatePaymentDto } from './dto/create-payment.dto';
 import { UpdatePaymentDto } from './dto/update-payment.dto';
+import { Cart, CartDocument } from 'src/schemas/cart.schema';
 
 @Injectable()
 export class PaymentService {
@@ -22,6 +23,7 @@ export class PaymentService {
     @InjectRazorpay() private readonly razorpayClient: any = Razorpay,
     @InjectModel(Order.name, 'AGRIHA_DB')
     private orderModel: Model<OrderDocument>,
+    @InjectModel(Cart.name, 'AGRIHA_DB') private cartModel: Model<CartDocument>,
   ) {}
 
   async createOrder(
@@ -58,6 +60,7 @@ export class PaymentService {
           .catch((error) => {
             console.log(error);
           });
+        await this.cartModel.deleteMany({ user_id: Jwtdata.id });
       }
       return {
         status: 200,
