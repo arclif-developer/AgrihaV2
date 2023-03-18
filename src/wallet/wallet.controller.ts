@@ -6,25 +6,24 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { WalletService } from './wallet.service';
 import { CreateWalletDto } from './dto/create-wallet.dto';
 import { UpdateWalletDto } from './dto/update-wallet.dto';
 import { ObjectId } from 'mongoose';
+import { AuthGuard } from '@nestjs/passport';
+import { GetCurrentUserById } from 'src/utils';
 
 @Controller('wallet')
 export class WalletController {
   constructor(private readonly walletService: WalletService) {}
 
-  @Get()
-  findAll() {
-    return this.walletService.findAll();
-  }
-
   // USER ID TO FIND USER'S WALLET
-  @Get(':id')
-  findOne(@Param('id') id: ObjectId) {
-    return this.walletService.findOne(id);
+  @Get()
+  @UseGuards(AuthGuard('jwt'))
+  findOne(@GetCurrentUserById() Jwtdata: any) {
+    return this.walletService.findOne(Jwtdata.id);
   }
 
   @Patch(':id')
