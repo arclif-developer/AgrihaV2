@@ -13,7 +13,7 @@ import { CreateWalletDto } from './dto/create-wallet.dto';
 import { UpdateWalletDto } from './dto/update-wallet.dto';
 import { ObjectId } from 'mongoose';
 import { AuthGuard } from '@nestjs/passport';
-import { GetCurrentUserById } from 'src/utils';
+import { GetCurrentUserById } from '../utils';
 
 @Controller('wallet')
 export class WalletController {
