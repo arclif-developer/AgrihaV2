@@ -14,7 +14,7 @@ import { Status } from '../../models/Enums';
 import { Order, OrderDocument } from '../../schemas/order.schema';
 import { CreatePaymentDto } from './dto/create-payment.dto';
 import { UpdatePaymentDto } from './dto/update-payment.dto';
-import { Cart, CartDocument } from 'src/schemas/cart.schema';
+import { Cart, CartDocument } from '../../schemas/cart.schema';
 
 @Injectable()
 export class PaymentService {
