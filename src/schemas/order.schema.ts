@@ -24,6 +24,7 @@ export class Order {
       {
         confirm: { type: Boolean, default: false },
         delivery_status: { type: String, default: Status.PLACED },
+        amount: { type: Number },
         quantity: { type: Number, default: 1 },
         seller_id: {
           type: mongoose.Schema.Types.ObjectId,
@@ -43,6 +44,7 @@ export class Order {
     productId: Product;
     delivery_status: string;
     quantity: Number;
+    amount: Number;
     seller_id: User;
   };
 
