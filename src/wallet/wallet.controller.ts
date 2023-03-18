@@ -19,13 +19,8 @@ import { GetCurrentUserById } from 'src/utils';
 export class WalletController {
   constructor(private readonly walletService: WalletService) {}
 
-  @Get()
-  findAll() {
-    return this.walletService.findAll();
-  }
-
   // USER ID TO FIND USER'S WALLET
-  @Get(':id')
+  @Get()
   @UseGuards(AuthGuard('jwt'))
   findOne(@GetCurrentUserById() Jwtdata: any) {
     return this.walletService.findOne(Jwtdata.id);
