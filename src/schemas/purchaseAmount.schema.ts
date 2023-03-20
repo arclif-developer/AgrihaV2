@@ -20,6 +20,9 @@ export class purchaseAmount {
 
   @Prop({ default: 0 })
   amount: Number;
+
+  @Prop()
+  admin: Boolean;
 }
 
 export const purchaseAmountSchema =

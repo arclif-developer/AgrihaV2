@@ -32,6 +32,7 @@ import { PaymentModule } from './Ecommerce/payment/payment.module';
 import { AddressModule } from './Ecommerce/address/address.module';
 import { OrderModule } from './Ecommerce/order/order.module';
 import { WalletModule } from './wallet/wallet.module';
+import { AdminOrderModule } from './Ecommerce/admin/order/order.module';
 
 @Module({
   imports: [
@@ -77,6 +78,7 @@ import { WalletModule } from './wallet/wallet.module';
     AddressModule,
     OrderModule,
     WalletModule,
+    AdminOrderModule,
   ],
   controllers: [],
   providers: [
