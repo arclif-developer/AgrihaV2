@@ -24,6 +24,7 @@ export class Order {
       {
         confirm: { type: Boolean, default: false },
         delivery_status: { type: String, default: Status.PLACED },
+        admin: { type: Boolean },
         amount: { type: Number },
         quantity: { type: Number, default: 1 },
         seller_id: {
@@ -46,6 +47,7 @@ export class Order {
     quantity: Number;
     amount: Number;
     seller_id: User;
+    admin: Boolean;
   };
 
   @Prop({

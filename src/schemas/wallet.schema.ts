@@ -13,6 +13,9 @@ export class Wallet {
 
   @Prop()
   balance: Number;
+
+  @Prop()
+  role: string;
 }
 
 export const WalletSchema = SchemaFactory.createForClass(Wallet);
