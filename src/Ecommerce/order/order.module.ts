@@ -8,6 +8,10 @@ import {
   purchaseAmount,
   purchaseAmountSchema,
 } from '../../schemas/purchaseAmount.schema';
+import {
+  coinCreditHistory,
+  coinCreditHistorySchema,
+} from '../../schemas/coin_history.schema';
 
 @Module({
   imports: [
@@ -16,6 +20,7 @@ import {
         { name: Order.name, schema: OrderSchema },
         { name: Wallet.name, schema: WalletSchema },
         { name: purchaseAmount.name, schema: purchaseAmountSchema },
+        { name: coinCreditHistory.name, schema: coinCreditHistorySchema },
       ],
       'AGRIHA_DB',
     ),

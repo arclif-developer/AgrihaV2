@@ -8,10 +8,14 @@ import {
 } from '../../schemas/purchaseAmount.schema';
 import { Wallet, WalletDocument } from '../../schemas/wallet.schema';
 import { jwt } from 'twilio';
-import { Status } from '../../models/Enums';
 import { Order, OrderDocument } from '../../schemas/order.schema';
 import { confirmOrderDto, CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
+import {
+  coinCreditHistory,
+  coinCreditHistoryDocument,
+} from '../../schemas/coin_history.schema';
+import { Status } from '../../models/Enums/Status.enum';
 
 @Injectable()
 export class OrderService {
@@ -22,6 +26,8 @@ export class OrderService {
     private WalletModel: Model<WalletDocument>,
     @InjectModel(purchaseAmount.name, 'AGRIHA_DB')
     private purchaseAmountModel: Model<purchaseAmountDocument>,
+    @InjectModel(coinCreditHistory.name, 'AGRIHA_DB')
+    private coinCreditHistoryModel: Model<coinCreditHistoryDocument>,
   ) {}
 
   async sellerOrderPlacedList(JwtData: any) {
@@ -118,6 +124,11 @@ export class OrderService {
               { user_id: IsOrder.user_id },
               { $inc: { balance: creditCoin } },
             );
+            this.coinCreditHistoryModel.create({
+              coinAmount: creditCoin,
+              sender: Jwtdata.id,
+              recipient: IsOrder.user_id,
+            });
             await this.purchaseAmountModel.deleteOne({
               _id: purchaseAmountId,
             });
