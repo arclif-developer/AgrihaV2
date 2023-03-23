@@ -79,6 +79,9 @@ export class Order {
   @Prop()
   amount: Number;
 
+  @Prop()
+  acquirer_data: [];
+
   @Prop({ default: 1 })
   quantity: Number;
 
