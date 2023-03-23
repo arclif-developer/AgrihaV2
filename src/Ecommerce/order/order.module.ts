@@ -11,7 +11,7 @@ import {
 import {
   coinCreditHistory,
   coinCreditHistorySchema,
-} from 'src/schemas/coin_history.schema';
+} from '../../schemas/coin_history.schema';
 
 @Module({
   imports: [

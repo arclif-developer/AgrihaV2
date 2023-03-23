@@ -14,7 +14,7 @@ import { UpdateOrderDto } from './dto/update-order.dto';
 import {
   coinCreditHistory,
   coinCreditHistoryDocument,
-} from 'src/schemas/coin_history.schema';
+} from '../../schemas/coin_history.schema';
 import { Status } from '../../models/Enums/Status.enum';
 
 @Injectable()

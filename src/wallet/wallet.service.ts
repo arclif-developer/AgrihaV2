@@ -4,7 +4,7 @@ import { Model, ObjectId } from 'mongoose';
 import {
   coinCreditHistory,
   coinCreditHistoryDocument,
-} from 'src/schemas/coin_history.schema';
+} from '../schemas/coin_history.schema';
 import { Wallet, WalletDocument } from '../schemas/wallet.schema';
 import { CreateWalletDto } from './dto/create-wallet.dto';
 import { UpdateWalletDto } from './dto/update-wallet.dto';
