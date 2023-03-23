@@ -26,6 +26,12 @@ export class WalletController {
     return this.walletService.findOne(Jwtdata.id);
   }
 
+  // @Get('history')
+  // @UseGuards(AuthGuard('jwt'))
+  // findwalletHistory(@GetCurrentUserById() Jwtdata: any) {
+  //   return this.walletService.findwalletHistory(Jwtdata.id);
+  // }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateWalletDto: UpdateWalletDto) {
     return this.walletService.update(+id, updateWalletDto);
