@@ -1,6 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, ObjectId } from 'mongoose';
+import * as Razorpay from 'razorpay';
+import { InjectRazorpay } from 'nestjs-razorpay';
 import {
   coinCreditHistory,
   coinCreditHistoryDocument,
@@ -8,6 +10,7 @@ import {
 import { Wallet, WalletDocument } from '../schemas/wallet.schema';
 import { CreateWalletDto } from './dto/create-wallet.dto';
 import { UpdateWalletDto } from './dto/update-wallet.dto';
+import { orderCoin, orderCoinDocument } from '../schemas/orderCoin';
 
 @Injectable()
 export class WalletService {
@@ -16,6 +19,9 @@ export class WalletService {
     private WalletModel: Model<WalletDocument>,
     @InjectModel(coinCreditHistory.name, 'AGRIHA_DB')
     private coinCreditHistoryModel: Model<coinCreditHistoryDocument>,
+    @InjectRazorpay() private readonly razorpayClient: any = Razorpay,
+    @InjectModel(orderCoin.name, 'AGRIHA_DB')
+    private OrderCoinModel: Model<orderCoinDocument>,
   ) {}
   findAll() {
     return `This action returns all wallet`;
@@ -54,6 +60,61 @@ export class WalletService {
       return { status: 200, history };
     } catch (error) {
       return { status: 401, error: error };
+    }
+  }
+
+  async purchaseWalletCoin(
+    data: any,
+    Jwtdata: any,
+    payment_capture: 0 | 1 = 1,
+  ) {
+    const options = {
+      amount: `${parseInt(data.amount)}00`,
+      currency: 'INR',
+      receipt: 'receipt#1',
+      payment_capture,
+    };
+    const order = await this.razorpayClient.orders.create(options);
+    const newOrder = await this.OrderCoinModel.create({
+      user_id: Jwtdata.id,
+      razorpay_order_id: order.id,
+      status: order.status,
+      amount: data.amount,
+      role: Jwtdata.role,
+    });
+    return {
+      status: 200,
+      message: 'New order created successfully.',
+      data: newOrder,
+    };
+  }
+
+  async verifyPayment(razorpay_order_id: string, razorpay_payment_id: string) {
+    try {
+      const response = await this.razorpayClient.payments.fetch(
+        razorpay_payment_id,
+      );
+      if (response?.captured === true) {
+        const data: any = await this.OrderCoinModel.findOneAndUpdate(
+          { razorpay_order_id: razorpay_order_id },
+          {
+            $set: {
+              razorpay_payment_id: response.id,
+              status: response.status,
+              captured: response.captured,
+              method: response.method,
+              acquirer_data: response.acquirer_data,
+            },
+          },
+        );
+        await this.WalletModel.updateOne(
+          { user_id: data.user_id },
+          { $inc: { balance: data.amount } },
+        );
+        return { status: 200, message: 'Payment successfully completed' };
+      }
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 

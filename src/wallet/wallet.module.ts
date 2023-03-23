@@ -7,6 +7,8 @@ import {
   coinCreditHistory,
   coinCreditHistorySchema,
 } from '../schemas/coin_history.schema';
+import { RazorpayModule } from 'nestjs-razorpay';
+import { orderCoin, orderCoinSchema } from '../schemas/orderCoin';
 
 @Module({
   imports: [
@@ -14,9 +16,14 @@ import {
       [
         { name: Wallet.name, schema: WalletSchema },
         { name: coinCreditHistory.name, schema: coinCreditHistorySchema },
+        { name: orderCoin.name, schema: orderCoinSchema },
       ],
       'AGRIHA_DB',
     ),
+    RazorpayModule.forRoot({
+      key_id: 'rzp_test_iMKaW0U63x6w4O',
+      key_secret: 'Amx4AO6TcMKz3QqU01m1ZN7X',
+    }),
   ],
   controllers: [WalletController],
   providers: [WalletService],
