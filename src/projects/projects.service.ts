@@ -389,7 +389,7 @@ export class ProjectsService {
   async findSuggestedProducts(projectId: ObjectId) {
     try {
       const data = await this.suggestedProductModel
-        .findOne({
+        .find({
           project_id: projectId,
         })
         .populate({
