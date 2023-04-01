@@ -1,16 +1,10 @@
 import { Injectable, NotAcceptableException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model, ObjectId } from 'mongoose';
-import { Product } from '../../schemas/product.schema';
-import {
-  purchaseAmount,
-  purchaseAmountDocument,
-} from '../../schemas/purchaseAmount.schema';
 import { Wallet, WalletDocument } from '../../schemas/wallet.schema';
 import { jwt } from 'twilio';
 import { Order, OrderDocument } from '../../schemas/order.schema';
-import { confirmOrderDto, CreateOrderDto } from './dto/create-order.dto';
-import { UpdateOrderDto } from './dto/update-order.dto';
+
 import {
   coinCreditHistory,
   coinCreditHistoryDocument,
@@ -24,8 +18,6 @@ export class OrderService {
     private OrderModel: Model<OrderDocument>,
     @InjectModel(Wallet.name, 'AGRIHA_DB')
     private WalletModel: Model<WalletDocument>,
-    @InjectModel(purchaseAmount.name, 'AGRIHA_DB')
-    private purchaseAmountModel: Model<purchaseAmountDocument>,
     @InjectModel(coinCreditHistory.name, 'AGRIHA_DB')
     private coinCreditHistoryModel: Model<coinCreditHistoryDocument>,
   ) {}
@@ -65,56 +57,16 @@ export class OrderService {
 
   async orderConfirmed(id, Jwtdata) {
     try {
-      const IsOrder: any = await this.OrderModel.findOneAndUpdate(
-        { 'products._id': id },
-        {
-          $set: {
-            'products.$.confirm': true,
-            'products.$.delivery_status': Status.CONFIRM,
-          },
-        },
-      );
+      const IsOrder: any = await this.OrderModel.findOne({
+        'products._id': id,
+      });
       if (IsOrder.role === 'contractor') {
         const confirmProduct = IsOrder?.products.filter(
           (items) => items._id == id,
         );
-        const tiers = [
-          { amount: 100000, coins: 100 },
-          { amount: 150000, coins: 150 },
-          { amount: 200000, coins: 250 },
-        ];
-        let purchaseAmount;
-        let purchaseAmountId;
-        if (confirmProduct[0]?.amount >= 100000) {
-          purchaseAmount = confirmProduct[0]?.amount;
-        } else {
-          const IsPurchaseAmount = await this.purchaseAmountModel.findOne({
-            $and: [{ user_id: IsOrder.user_id, seller_id: Jwtdata.id }],
-          });
-          if (IsPurchaseAmount) {
-            await IsPurchaseAmount.updateOne({
-              $inc: { amount: confirmProduct[0]?.amount },
-            });
-            purchaseAmount =
-              IsPurchaseAmount?.amount + confirmProduct[0]?.amount;
-            purchaseAmountId = IsPurchaseAmount._id;
-          } else {
-            const createPurchaseAmount = await this.purchaseAmountModel.create({
-              user_id: IsOrder.user_id,
-              seller_id: Jwtdata.id,
-              amount: confirmProduct[0]?.amount,
-            });
-            purchaseAmount = confirmProduct[0]?.amount;
-            purchaseAmountId = createPurchaseAmount._id;
-          }
-        }
-        let creditCoin;
-        if (purchaseAmount >= 100000) {
-          tiers.map((items) => {
-            if (purchaseAmount >= items.amount) {
-              creditCoin = items.coins;
-            }
-          });
+        if (confirmProduct[0]?.amount >= 1000) {
+          console.log(confirmProduct[0]?.amount);
+          let creditCoin = confirmProduct[0]?.amount / 1000;
           const IsSellerWallet = await this.WalletModel.findOne({
             user_id: Jwtdata.id,
           });
@@ -129,15 +81,48 @@ export class OrderService {
               sender: Jwtdata.id,
               recipient: IsOrder.user_id,
             });
-            await this.purchaseAmountModel.deleteOne({
-              _id: purchaseAmountId,
-            });
+            await this.OrderModel.updateOne(
+              {
+                'products._id': id,
+              },
+              {
+                $set: {
+                  'products.$.confirm': true,
+                  'products.$.delivery_status': Status.CONFIRM,
+                },
+              },
+            );
           } else {
-            throw new NotAcceptableException('Insufficient Coin balance');
+            throw new NotAcceptableException(
+              'Insufficient Coin balance. Order is not confirmed',
+            );
           }
+        } else {
+          await this.OrderModel.updateOne(
+            {
+              'products._id': id,
+            },
+            {
+              $set: {
+                'products.$.confirm': true,
+                'products.$.delivery_status': Status.CONFIRM,
+              },
+            },
+          );
         }
+      } else {
+        await this.OrderModel.updateOne(
+          {
+            'products._id': id,
+          },
+          {
+            $set: {
+              'products.$.confirm': true,
+              'products.$.delivery_status': Status.CONFIRM,
+            },
+          },
+        );
       }
-
       return { status: 200, message: 'Order confirmed' };
     } catch (error) {
       console.log(error);

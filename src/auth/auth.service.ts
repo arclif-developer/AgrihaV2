@@ -183,7 +183,7 @@ export class AuthService {
           });
           this.walletModel.create({
             user_id: responseDta._id,
-            balance: 1000,
+            balance: 100,
           });
         } else if (IsregisterDta.role === 'contractor') {
           responseDta = await this.userModel.create({
