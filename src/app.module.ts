@@ -33,6 +33,7 @@ import { AddressModule } from './Ecommerce/address/address.module';
 import { OrderModule } from './Ecommerce/order/order.module';
 import { WalletModule } from './wallet/wallet.module';
 import { AdminOrderModule } from './Ecommerce/admin/order/order.module';
+import { AdminWalletModule } from './Ecommerce/admin/admin-wallet/admin-wallet.module';
 
 @Module({
   imports: [
@@ -79,6 +80,7 @@ import { AdminOrderModule } from './Ecommerce/admin/order/order.module';
     OrderModule,
     WalletModule,
     AdminOrderModule,
+    AdminWalletModule,
   ],
   controllers: [],
   providers: [

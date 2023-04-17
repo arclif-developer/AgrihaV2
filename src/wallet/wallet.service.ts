@@ -4,24 +4,27 @@ import { Model, ObjectId } from 'mongoose';
 import * as Razorpay from 'razorpay';
 import { InjectRazorpay } from 'nestjs-razorpay';
 import {
-  coinCreditHistory,
-  coinCreditHistoryDocument,
+  coinHistory,
+  coinHistoryDocument,
 } from '../schemas/coin_history.schema';
 import { Wallet, WalletDocument } from '../schemas/wallet.schema';
 import { CreateWalletDto } from './dto/create-wallet.dto';
 import { UpdateWalletDto } from './dto/update-wallet.dto';
-import { orderCoin, orderCoinDocument } from '../schemas/orderCoin';
+import {
+  PurchaseCoinHistory,
+  PurchaseCoinHistoryDocument,
+} from '../schemas/PurchaseCoinHistory';
 
 @Injectable()
 export class WalletService {
   constructor(
     @InjectModel(Wallet.name, 'AGRIHA_DB')
     private WalletModel: Model<WalletDocument>,
-    @InjectModel(coinCreditHistory.name, 'AGRIHA_DB')
-    private coinCreditHistoryModel: Model<coinCreditHistoryDocument>,
+    @InjectModel(coinHistory.name, 'AGRIHA_DB')
+    private coinHistoryModel: Model<coinHistoryDocument>,
     @InjectRazorpay() private readonly razorpayClient: any = Razorpay,
-    @InjectModel(orderCoin.name, 'AGRIHA_DB')
-    private OrderCoinModel: Model<orderCoinDocument>,
+    @InjectModel(PurchaseCoinHistory.name, 'AGRIHA_DB')
+    private purchaseCoinHistoryModel: Model<PurchaseCoinHistoryDocument>,
   ) {}
   findAll() {
     return `This action returns all wallet`;
@@ -30,7 +33,7 @@ export class WalletService {
   async findOne(id: ObjectId) {
     try {
       const data = await this.WalletModel.findOne({ user_id: id });
-      const history = await this.coinCreditHistoryModel
+      const coinHistory = await this.coinHistoryModel
         .find({
           $or: [{ sender: id }, { recipient: id }],
         })
@@ -46,6 +49,10 @@ export class WalletService {
             path: 'registered_id',
           },
         });
+      const purchaseCoin = await this.purchaseCoinHistoryModel.find({
+        user_id: id,
+      });
+      const history = [...coinHistory, ...purchaseCoin];
       return { status: 200, data, history };
     } catch (error) {
       return { status: 401, error: error };
@@ -54,7 +61,7 @@ export class WalletService {
 
   async findwalletHistory(id: ObjectId) {
     try {
-      const history = await this.coinCreditHistoryModel.find({
+      const history = await this.coinHistoryModel.find({
         $or: [{ sender: id }, { recipient: id }],
       });
       return { status: 200, history };
@@ -75,7 +82,7 @@ export class WalletService {
       payment_capture,
     };
     const order = await this.razorpayClient.orders.create(options);
-    const newOrder = await this.OrderCoinModel.create({
+    const newOrder = await this.purchaseCoinHistoryModel.create({
       user_id: Jwtdata.id,
       razorpay_order_id: order.id,
       status: order.status,
@@ -95,7 +102,7 @@ export class WalletService {
         razorpay_payment_id,
       );
       if (response?.captured === true) {
-        const data: any = await this.OrderCoinModel.findOneAndUpdate(
+        const data: any = await this.purchaseCoinHistoryModel.findOneAndUpdate(
           { razorpay_order_id: razorpay_order_id },
           {
             $set: {

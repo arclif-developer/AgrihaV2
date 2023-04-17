@@ -167,9 +167,18 @@ export class AuthService {
         IsregisterDta.status = true;
         IsregisterDta.save();
         let responseDta;
-        if (IsregisterDta.role == 'user' || IsregisterDta.role == 'general') {
+        if (
+          IsregisterDta.role == 'user' ||
+          IsregisterDta.role == 'general' ||
+          IsregisterDta.role === 'contractor'
+        ) {
           responseDta = await this.userModel.create({
             registered_id: IsregisterDta._id,
+          });
+          this.walletModel.create({
+            user_id: responseDta._id,
+            balance: 0,
+            role: IsregisterDta.role,
           });
           this.MailerService.welcomeMail(IsregisterDta);
         } else if (IsregisterDta.role == 'architect') {
@@ -183,17 +192,16 @@ export class AuthService {
           });
           this.walletModel.create({
             user_id: responseDta._id,
-            balance: 1000,
-          });
-        } else if (IsregisterDta.role === 'contractor') {
-          responseDta = await this.userModel.create({
-            registered_id: IsregisterDta._id,
-          });
-          this.walletModel.create({
-            user_id: responseDta._id,
-            balance: 0,
+            balance: 100,
+            role: 'business',
           });
         }
+        // } else if () {
+        //   responseDta = await this.userModel.create({
+        //     registered_id: IsregisterDta._id,
+        //   });
+
+        // }
         this.MailerService.supportMail(IsregisterDta);
 
         const token = this.jwtService.sign(
@@ -237,7 +245,6 @@ export class AuthService {
           ],
         })
         .exec();
-
       if (Isphone?.status === true) {
         const response = await this.otpService.TwiliosentOtp(dta.phone);
         if (response.status === 'pending') {

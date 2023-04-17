@@ -3,20 +3,20 @@ import { WalletService } from './wallet.service';
 import { WalletController } from './wallet.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Wallet, WalletSchema } from '../schemas/wallet.schema';
-import {
-  coinCreditHistory,
-  coinCreditHistorySchema,
-} from '../schemas/coin_history.schema';
+import { coinHistory, coinHistorySchema } from '../schemas/coin_history.schema';
 import { RazorpayModule } from 'nestjs-razorpay';
-import { orderCoin, orderCoinSchema } from '../schemas/orderCoin';
+import {
+  PurchaseCoinHistory,
+  PurchaseCoinHistorySchema,
+} from '../schemas/PurchaseCoinHistory';
 
 @Module({
   imports: [
     MongooseModule.forFeature(
       [
         { name: Wallet.name, schema: WalletSchema },
-        { name: coinCreditHistory.name, schema: coinCreditHistorySchema },
-        { name: orderCoin.name, schema: orderCoinSchema },
+        { name: coinHistory.name, schema: coinHistorySchema },
+        { name: PurchaseCoinHistory.name, schema: PurchaseCoinHistorySchema },
       ],
       'AGRIHA_DB',
     ),
