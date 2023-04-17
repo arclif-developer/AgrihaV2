@@ -4,8 +4,8 @@ import { Model } from 'mongoose';
 import {
   PurchaseCoinHistory,
   PurchaseCoinHistoryDocument,
-} from 'src/schemas/PurchaseCoinHistory';
-import { Wallet, WalletDocument } from 'src/schemas/wallet.schema';
+} from '../../../schemas/PurchaseCoinHistory';
+import { Wallet, WalletDocument } from '../../../schemas/wallet.schema';
 import { CreateAdminWalletDto } from './dto/create-admin-wallet.dto';
 import { UpdateAdminWalletDto } from './dto/update-admin-wallet.dto';
 
