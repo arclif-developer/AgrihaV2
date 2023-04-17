@@ -6,8 +6,8 @@ import { jwt } from 'twilio';
 import { Order, OrderDocument } from '../../schemas/order.schema';
 
 import {
-  coinCreditHistory,
-  coinCreditHistoryDocument,
+  coinHistory,
+  coinHistoryDocument,
 } from '../../schemas/coin_history.schema';
 import { Status } from '../../models/Enums/Status.enum';
 
@@ -18,8 +18,8 @@ export class OrderService {
     private OrderModel: Model<OrderDocument>,
     @InjectModel(Wallet.name, 'AGRIHA_DB')
     private WalletModel: Model<WalletDocument>,
-    @InjectModel(coinCreditHistory.name, 'AGRIHA_DB')
-    private coinCreditHistoryModel: Model<coinCreditHistoryDocument>,
+    @InjectModel(coinHistory.name, 'AGRIHA_DB')
+    private coinHistoryModel: Model<coinHistoryDocument>,
   ) {}
 
   async sellerOrderPlacedList(JwtData: any) {
@@ -57,17 +57,18 @@ export class OrderService {
 
   async orderConfirmed(id, Jwtdata) {
     try {
+      let update = false;
       const IsOrder: any = await this.OrderModel.findOne({
         'products._id': id,
       });
-      if (IsOrder.role === 'contractor') {
+      if (IsOrder.role === 'contractor' || IsOrder.role === 'general') {
         const confirmProduct = IsOrder?.products.filter(
           (items) => items._id == id,
         );
         if (confirmProduct[0]?.amount >= 1000) {
           console.log(confirmProduct[0]?.amount);
           let creditCoin = confirmProduct[0]?.amount / 1000;
-          const IsSellerWallet = await this.WalletModel.findOne({
+          const IsSellerWallet: any = await this.WalletModel.findOne({
             user_id: Jwtdata.id,
           });
           if (IsSellerWallet?.balance >= creditCoin) {
@@ -76,41 +77,24 @@ export class OrderService {
               { user_id: IsOrder.user_id },
               { $inc: { balance: creditCoin } },
             );
-            this.coinCreditHistoryModel.create({
+            this.coinHistoryModel.create({
               coinAmount: creditCoin,
               sender: Jwtdata.id,
               recipient: IsOrder.user_id,
             });
-            await this.OrderModel.updateOne(
-              {
-                'products._id': id,
-              },
-              {
-                $set: {
-                  'products.$.confirm': true,
-                  'products.$.delivery_status': Status.CONFIRM,
-                },
-              },
-            );
+            update = true;
           } else {
             throw new NotAcceptableException(
               'Insufficient Coin balance. Order is not confirmed',
             );
           }
         } else {
-          await this.OrderModel.updateOne(
-            {
-              'products._id': id,
-            },
-            {
-              $set: {
-                'products.$.confirm': true,
-                'products.$.delivery_status': Status.CONFIRM,
-              },
-            },
-          );
+          update = true;
         }
       } else {
+        update = true;
+      }
+      if (update) {
         await this.OrderModel.updateOne(
           {
             'products._id': id,
@@ -122,8 +106,8 @@ export class OrderService {
             },
           },
         );
+        return { status: 200, message: 'Order confirmed' };
       }
-      return { status: 200, message: 'Order confirmed' };
     } catch (error) {
       console.log(error);
       return { status: 401, error: error.message };

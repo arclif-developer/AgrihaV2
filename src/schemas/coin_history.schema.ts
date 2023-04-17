@@ -3,10 +3,10 @@ import { Type } from 'class-transformer';
 import mongoose from 'mongoose';
 import { User } from './userSchema';
 
-export type coinCreditHistoryDocument = coinCreditHistory & Document;
+export type coinHistoryDocument = coinHistory & Document;
 
 @Schema({ timestamps: true })
-export class coinCreditHistory {
+export class coinHistory {
   @Prop({ type: Boolean })
   admin: Boolean;
 
@@ -25,5 +25,4 @@ export class coinCreditHistory {
   recipient: User;
 }
 
-export const coinCreditHistorySchema =
-  SchemaFactory.createForClass(coinCreditHistory);
+export const coinHistorySchema = SchemaFactory.createForClass(coinHistory);

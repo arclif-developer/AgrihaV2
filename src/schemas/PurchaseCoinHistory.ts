@@ -3,10 +3,10 @@ import { Type } from 'class-transformer';
 import mongoose from 'mongoose';
 import { User } from './userSchema';
 
-export type orderCoinDocument = orderCoin & Document;
+export type PurchaseCoinHistoryDocument = PurchaseCoinHistory & Document;
 
 @Schema({ timestamps: true })
-export class orderCoin {
+export class PurchaseCoinHistory {
   @Prop()
   razorpay_order_id: string;
 
@@ -37,4 +37,5 @@ export class orderCoin {
   amount: Number;
 }
 
-export const orderCoinSchema = SchemaFactory.createForClass(orderCoin);
+export const PurchaseCoinHistorySchema =
+  SchemaFactory.createForClass(PurchaseCoinHistory);

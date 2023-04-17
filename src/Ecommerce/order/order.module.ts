@@ -5,8 +5,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Order, OrderSchema } from '../../schemas/order.schema';
 import { Wallet, WalletSchema } from '../../schemas/wallet.schema';
 import {
-  coinCreditHistory,
-  coinCreditHistorySchema,
+  coinHistory,
+  coinHistorySchema,
 } from '../../schemas/coin_history.schema';
 
 @Module({
@@ -15,7 +15,7 @@ import {
       [
         { name: Order.name, schema: OrderSchema },
         { name: Wallet.name, schema: WalletSchema },
-        { name: coinCreditHistory.name, schema: coinCreditHistorySchema },
+        { name: coinHistory.name, schema: coinHistorySchema },
       ],
       'AGRIHA_DB',
     ),
