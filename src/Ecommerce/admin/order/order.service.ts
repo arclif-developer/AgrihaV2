@@ -61,74 +61,32 @@ export class OrderService {
 
   async confirmOrder(id) {
     try {
-      const IsOrder: any = await this.OrderModel.findOneAndUpdate(
-        { 'products._id': id },
-        {
-          $set: {
-            'products.$.confirm': true,
-            'products.$.delivery_status': Status.CONFIRM,
-          },
-        },
-      );
-      if (IsOrder.role === 'contractor') {
-        const confirmProduct = IsOrder?.products.filter(
-          (items) => items._id == id,
-        );
-        const tiers = [
-          { amount: 100000, coins: 100 },
-          { amount: 150000, coins: 150 },
-          { amount: 200000, coins: 250 },
-        ];
-        let purchaseAmount;
-        let purchaseAmountId;
-        if (confirmProduct[0]?.amount >= 100000) {
-          purchaseAmount = confirmProduct[0]?.amount;
+      let update = false;
+      const IsOrder: any = await this.OrderModel.findOne({
+        'products._id': id,
+      });
+      const IsProduct = IsOrder.products.filter((items) => items._id == id);
+      if (IsProduct[0]?.amount >= 1000) {
+        let creditCoin = IsProduct[0]?.amount / 1000;
+        const IsAdminWallet: any = await this.WalletModel.findOne({
+          role: 'admin',
+        });
+        if (IsAdminWallet?.balance >= creditCoin) {
+          await IsAdminWallet.updateOne({ $inc: { balance: -creditCoin } });
+          await this.WalletModel.updateOne(
+            { user_id: IsOrder.user_id },
+            { $inc: { balance: creditCoin } },
+          );
+          update = true;
         } else {
-          const IsPurchaseAmount = await this.purchaseAmountModel.findOne({
-            $and: [{ user_id: IsOrder.user_id, admin: true }],
-          });
-          if (IsPurchaseAmount) {
-            await IsPurchaseAmount.updateOne({
-              $inc: { amount: confirmProduct[0]?.amount },
-            });
-            purchaseAmount =
-              IsPurchaseAmount?.amount + confirmProduct[0]?.amount;
-            purchaseAmountId = IsPurchaseAmount._id;
-          } else {
-            const createPurchaseAmount = await this.purchaseAmountModel.create({
-              user_id: IsOrder.user_id,
-              admin: true,
-              amount: confirmProduct[0]?.amount,
-            });
-            purchaseAmount = confirmProduct[0]?.amount;
-            purchaseAmountId = createPurchaseAmount._id;
-          }
+          throw new Error('Insufficient coin balance, Order is not confirmed');
         }
-        let creditCoin;
-        if (purchaseAmount >= 100000) {
-          tiers.map((items) => {
-            if (purchaseAmount >= items.amount) {
-              creditCoin = items.coins;
-            }
-          });
-          const IsAdminWallet = await this.WalletModel.findOne({
-            role: 'admin',
-          });
-          if (IsAdminWallet?.balance >= creditCoin) {
-            await IsAdminWallet.updateOne({ $inc: { balance: -creditCoin } });
-            await this.WalletModel.updateOne(
-              { user_id: IsOrder.user_id },
-              { $inc: { balance: creditCoin } },
-            );
-            await this.purchaseAmountModel.deleteOne({
-              _id: purchaseAmountId,
-            });
-          } else {
-            throw new NotAcceptableException('Insufficient Coin balance');
-          }
-        }
+        update = true;
+      } else {
       }
-      return { status: 200, message: 'Order confirmed' };
+      if (update === true) {
+        return { status: 200, message: 'Order confirmed' };
+      }
     } catch (error) {
       return { status: 200, error: error.message };
     }
