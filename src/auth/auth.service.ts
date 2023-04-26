@@ -521,4 +521,9 @@ export class AuthService {
       return { status: 404, message: error.message };
     }
   }
+
+  async testMail() {
+    console.log('working service');
+    return this.MailerService.testMail();
+  }
 }

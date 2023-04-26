@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>New Order Confirmation</title>
+  </head>
+  <body>
+    <h1>New Order Confirmation</h1>
+    <p>Dear {{customerName}},</p>
+    <p>Thank you for placing a new order with us!</p>
+    <p>Here are the details of your order:</p>
+    <ul>
+      {{#each products}}
+      <li>{{this.productName}} - {{this.quantity}}</li>
+      {{/each}}
+    </ul>
+    <p>The total cost of your order is {{totalCost}}.</p>
+    <p>
+      We will notify you once your order has shipped. If you have any questions
+      or concerns, please don't hesitate to contact us.
+    </p>
+    <p>Best regards,</p>
+    <p>The {{companyName}} Team</p>
+  </body>
+</html>

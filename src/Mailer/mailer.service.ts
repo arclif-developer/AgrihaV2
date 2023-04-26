@@ -242,4 +242,22 @@ export class MailService {
       return error;
     }
   }
+
+  async testMail() {
+    this.MailerService.sendMail({
+      to: 'shijin.arclif@gmail.com',
+      from: 'noreply.arclif@gmail.com',
+      subject: 'Test Message',
+      text: 'Hello world?', // plain text body
+      html: '<b>Hello world?</b>', // html body
+    })
+      .then((res) => {
+        console.log(res);
+        return res;
+      })
+      .catch((error) => {
+        console.log(error);
+        throw new Error(error);
+      });
+  }
 }
