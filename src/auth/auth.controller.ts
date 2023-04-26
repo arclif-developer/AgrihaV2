@@ -92,6 +92,10 @@ export class AuthController {
   healthcheck() {
     return { status: 200 };
   }
+  @Get('testMail')
+  testMail() {
+    return this.authService.testMail();
+  }
   // @Get('update-role')
   // update_dbrole() {
   //   return this.authService.updateType();
