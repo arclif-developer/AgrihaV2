@@ -87,22 +87,8 @@ export class AuthController {
   getAllReferralDetails() {
     return this.authService.getAllReferralDetails();
   }
-
-  @Get('healthcheck')
-  healthcheck() {
-    return { status: 200 };
-  }
   @Get('testMail')
   testMail() {
     return this.authService.testMail();
   }
-  // @Get('update-role')
-  // update_dbrole() {
-  //   return this.authService.updateType();
-  // }
-  // @Get('test')
-  // @UseGuards(AuthGuard('jwt'))
-  // testMail(@Req() Jwtdata: Request) {
-  //   return Jwtdata.user;
-  // }
 }

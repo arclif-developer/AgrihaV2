@@ -202,7 +202,7 @@ export class AuthService {
         //   });
 
         // }
-        this.MailerService.supportMail(IsregisterDta);
+        // this.MailerService.supportMail(IsregisterDta);
 
         const token = this.jwtService.sign(
           {
@@ -521,9 +521,11 @@ export class AuthService {
       return { status: 404, message: error.message };
     }
   }
-
   async testMail() {
-    console.log('working service');
-    return this.MailerService.testMail();
+    const object = {
+      name: 'Shijin Benny',
+      email: 'shijin.arclif@gmail.com',
+    };
+    return this.MailerService.welcomeMail(object);
   }
 }
