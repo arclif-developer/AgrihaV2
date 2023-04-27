@@ -18,69 +18,23 @@ export class MailService {
   // ============== send receipt and welcome mail helper /
   async welcomeMail(userDta: any) {
     try {
-      const date = moment().format('Do MMMM  YYYY');
-      const day = moment().format('dddd');
       this.MailerService.sendMail({
         to: userDta.email,
         from: 'noreply.arclif@gmail.com',
         subject: 'Welcome to Agriha.',
         template: './welcome.hbs',
         context: {
-          date: date,
-          day: day,
+          name: userDta.name,
         },
-        attachments: [
-          {
-            filename: 'logo.png',
-            path: join(__dirname, 'public', 'image', 'logo.png'),
-            cid: 'logo',
-          },
-          {
-            filename: 'Linkdin.png',
-            path: join(__dirname, 'public', 'image', 'Linkdin.png'),
-            cid: 'linkdin',
-          },
-          {
-            filename: 'Twitter.png',
-            path: join(__dirname, 'public', 'image', 'Twitter.png'),
-            cid: 'Twitter',
-          },
-          {
-            filename: 'Instagram.png',
-            path: join(__dirname, 'public', 'image', 'Instagram.png'),
-            cid: 'Instagram',
-          },
-          {
-            filename: 'facebook.png',
-            path: join(__dirname, 'public', 'image', 'facebook.png'),
-            cid: 'Facebook',
-          },
-          {
-            filename: 'Arclif.png',
-            path: join(__dirname, 'public', 'image', 'Arclif.png'),
-            cid: 'Arclif',
-          },
-          {
-            filename: 'image.png',
-            path: join(__dirname, 'public', 'image', 'image.png'),
-            cid: 'image',
-          },
-          {
-            filename: 'welcome.png',
-            path: join(__dirname, 'public', 'image', 'welcome.png'),
-            cid: 'welcome',
-          },
-        ],
       })
         .then((res) => {
-          console.log(res);
           return res;
         })
         .catch((error) => {
           console.log(error);
-          throw new Error(error);
         });
     } catch (error) {
+      console.log(error);
       return error;
     }
   }
@@ -241,23 +195,5 @@ export class MailService {
     } catch (error) {
       return error;
     }
-  }
-
-  async testMail() {
-    this.MailerService.sendMail({
-      to: 'shijin.arclif@gmail.com',
-      from: 'noreply.arclif@gmail.com',
-      subject: 'Test Message',
-      text: 'Hello world?', // plain text body
-      html: '<b>Hello world?</b>', // html body
-    })
-      .then((res) => {
-        console.log(res);
-        return res;
-      })
-      .catch((error) => {
-        console.log(error);
-        throw new Error(error);
-      });
   }
 }

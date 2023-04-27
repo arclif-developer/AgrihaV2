@@ -4,6 +4,7 @@ import { AppModule } from './app.module';
 import expressip = require('express-ip');
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { join } from 'path';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
@@ -14,6 +15,12 @@ async function bootstrap() {
     origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
+  });
+  app.useStaticAssets(join(__dirname, '..', 'Mailer', 'templates'), {
+    prefix: '/templates',
+  });
+  app.useStaticAssets(join(__dirname, '..', 'Mailer', 'public', 'image'), {
+    prefix: '/image',
   });
 
   // app.useGlobalPipes(
