@@ -6,9 +6,11 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Order, OrderSchema } from '../../schemas/order.schema';
 import { Wallet, WalletSchema } from '../../schemas/wallet.schema';
 import { Cart, CartSchema } from '../../schemas/cart.schema';
+import { MailModule } from 'src/Mailer/mailer.module';
 
 @Module({
   imports: [
+    MailModule,
     MongooseModule.forFeature(
       [
         { name: Order.name, schema: OrderSchema },

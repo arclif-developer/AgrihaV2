@@ -180,7 +180,6 @@ export class AuthService {
             balance: 0,
             role: IsregisterDta.role,
           });
-          this.MailerService.welcomeMail(IsregisterDta);
         } else if (IsregisterDta.role == 'architect') {
           responseDta = await this.architectsModel.create({
             registered_id: IsregisterDta._id,
@@ -202,8 +201,8 @@ export class AuthService {
         //   });
 
         // }
-        // this.MailerService.supportMail(IsregisterDta);
-
+        this.MailerService.supportMail(IsregisterDta);
+        this.MailerService.welcomeMail(IsregisterDta);
         const token = this.jwtService.sign(
           {
             id: responseDta._id,
@@ -520,12 +519,5 @@ export class AuthService {
     } catch (error) {
       return { status: 404, message: error.message };
     }
-  }
-  async testMail() {
-    const object = {
-      name: 'Shijin Benny',
-      email: 'shijin.arclif@gmail.com',
-    };
-    return this.MailerService.welcomeMail(object);
   }
 }

@@ -15,6 +15,7 @@ import { Order, OrderDocument } from '../../schemas/order.schema';
 import { CreatePaymentDto } from './dto/create-payment.dto';
 import { UpdatePaymentDto } from './dto/update-payment.dto';
 import { Cart, CartDocument } from '../../schemas/cart.schema';
+import { MailService } from 'src/Mailer/mailer.service';
 
 @Injectable()
 export class PaymentService {
@@ -24,6 +25,7 @@ export class PaymentService {
     @InjectModel(Order.name, 'AGRIHA_DB')
     private orderModel: Model<OrderDocument>,
     @InjectModel(Cart.name, 'AGRIHA_DB') private cartModel: Model<CartDocument>,
+    private MailService: MailService,
   ) {}
 
   async createOrder(
@@ -34,6 +36,7 @@ export class PaymentService {
     try {
       let order;
       let response;
+      console.log(createOrderDto);
       if (createOrderDto.payment_mode === 'online') {
         const options = {
           amount: `${parseInt(createOrderDto.amount)}00`,
@@ -46,6 +49,7 @@ export class PaymentService {
         order.status = 'created';
       }
       if (order?.status === 'created') {
+        const ordersCount = await this.orderModel.countDocuments({});
         response = await this.orderModel
           .create({
             user_id: Jwtdata.id,
@@ -55,6 +59,7 @@ export class PaymentService {
             address_id: createOrderDto.address_id,
             products: createOrderDto.product_id,
             payment_method: createOrderDto.payment_mode,
+            order_number: `100${ordersCount + 1}`,
             role: Jwtdata.role,
           })
           .catch((error) => {
@@ -98,6 +103,13 @@ export class PaymentService {
               acquirer_data: response.acquirer_data,
             },
           },
+        );
+        const AdminNew_Orders = data.products.filter(
+          (items) => items.admin === true,
+        );
+        await this.MailService.orderNotification(
+          AdminNew_Orders,
+          data.order_number,
         );
         return { status: 200, message: 'Payment successfully completed' };
       }

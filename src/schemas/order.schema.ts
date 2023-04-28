@@ -26,6 +26,7 @@ export class Order {
         delivery_status: { type: String, default: Status.PLACED },
         admin: { type: Boolean },
         amount: { type: Number },
+        productname: { type: String },
         quantity: { type: Number, default: 1 },
         seller_id: {
           type: mongoose.Schema.Types.ObjectId,
@@ -48,6 +49,7 @@ export class Order {
     amount: Number;
     seller_id: User;
     admin: Boolean;
+    productname: string;
   };
 
   @Prop({
@@ -63,6 +65,9 @@ export class Order {
 
   @Prop()
   razorpay_payment_id: string;
+
+  @Prop()
+  order_number: Number;
 
   @Prop()
   status: string;
@@ -81,9 +86,6 @@ export class Order {
 
   @Prop()
   acquirer_data: [];
-
-  @Prop({ default: 1 })
-  quantity: Number;
 
   createdAt?: boolean | string;
   updatedAt?: boolean | string;
