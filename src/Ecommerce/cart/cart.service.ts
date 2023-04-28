@@ -37,6 +37,7 @@ export class CartService {
           this.cartModel.create({
             product_id: createCartDto.product_id,
             user_id: Jwtdata.id,
+            quantity: createCartDto.quantity,
           });
           await IsProduct.updateOne({
             $inc: { stock_qty: -createCartDto.quantity },

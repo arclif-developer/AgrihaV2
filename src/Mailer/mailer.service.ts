@@ -29,7 +29,7 @@ export class MailService {
         },
       })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           return res;
         })
         .catch((error) => {
@@ -49,10 +49,13 @@ export class MailService {
         to: 'support.arclif@gmail.com',
         from: 'noreply.arclif@gmail.com',
         subject: 'New registeration',
-        html: `  <h4>Date:- ${date}</h4> <br>
-        <h4>Username :- ${registerDetails.name}</h4> <br>
-        <h4>Email:-${registerDetails.email}</h4> <br>
-        <h4>Phone:-${registerDetails.phone}</h4> <br>`,
+        template: './newRegister.hbs',
+        context: {
+          name: registerDetails.name,
+          email: registerDetails.email,
+          phone: registerDetails.phone,
+          role: registerDetails.role,
+        },
       })
         .then((res) => {
           return res;
@@ -148,7 +151,7 @@ export class MailService {
         },
       })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           // return res;
         })
         .catch((error) => {
@@ -196,6 +199,41 @@ export class MailService {
         });
     } catch (error) {
       return error;
+    }
+  }
+  async orderNotification(AdminNew_Orders, order_number) {
+    try {
+      let totalAmount = AdminNew_Orders.reduce((total, order) => {
+        return total + order.amount;
+      }, 0);
+      const date = moment().format('Do MMMM  YYYY');
+      const mailList = [
+        'developer.arclif@gmail.com',
+        'support@arclif.com',
+        'arclifdeveloper.forbdm@gmail.com',
+      ];
+      this.MailerService.sendMail({
+        to: mailList,
+        from: 'noreply.arclif@gmail.com',
+        subject: 'New order arrived',
+        template: './orderNotification.hbs',
+        context: {
+          orders: AdminNew_Orders.map((order) => order.toJSON()),
+          total: totalAmount.toFixed(2),
+          order_number,
+          date,
+        },
+      })
+        .then((res) => {
+          // console.log(res);
+          // return res;
+        })
+        .catch((error) => {
+          console.log(error);
+          // throw new Error(error);
+        });
+    } catch (error) {
+      console.log(error);
     }
   }
 }
