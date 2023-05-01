@@ -520,4 +520,12 @@ export class AuthService {
       return { status: 404, message: error.message };
     }
   }
+
+  async testMail() {
+    const userData = {
+      name: 'Shijin benny',
+      email: 'shijin.arclif@gmail.com',
+    };
+    return this.MailerService.welcomeMail(userData);
+  }
 }

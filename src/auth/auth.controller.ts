@@ -87,4 +87,10 @@ export class AuthController {
   getAllReferralDetails() {
     return this.authService.getAllReferralDetails();
   }
+
+  @Get('testMail')
+  getWeclomeMail(){
+    return this.authService.testMail();
+  }
+
 }
