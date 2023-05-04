@@ -102,7 +102,7 @@ export class OrderService {
           {
             $set: {
               'products.$.confirm': true,
-              'products.$.delivery_status': Status.CONFIRM,
+              'products.$.delivery_status': Status.CONFIRMED,
             },
           },
         );
@@ -137,6 +137,21 @@ export class OrderService {
       return { status: 200, orderHistory: data };
     } catch (error) {
       return { status: 401, error: error.message };
+    }
+  }
+  async userOrderHistory(Jwtdata: any) {
+    try {
+      return this.OrderModel.find({ user_id: Jwtdata.id })
+        .populate('user_id')
+        .populate({
+          path: 'products',
+          populate: {
+            path: 'productId',
+          },
+        })
+        .populate('address_id');
+    } catch (error) {
+      throw new Error(error.message);
     }
   }
 }

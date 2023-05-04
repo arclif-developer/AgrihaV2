@@ -1,6 +1,6 @@
 import { Injectable, NotAcceptableException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, ObjectId } from 'mongoose';
 import { Status } from '../../../models/Enums';
 import {
   purchaseAmount,
@@ -55,8 +55,20 @@ export class OrderService {
     return `This action returns a #${id} order`;
   }
 
-  update(id: number, updateOrderDto: UpdateOrderDto) {
-    return `This action updates a #${id} order`;
+  update(id: ObjectId, updateOrderDto: UpdateOrderDto) {
+    try {
+      return this.OrderModel.updateOne(
+        { 'products._id': id },
+        {
+          $set: {
+            'products.$.delivery_status': updateOrderDto.delivery_status,
+            'products.$.delivery_date': updateOrderDto.delivery_date,
+          },
+        },
+      );
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 
   async confirmOrder(id) {
@@ -81,10 +93,21 @@ export class OrderService {
         } else {
           throw new Error('Insufficient coin balance, Order is not confirmed');
         }
-        update = true;
       } else {
+        update = true;
       }
       if (update === true) {
+        await this.OrderModel.updateOne(
+          {
+            'products._id': id,
+          },
+          {
+            $set: {
+              'products.$.confirm': true,
+              'products.$.delivery_status': Status.CONFIRMED,
+            },
+          },
+        );
         return { status: 200, message: 'Order confirmed' };
       }
     } catch (error) {

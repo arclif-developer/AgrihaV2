@@ -1,6 +1,6 @@
 import { Transform, Type } from '@nestjs/class-transformer';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { Document } from 'mongoose';
+import mongoose, { Date, Document } from 'mongoose';
 import { Status } from '../models/Enums';
 import { address } from './address.schema';
 import { architects } from './architects.schema';
@@ -23,10 +23,11 @@ export class Order {
     type: [
       {
         confirm: { type: Boolean, default: false },
-        delivery_status: { type: String, default: Status.PLACED },
+        delivery_status: { type: String, default: Status.PROCESSING },
         admin: { type: Boolean },
         amount: { type: Number },
         productname: { type: String },
+        delivery_date: { type: Date },
         quantity: { type: Number, default: 1 },
         seller_id: {
           type: mongoose.Schema.Types.ObjectId,
@@ -50,6 +51,7 @@ export class Order {
     seller_id: User;
     admin: Boolean;
     productname: string;
+    delivery_date: Date;
   };
 
   @Prop({

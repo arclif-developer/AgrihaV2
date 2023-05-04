@@ -18,7 +18,6 @@ export class MailService {
   // ============== send receipt and welcome mail helper /
   async welcomeMail(userDta: any) {
     try {
-      console.log('working...');
       this.MailerService.sendMail({
         to: userDta.email,
         from: 'noreply.arclif@gmail.com',

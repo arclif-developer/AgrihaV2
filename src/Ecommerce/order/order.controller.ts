@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  UseFilters,
 } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { confirmOrderDto, CreateOrderDto } from './dto/create-order.dto';
@@ -34,10 +35,17 @@ export class OrderController {
     return this.orderService.orderConfirmed(id, Jwtdata);
   }
 
-  // Order history view
+  // seller Delivered Order history view
   @Get('delivered_orders')
   @UseGuards(AuthGuard('jwt'))
   deliveredOrders(@GetCurrentUserById() Jwtdata: any) {
     return this.orderService.deliveredOrders(Jwtdata);
+  }
+
+  //user Order history view
+  @Get('user_order_history')
+  @UseGuards(AuthGuard('jwt'))
+  userOrderHistory(@GetCurrentUserById() Jwtdata: any) {
+    return this.orderService.userOrderHistory(Jwtdata);
   }
 }
