@@ -11,6 +11,7 @@ import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { ObjectId } from 'mongoose';
+import { ApiParam } from '@nestjs/swagger';
 
 @Controller('/admin/order')
 export class OrderController {
@@ -26,9 +27,14 @@ export class OrderController {
     return this.orderService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.orderService.findOne(+id);
+  @Patch('/status/:id')
+  @ApiParam({
+    name: 'id',
+    required: false,
+    description: 'Order products._id',
+  })
+  findOne(@Param('id') id: ObjectId, @Body() updateOrderDto: UpdateOrderDto) {
+    return this.orderService.update(id, updateOrderDto);
   }
 
   @Patch('order_confirmed/:id')
