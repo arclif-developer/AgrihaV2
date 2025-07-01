@@ -40,5 +40,10 @@ async function bootstrap() {
   await app.listen(port, () => {
     console.log('Hello world listening on port', port);
   });
+  "scripts": {
+  "build": "tsc",        // or "vite build" or whatever your project uses
+  "start": "node dist/main.js"
+}
+
 }
 bootstrap();
